@@ -3,13 +3,12 @@ package accounts;
 import java.util.ArrayList;
 
 /**
- * TODO:
- * 		uncomment accounts field after UserAccount class has been created
+ * 
  */
 public class UserAccountManagerSingleton {
 	private ArrayList<String> usernames;
 	private ArrayList<String> passwords;
-	//private ArrayList<UserAccount> accounts;
+	private ArrayList<UserAccount> accounts;
 	
 	/**
 	 * Login to a user account
