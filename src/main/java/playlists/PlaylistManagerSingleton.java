@@ -52,4 +52,13 @@ public class PlaylistManagerSingleton {
         // Don't forget to close the Scanner object to prevent resource leaks
         scanner.close();
 	}	
+	
+	public void removeSong(Song removedSong) {
+		for (Song song : playlist) {
+			// If the song equals the target song, it removes it
+            if (song.equals(removedSong)) {
+                playlist.remove(song);
+            }
+        }
+	}
 }
