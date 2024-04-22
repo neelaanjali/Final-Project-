@@ -4,10 +4,15 @@ public class Song {
 	    
 		private String songName;
 	    private String artistName;
-	    private String length;
-		
+	    private int length;
 	    
-	    public String getSongName() {
+	    public Song(String songName, String artistName, int length) {
+			super();
+			this.songName = songName;
+			this.artistName = artistName;
+			this.length = length;
+		}
+		public String getSongName() {
 			return songName;
 		}
 		public void setSongName(String songName) {
@@ -19,10 +24,10 @@ public class Song {
 		public void setArtistName(String artistName) {
 			this.artistName = artistName;
 		}
-		public String getLength() {
+		public int getLength() {
 			return length;
 		}
-		public void setLength(String length) {
+		public void setLength(int length) {
 			this.length = length;
 		}
 
