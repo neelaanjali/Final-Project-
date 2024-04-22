@@ -28,4 +28,8 @@ public class UserAccountManagerSingleton {
 		return false;
 	}
 	
+	private boolean readFromFile() {
+		return false;
+	}
+	
 }
