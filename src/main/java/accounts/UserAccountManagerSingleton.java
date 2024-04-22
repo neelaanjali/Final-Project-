@@ -28,6 +28,11 @@ public class UserAccountManagerSingleton {
 		return false;
 	}
 	
+	/**
+	 * Read stored usernames and passwords into their respective ArrayLists
+	 * @author jxie26
+	 * @return
+	 */
 	private boolean readFromFile() {
 		return false;
 	}
