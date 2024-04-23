@@ -12,6 +12,8 @@ public class Song {
 			this.artistName = artistName;
 			this.length = length;
 		}
+	
+		}
 		public String getSongName() {
 			return songName;
 		}
