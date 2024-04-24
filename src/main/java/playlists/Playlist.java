@@ -13,6 +13,12 @@ public class Playlist {
 	private String author;
 	private String playlistName;
 	
+	public Playlist(ArrayList<Song> songs, String author, String playlistName) {
+		super();
+		this.songs = songs;
+		this.author = author;
+		this.playlistName = playlistName;
+	}
 	public ArrayList<Song> getSongs() {
 		return songs;
 	}
