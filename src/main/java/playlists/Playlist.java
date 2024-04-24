@@ -14,6 +14,10 @@ public class Playlist {
 	private String author;
 	private String playlistName;
 	
+	/**
+	 * @author riannaellis
+	 * 
+	 */	
 	public Playlist(String author, String playlistName, ArrayList<Song> songs) {
 		super();
 		this.songs = songs;
@@ -21,6 +25,10 @@ public class Playlist {
 		this.playlistName = playlistName;
 	}
 	
+	/**
+	 * @author riannaellis
+	 * 
+	 */
 	public void addSong() {
 		Scanner scanner = new Scanner(System.in);
 
@@ -38,7 +46,7 @@ public class Playlist {
         System.out.print("Enter the length (MM:SS format): ");
         // Read the song name
         String stringLength = scanner.nextLine();
-        //Parse length to int
+        // Parse length to int
         String[] time = stringLength.split(":");
         int length = (Integer.parseInt(time[0]) * 60) + Integer.parseInt(time[1]);
         
@@ -48,10 +56,13 @@ public class Playlist {
         // Add the song to the playlist
         songs.add(newSong);
 
-        // Don't forget to close the Scanner object to prevent resource leaks
         scanner.close();
 	}	
 	
+	/**
+	 * @author riannaellis
+	 * 
+	 */
 	public void removeSong() {
 		Scanner scanner = new Scanner(System.in);
 
@@ -66,6 +77,7 @@ public class Playlist {
                 songs.remove(song);
             }
         }
+		scanner.close();
 	}
 	
 	public ArrayList<Song> getSongs() {
