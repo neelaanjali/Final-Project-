@@ -160,5 +160,4 @@ public class PlaylistManagerSingleton {
 			System.exit(0);
 		}
     }
-   
 }
