@@ -170,6 +170,63 @@ public class UserAccountManagerSingleton {
 	 * @return
 	 */
 	private boolean register() {
+		Scanner scanner = new Scanner(System.in);
+		String username = "", password = "";
+		
+		//ask the user what username they would like
+		System.out.println("Please enter a username:");
+		
+		//this infinite while loop will continue until the user inputs a valid username, or chooses to login instead
+		while(true) 	
+		{
+			username = scanner.nextLine();
+			
+			//the user has decided to try to login instead (prompted after 1 failed attempt)
+			if(username == "-1") 
+			{
+				scanner.close();
+				return this.login();
+			}
+			
+			//check that the username has not already been taken
+			if(usernames.contains(username))
+			{
+				//ask the user for another username
+				System.out.println("This username is already taken. Please enter a different username, or type '-1' to login.");
+				continue;
+			}
+			//the username has not been taken
+			else break;
+		}
+		
+		//ask the user for a password
+		System.out.println("Please enter a password. Passwords must be 8 characters or greater:");
+		
+		//this infinite while loop will continue until the user inputs a valid password
+		while(true)
+		{
+			password = scanner.nextLine();
+			
+			//the password does not meet the 8 character minimum
+			if(password.length() < 8)
+			{
+				System.out.println("Please enter a password that is at least 8 characters:");
+				continue;
+			}
+			else break;
+		}
+		
+		//encrypt the password
+		password = hashPassword(password);
+		
+		//store the username and password
+		usernames.add(username);
+		passwords.add(password);
+		
+		//update the file
+		this.writeToFile();
+		
+		scanner.close();
 		return false;
 	}
 	
