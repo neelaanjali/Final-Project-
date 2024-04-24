@@ -82,4 +82,29 @@ public class PlaylistManagerSingleton {
             e.printStackTrace();
         }
     }
+    
+    public void displayStats(String playlistName) {
+    	for (Playlist playlist : playlistList) {
+    		if (playlist.getPlaylistName() == playlistName) {
+    			System.out.println("Playlist name: " + playlist.getPlaylistName());
+    			System.out.println("Author: " + playlist.getAuthor());
+    			
+    			int totalSeconds = 0;
+    			for (Song song : playlist.getSongs()) {
+    				totalSeconds += song.getLength();
+    			}
+    			
+    			Integer totalMinutes = totalSeconds / 60;
+    			Integer seconds = totalSeconds % 60;
+    			String totalTime = totalMinutes.toString() + ":" + seconds.toString();
+    			
+    			System.out.println("Total Length: " + totalTime);
+    			System.out.println("Number of Songs: " + playlist.getSongs().size());
+    			
+    			for (Song song : playlist.getSongs()) {
+    				System.out.println(song.getSongName());
+    			}
+    		}
+    	}
+    }
 }
