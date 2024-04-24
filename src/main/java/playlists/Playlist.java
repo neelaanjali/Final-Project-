@@ -25,6 +25,13 @@ public class Playlist {
 		this.playlistName = playlistName;
 	}
 	
+	public void editPlaylist(String authorName)
+	{
+		//ask the user if they want to add or remove a song, then call the respective method
+		//	e.g.   this.addSong()
+		//		   this.removeSong()
+	}
+	
 	/**
 	 * @author riannaellis
 	 * 
