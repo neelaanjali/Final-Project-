@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * 
@@ -20,6 +21,7 @@ public class UserAccountManagerSingleton {
 	private UserAccountManagerSingleton() { 
 		this.usernames = new ArrayList<String>();
 		this.passwords = new ArrayList<String>();
+		readFromFile();
 	}
 	
 	public static UserAccountManagerSingleton getInstance() {
@@ -33,21 +35,22 @@ public class UserAccountManagerSingleton {
 	/**
 	 * Welcome a user to the Playlist manager. Ask the user what they would like to do
 	 */
-	public void welcome() {
+	public boolean welcome() {
 		//ask the user what they would like to do
 		System.out.println("Welcome to the Playlist manager!");
 		System.out.println("1 - Login");
 		System.out.println("2 - Register");
 		System.out.println("3 - Exit");
-		System.out.println("Please select an option: ");
+		System.out.print("Please select an option: ");
 		
 		//process the user's selection
 		int userSelection = 0;
+		Scanner scanner = new Scanner(System.in);
 		while(true) 
 		{
 			try 
 			{
-				userSelection = System.in.read();
+				userSelection = scanner.nextInt();
 				if (userSelection < 1 || userSelection > 3)
 					throw new Exception();
 				break;
@@ -58,15 +61,18 @@ public class UserAccountManagerSingleton {
 				continue;
 			}
 		}
+		scanner.close();
 		
 		switch (userSelection) {
 		case 1:
-			login();
+			return this.login();
 		case 2:
-			register();
+			return this.register();
 		case 3:
 			System.exit(0);
+			return true;
 		}
+		return false;
 	}
 	
 	/**
@@ -75,7 +81,87 @@ public class UserAccountManagerSingleton {
 	 * @return 
 	 */
 	private boolean login() {
-		return false;
+		Scanner scanner = new Scanner(System.in);
+		String username = "", password = "";
+		
+		// this infinite while loop will run until the user enters the correct information,
+		//    or if they choose to register a new account, or exit the program
+		while(true)
+		{
+			// get user's username and password from input
+			try
+			{
+				System.out.print("Please enter your username: ");
+				username = scanner.nextLine();
+				System.out.print("\nPlease enter your password: ");
+				password = hashPassword(scanner.nextLine());
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				scanner.close();
+			}
+			
+			//check if their exists a matching username/password pair
+			boolean isFound = false;
+			for(int i = 0; i < usernames.size(); i++) 
+			{
+				if(usernames.get(i).equals(username) && passwords.get(i).equals(password)) 
+				{
+					//the username and password matches
+					isFound = true;
+				}
+			}
+			
+			//take the correct action
+			if(isFound) 
+			{
+				System.out.println("Welcome " + username + ". You have successfully logged in.");
+				//take whatever action is necessary
+			}
+			//the username and password did not match
+			else if(!isFound)
+			{
+				//display the user's options
+				System.out.println("Sorry, the username and password you entered do not match.");
+				System.out.println("1 - Try Again");
+				System.out.println("2 - Register New Account");
+				System.out.println("3 - Exit");
+				System.out.print("Please make your selection: ");
+				
+				// get the users selection
+				int userSelection = 0;
+				// this infinite loop will run until the user inputs a valid selection (1, 2, or 3)
+				while(true)
+				{
+					try 
+					{
+						userSelection = scanner.nextInt();
+						if (userSelection < 1 || userSelection > 3) {
+							throw new Exception();
+						}
+						break;
+					} 
+					catch (Exception e) 
+					{
+						System.out.println("Please enter 1, 2, or 3: ");
+						continue;
+					}
+				}
+				
+				// take the correct action, based on the users selection
+				switch(userSelection) {
+				case 1:
+					continue;
+				case 2:
+					scanner.close();
+					return this.register();
+				case 3:
+					scanner.close();
+					System.exit(0);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -93,7 +179,7 @@ public class UserAccountManagerSingleton {
 	 * @return the hashed password
 	 */
 	private String hashPassword(String unhashed) {
-		return null;
+		return unhashed;
 	}
 	
 	/**
