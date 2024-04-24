@@ -3,6 +3,7 @@ package accounts;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -29,13 +30,51 @@ public class UserAccountManagerSingleton {
 		return instance;
 	}
 
+	/**
+	 * Welcome a user to the Playlist manager. Ask the user what they would like to do
+	 */
+	public void welcome() {
+		//ask the user what they would like to do
+		System.out.println("Welcome to the Playlist manager!");
+		System.out.println("1 - Login");
+		System.out.println("2 - Register");
+		System.out.println("3 - Exit");
+		System.out.println("Please select an option: ");
+		
+		//process the user's selection
+		int userSelection = 0;
+		while(true) 
+		{
+			try 
+			{
+				userSelection = System.in.read();
+				if (userSelection < 1 || userSelection > 3)
+					throw new Exception();
+				break;
+			} 
+			catch (Exception e)
+			{
+				System.out.println("Please enter 1, 2, or 3");
+				continue;
+			}
+		}
+		
+		switch (userSelection) {
+		case 1:
+			login();
+		case 2:
+			register();
+		case 3:
+			System.exit(0);
+		}
+	}
 	
 	/**
 	 * Login to a user account
 	 * @author hargu
 	 * @return 
 	 */
-	public boolean login() {
+	private boolean login() {
 		return false;
 	}
 	
@@ -44,7 +83,24 @@ public class UserAccountManagerSingleton {
 	 * @author hargu
 	 * @return
 	 */
-	public boolean register() {
+	private boolean register() {
+		return false;
+	}
+	
+	/**
+	 * Hash a password
+	 * @param unhashed: the string password that should be hashed
+	 * @return the hashed password
+	 */
+	private String hashPassword(String unhashed) {
+		return null;
+	}
+	
+	/**
+	 * Store the changes made to user accounts
+	 * @return boolean indicating success or failure
+	 */
+	private boolean writeToFile() {
 		return false;
 	}
 	
