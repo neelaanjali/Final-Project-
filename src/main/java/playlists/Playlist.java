@@ -13,7 +13,7 @@ public class Playlist {
 	private String author;
 	private String playlistName;
 	
-	public Playlist(ArrayList<Song> songs, String author, String playlistName) {
+	public Playlist(String author, String playlistName, ArrayList<Song> songs) {
 		super();
 		this.songs = songs;
 		this.author = author;
