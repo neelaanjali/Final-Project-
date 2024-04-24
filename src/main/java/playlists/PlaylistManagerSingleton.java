@@ -107,4 +107,58 @@ public class PlaylistManagerSingleton {
     		}
     	}
     }
+    
+    public void addNewPlaylist(String authorName) {
+    	
+    }
+    
+    public void deletePlaylist(String authorName) {
+    	
+    }
+    
+    public void editPlaylist(String authorName) {
+    	// Ask the user the name of the playlist they want to edit
+    	// Then do playlist.editPlaylist() to edit the specfic playlist object
+    }
+    
+    public void choiceMenu(String authorName) {
+    	System.out.println("1 - Add a new playlist");
+    	System.out.println("2 - Delete a playlist");
+    	System.out.println("3 - Edit a playlist");
+    	System.out.println("4 - View a playlist");
+    	System.out.println("5 - Exit");
+    	
+    	int userSelection = 0;
+		Scanner scanner = new Scanner(System.in);
+		while(true) 
+		{
+			try 
+			{
+				userSelection = scanner.nextInt();
+				if (userSelection < 1 || userSelection > 5)
+					throw new Exception();
+				break;
+			} 
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				System.out.println("Please enter a number 1-5.");
+				continue;
+			}
+		}
+		
+		switch (userSelection) {
+		case 1:
+			addNewPlaylist(authorName);
+		case 2:
+			deletePlaylist(authorName);
+		case 3:
+			editPlaylist(authorName);
+		case 4:
+			displayStats(authorName);
+		case 5:
+			System.exit(0);
+		}
+    }
+    
 }
