@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import program.Main;
+
 /**
  * 
  */
@@ -21,6 +23,7 @@ public class UserAccountManagerSingleton {
 	private UserAccountManagerSingleton() { 
 		this.usernames = new ArrayList<String>();
 		this.passwords = new ArrayList<String>();
+		this.accounts = new ArrayList<UserAccount>();
 		readFromFile();
 	}
 	
@@ -41,7 +44,7 @@ public class UserAccountManagerSingleton {
 		System.out.println("1 - Login");
 		System.out.println("2 - Register");
 		System.out.println("3 - Exit");
-		System.out.print("Please select an option: ");
+		System.out.println("Please select an option: ");
 		
 		//process the user's selection
 		int userSelection = 0;
@@ -57,11 +60,11 @@ public class UserAccountManagerSingleton {
 			} 
 			catch (Exception e)
 			{
+				e.printStackTrace();
 				System.out.println("Please enter 1, 2, or 3");
 				continue;
 			}
 		}
-		scanner.close();
 		
 		switch (userSelection) {
 		case 1:
@@ -99,10 +102,10 @@ public class UserAccountManagerSingleton {
 			catch (Exception e)
 			{
 				e.printStackTrace();
-				scanner.close();
+				continue;
 			}
 			
-			//check if their exists a matching username/password pair
+			//check if there exists a matching username/password pair
 			boolean isFound = false;
 			for(int i = 0; i < usernames.size(); i++) 
 			{
@@ -116,8 +119,10 @@ public class UserAccountManagerSingleton {
 			//take the correct action
 			if(isFound) 
 			{
-				System.out.println("Welcome " + username + ". You have successfully logged in.");
+				System.out.print("Welcome " + username + ". ");
 				//take whatever action is necessary
+				Main.username = username;
+				return true;
 			}
 			//the username and password did not match
 			else if(!isFound)
@@ -144,7 +149,7 @@ public class UserAccountManagerSingleton {
 					} 
 					catch (Exception e) 
 					{
-						System.out.println("Please enter 1, 2, or 3: ");
+						//System.out.println("Please enter 1, 2, or 3: ");
 						continue;
 					}
 				}
@@ -152,13 +157,14 @@ public class UserAccountManagerSingleton {
 				// take the correct action, based on the users selection
 				switch(userSelection) {
 				case 1:
+					scanner.nextLine(); //flush
 					continue;
 				case 2:
-					scanner.close();
 					return this.register();
 				case 3:
 					scanner.close();
 					System.exit(0);
+					return true;
 				}
 			}
 		}
@@ -174,7 +180,7 @@ public class UserAccountManagerSingleton {
 		String username = "", password = "";
 		
 		//ask the user what username they would like
-		System.out.println("Please enter a username:");
+		System.out.print("Please enter a username: ");
 		
 		//this infinite while loop will continue until the user inputs a valid username, or chooses to login instead
 		while(true) 	
@@ -184,7 +190,6 @@ public class UserAccountManagerSingleton {
 			//the user has decided to try to login instead (prompted after 1 failed attempt)
 			if(username == "-1") 
 			{
-				scanner.close();
 				return this.login();
 			}
 			
@@ -213,7 +218,11 @@ public class UserAccountManagerSingleton {
 				System.out.println("Please enter a password that is at least 8 characters:");
 				continue;
 			}
-			else break;
+			else 
+			{	
+				System.out.println("You have succesfully created a new account.");
+				break;
+			}
 		}
 		
 		//encrypt the password
@@ -227,7 +236,8 @@ public class UserAccountManagerSingleton {
 		this.writeToFile();
 		
 		scanner.close();
-		return false;
+		Main.username = username;
+		return true;
 	}
 	
 	/**
