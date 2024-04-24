@@ -4,8 +4,11 @@ import com.google.gson.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import songs.Song;
@@ -13,10 +16,10 @@ import songs.Song;
 public class PlaylistManagerSingleton {
 	
 	private static PlaylistManagerSingleton instance;
-	public ArrayList<Song> playlist;
+	public ArrayList<Playlist> playlistList;
 	
 	public PlaylistManagerSingleton() {
-		this.playlist = new ArrayList<Song>();
+		this.playlistList = new ArrayList<Playlist>();
 	}
 	
 	public static PlaylistManagerSingleton getInstance() {
@@ -26,6 +29,7 @@ public class PlaylistManagerSingleton {
         }
         return instance;
 	}
+	
     public void readFromFile(String authorName) {
         String filename = authorName + ".csv";
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -45,6 +49,19 @@ public class PlaylistManagerSingleton {
                 playlists.add(playlist);
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void writeToFile(String authorName) {
+    	Gson gson = new Gson();
+    	String json = gson.toJson(playlistList);
+    	String filePath = authorName + ".json";
+    	try {
+    		BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
+    		bw.write(json);
+            System.out.println("Playlist saved successfully!");
+    	} catch (IOException e) {
             e.printStackTrace();
         }
     }
