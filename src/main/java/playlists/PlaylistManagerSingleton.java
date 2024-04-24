@@ -1,6 +1,8 @@
 package playlists;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.BufferedReader;
@@ -31,26 +33,40 @@ public class PlaylistManagerSingleton {
 	}
 	
     public void readFromFile(String authorName) {
-        String filename = authorName + ".csv";
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String playlistName = parts[0];
-                String author = parts[1];
-                Playlist playlist = new Playlist(playlistName, author);
-                for (int i = 2; i < parts.length; i += 3) {
-                    String songName = parts[i];
-                    String artistName = parts[i + 1];
-                    String length = parts[i + 2];
-                    Song song = new Song(songName, artistName, length);
-                    playlist.addSong(song);
-                }
-                playlists.add(playlist);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    	Gson gson = new Gson();
+    	
+    	String filePath = authorName + ".json";
+    	try {
+    		BufferedReader br = new BufferedReader(new FileReader(filePath));
+    		
+    		TypeToken<ArrayList<Playlist>> playlistListType = new TypeToken<ArrayList<Playlist>>() {};
+
+    		playlistList = gson.fromJson(br, playlistListType);
+
+          } catch (IOException e) {
+          e.printStackTrace();
+          }
+ 
+//        String filename = authorName + ".csv";
+//        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                String[] parts = line.split(",");
+//                String playlistName = parts[0];
+//                String author = parts[1];
+//                Playlist playlist = new Playlist(playlistName, author);
+//                for (int i = 2; i < parts.length; i += 3) {
+//                    String songName = parts[i];
+//                    String artistName = parts[i + 1];
+//                    String length = parts[i + 2];
+//                    Song song = new Song(songName, artistName, length);
+//                    playlist.addSong(song);
+//                }
+//                playlists.add(playlist);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
     
     public void writeToFile(String authorName) {
@@ -60,6 +76,7 @@ public class PlaylistManagerSingleton {
     	try {
     		BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
     		bw.write(json);
+    		bw.close();
             System.out.println("Playlist saved successfully!");
     	} catch (IOException e) {
             e.printStackTrace();
