@@ -25,7 +25,7 @@ public class Playlist {
 		this.playlistName = playlistName;
 	}
 	
-	public void editPlaylist(String authorName)
+	public void editPlaylist()
 	{
 		//ask the user if they want to add or remove a song, then call the respective method
 		//	e.g.   this.addSong()
@@ -36,7 +36,7 @@ public class Playlist {
 	 * @author riannaellis
 	 * 
 	 */
-	public void addSong() {
+	private void addSong() {
 		Scanner scanner = new Scanner(System.in);
 
         // Prompt the user to enter the name of the song
@@ -70,7 +70,7 @@ public class Playlist {
 	 * @author riannaellis
 	 * 
 	 */
-	public void removeSong() {
+	private void removeSong() {
 		Scanner scanner = new Scanner(System.in);
 
         // Prompt the user to enter the name of the song they want to delete

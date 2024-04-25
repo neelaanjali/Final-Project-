@@ -32,7 +32,7 @@ public class PlaylistManagerSingleton {
         return instance;
 	}
 	
-    public void readFromFile(String authorName) {
+    private void readFromFile(String authorName) {
     	Gson gson = new Gson();
     	
     	String filePath = authorName + ".json";
@@ -69,7 +69,7 @@ public class PlaylistManagerSingleton {
 //        }
     }
     
-    public void writeToFile(String authorName) {
+    private void writeToFile(String authorName) {
     	Gson gson = new Gson();
     	String json = gson.toJson(playlistList);
     	String filePath = authorName + ".json";
@@ -83,7 +83,7 @@ public class PlaylistManagerSingleton {
         }
     }
     
-    public void displayStats(String authorName) {
+    private void displayStats() {
     	//ask the user which playlist they would like to view
     	System.out.println("Which playlist would you like to view stats for?");
     	Scanner scanner = new Scanner(System.in);
@@ -122,20 +122,20 @@ public class PlaylistManagerSingleton {
     	}
     }
     
-    public void addNewPlaylist(String authorName) {
+    private void addNewPlaylist() {
     	
     }
     
-    public void deletePlaylist(String authorName) {
+    private void deletePlaylist() {
     	
     }
     
-    public void editPlaylist(String authorName) {
+    private void editPlaylist() {
     	// Ask the user the name of the playlist they want to edit
     	// Then do playlist.editPlaylist() to edit the specfic playlist object
     }
     
-    public void choiceMenu(String authorName) {
+    public void choiceMenu() {
     	System.out.println("1 - Add a new playlist");
     	System.out.println("2 - Delete a playlist");
     	System.out.println("3 - Edit a playlist");
@@ -164,13 +164,13 @@ public class PlaylistManagerSingleton {
 		
 		switch (userSelection) {
 		case 1:
-			addNewPlaylist(authorName);
+			addNewPlaylist();
 		case 2:
-			deletePlaylist(authorName);
+			deletePlaylist();
 		case 3:
-			editPlaylist(authorName);
+			editPlaylist();
 		case 4:
-			displayStats(authorName);
+			displayStats();
 		case 5:
 			System.exit(0);
 		}
