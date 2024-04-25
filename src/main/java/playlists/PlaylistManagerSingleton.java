@@ -122,11 +122,25 @@ public class PlaylistManagerSingleton {
     }
     
     private void addNewPlaylist() {
+    	 Scanner scanner = new Scanner(System.in);
+         System.out.println("Please enter the name of the your new playlist:");
+         String playlistName = scanner.nextLine();
+         if (playlistList.contains(playlistName)) {
+             System.out.println("Sorry that playlist already exists");
+         } else {
+             Playlist.add(playlistName);
+             System.out.println("Playlist created successfully!!");
+         }
+         scanner.close();
+        }
+    
     	
-    }
+    
     
     private void deletePlaylist() {
-    	
+    	   Scanner scanner = new Scanner(System.in);
+           System.out.println("Please enter the name of the playlist you want to delete:");
+   	
     }
     
     private void editPlaylist() {
@@ -176,16 +190,4 @@ public class PlaylistManagerSingleton {
     }
     
     
-    public void AddNewPlaylist() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the name of the your new playlist:");
-        String playlistName = scanner.nextLine();
-        if (playlistList.contains(playlistName)) {
-            System.out.println("Sorry that playlist already exists");
-        } else {
-            Playlist.add(playlistName);
-            System.out.println("Playlist created successfully!!");
-        }
-        scanner.close();
-       }
 }

@@ -103,4 +103,9 @@ public class Playlist {
 	public void setPlaylistName(String playlistName) {
 		this.playlistName = playlistName;
 	}
+
+	public static void add(String playlistName2) {
+		// TODO Auto-generated method stub
+		
+	}
 }
