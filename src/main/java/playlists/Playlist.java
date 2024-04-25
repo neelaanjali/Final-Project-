@@ -3,8 +3,6 @@ package playlists;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import songs.Song;
-
 /**
  * @author hargu
  * 

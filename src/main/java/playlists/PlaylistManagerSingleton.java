@@ -13,8 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import songs.Song;
-
 public class PlaylistManagerSingleton {
 	
 	private static PlaylistManagerSingleton instance;

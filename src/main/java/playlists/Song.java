@@ -1,4 +1,4 @@
-package songs;
+package playlists;
 
 public class Song {
 	    
