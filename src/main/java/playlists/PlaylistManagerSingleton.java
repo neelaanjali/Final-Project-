@@ -21,6 +21,7 @@ public class PlaylistManagerSingleton {
 	public PlaylistManagerSingleton() {
 		this.playlistList = new ArrayList<Playlist>();
 	}
+	  
 	
 	public static PlaylistManagerSingleton getInstance() {
 		//create the instance if it doesn't exist yet
@@ -173,4 +174,18 @@ public class PlaylistManagerSingleton {
 			System.exit(0);
 		}
     }
+    
+    
+    public void AddNewPlaylist() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the name of the your new playlist:");
+        String playlistName = scanner.nextLine();
+        if (playlistList.contains(playlistName)) {
+            System.out.println("Sorry that playlist already exists");
+        } else {
+            Playlist.add(playlistName);
+            System.out.println("Playlist created successfully!!");
+        }
+        scanner.close();
+       }
 }
