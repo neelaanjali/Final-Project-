@@ -83,9 +83,19 @@ public class PlaylistManagerSingleton {
         }
     }
     
-    public void displayStats(String playlistName) {
+    public void displayStats(String authorName) {
+    	//ask the user which playlist they would like to view
+    	System.out.println("Which playlist would you like to view stats for?");
+    	Scanner scanner = new Scanner(System.in);
+    	String playlistName = scanner.nextLine().trim();
+    	
+    	//This variable will determine whether or not the specified playlist has been found
+    	Boolean isFound = false;
+    	
     	for (Playlist playlist : playlistList) {
     		if (playlist.getPlaylistName() == playlistName) {
+    			isFound = true;
+    			
     			System.out.println("Playlist name: " + playlist.getPlaylistName());
     			System.out.println("Author: " + playlist.getAuthor());
     			
@@ -105,6 +115,10 @@ public class PlaylistManagerSingleton {
     				System.out.println(song.getSongName());
     			}
     		}
+    	}
+    	
+    	if(!isFound) {
+    		System.out.println("Sorry, the playlist you entered could not be found.");
     	}
     }
     
@@ -127,6 +141,7 @@ public class PlaylistManagerSingleton {
     	System.out.println("3 - Edit a playlist");
     	System.out.println("4 - View a playlist");
     	System.out.println("5 - Exit");
+    	System.out.print("What would you like to do?");
     	
     	int userSelection = 0;
 		Scanner scanner = new Scanner(System.in);
