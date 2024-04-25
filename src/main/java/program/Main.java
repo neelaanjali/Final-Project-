@@ -7,7 +7,7 @@ public class Main {
 	
 	//this static global variable will hold the username of the user after they have successfully logged in
 	//	if nobody is logged in, username will be null
-	private static String username = null;
+	public static String username = null;
 
 	public static void main(String[] args) {
 		//initialize the UserAccountManagerSingleton
