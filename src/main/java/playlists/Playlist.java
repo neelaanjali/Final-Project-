@@ -73,11 +73,11 @@ public class Playlist {
 	
 	/**
 	 * @author riannaellis
-	 * 
+	 * @return INVALID_INPUT or SUCCESS
 	 */
 	private StatusCode addSong(String songName) {
 		if(songName == null)
-			return StatusCode.NOT_FOUND;
+			return StatusCode.INVALID_INPUT;
 		
 		Scanner scanner = new Scanner(System.in);
 
@@ -105,11 +105,11 @@ public class Playlist {
 	
 	/**
 	 * @author riannaellis
-	 * 
+	 * @return INVALID_INPUT or SUCCESS
 	 */
 	private StatusCode removeSong(String songName) {
 		if(songName == null)
-			return StatusCode.NOT_FOUND;
+			return StatusCode.INVALID_INPUT;
 		
 		for (Song song : songs) {
 			// If the song equals the target song, it removes it

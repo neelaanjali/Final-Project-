@@ -99,9 +99,14 @@ public class UserAccountManagerSingleton {
 	/**
 	 * Login to a user account
 	 * @author hargu
-	 * @return StatusCode.SUCCESS or StatusCode.NOT_FOUND
+	 * @return StatusCode.SUCCESS or StatusCode.NOT_FOUND or StatusCode.INVALID_INPUT
 	 */
 	private StatusCode login(String username, String password) {
+		if(username == null || password == null)
+		{
+			return StatusCode.INVALID_INPUT;
+		}
+		
 		//check if there exists a matching username/password pair
 		boolean isFound = false;
 		for(int i = 0; i < usernames.size(); i++) 
@@ -133,6 +138,9 @@ public class UserAccountManagerSingleton {
 	 * @return StatusCode.INVALID_INPUT or StatusCode.SUCCESS
 	 */
 	private StatusCode register(String username, String password) {	
+		if (username == null || password == null)
+			return StatusCode.INVALID_INPUT;
+		
 		//check that the username has not already been taken
 		if(usernames.contains(username))
 		{

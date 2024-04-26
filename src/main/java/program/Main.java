@@ -56,7 +56,20 @@ public class Main {
 		//this infinite loop will continue until the user chooses to exit
 		while(true)
 		{
-			playlistManager.choiceMenu();
+			result = playlistManager.choiceMenu();
+			
+			switch(result) {
+			case SUCCESS:
+				continue;
+			case EXCEPTION:
+			case FAILURE:
+				System.out.println("Sorry, something went wrong");
+				System.exit(1);
+				break;
+			case NOT_FOUND:
+				System.out.println("Sorry, your input was not found.");
+				continue;
+			}
 		}
 	}
 

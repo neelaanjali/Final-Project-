@@ -93,7 +93,7 @@ public class PlaylistManagerSingleton {
     
     private StatusCode displayStats(String playlistName) {  	
     	if (playlistName == null)
-    		return StatusCode.NOT_FOUND;
+    		return StatusCode.INVALID_INPUT;
     	
     	for (Playlist playlist : playlistList) {
     		if (playlist.getPlaylistName().equals(playlistName)) {
@@ -125,7 +125,7 @@ public class PlaylistManagerSingleton {
     
     private StatusCode addNewPlaylist(String playlistName) {
     	if(playlistName == null)
-    		return StatusCode.NOT_FOUND;
+    		return StatusCode.INVALID_INPUT;
     	
          ArrayList<Song> songs = new ArrayList<Song>();
          
@@ -147,7 +147,7 @@ public class PlaylistManagerSingleton {
     
     private StatusCode deletePlaylist(String playlistName) {
         if(playlistName == null)
-        	return StatusCode.NOT_FOUND;
+        	return StatusCode.INVALID_INPUT;
     	
     	
         // TEST CODE: DELETE AFTER IMPLEMENTATION
@@ -159,7 +159,7 @@ public class PlaylistManagerSingleton {
     
     private StatusCode editPlaylist(String playlistName) {
     	if(playlistName == null)
-    		return StatusCode.NOT_FOUND;
+    		return StatusCode.INVALID_INPUT;
     	
     	for(Playlist playlist : playlistList) {
     		if(playlist.getPlaylistName() == playlistName) {
@@ -187,6 +187,10 @@ public class PlaylistManagerSingleton {
     	return StatusCode.SUCCESS;
     }
     
+    /**
+     * The main operating logic of the program. Will continually ask the user what they would like to do.
+     * @return SUCCESS or FAILURE or EXCEPTION or NOT_FOUND
+     */
     public StatusCode choiceMenu() {
     	System.out.println("1 - Add a new playlist");
     	System.out.println("2 - Delete a playlist");
