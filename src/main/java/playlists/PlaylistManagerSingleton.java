@@ -122,7 +122,7 @@ public class PlaylistManagerSingleton {
          }
   
          playlistList.add(newPlaylist);
-         this.writeToFile(Main.username);
+         //this.writeToFile(Main.username);
          System.out.println("Playlist created successfully!!");
     }
     
@@ -204,12 +204,15 @@ public class PlaylistManagerSingleton {
 		switch (userSelection) {
 		case 1:
 			addNewPlaylist();
+			writeToFile(Main.username);
 			break;
 		case 2:
 			deletePlaylist();
+			writeToFile(Main.username);
 			break;
 		case 3:
 			editPlaylist();
+			writeToFile(Main.username);
 			break;
 		case 4:
 			displayStats();

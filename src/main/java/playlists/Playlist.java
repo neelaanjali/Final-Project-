@@ -33,6 +33,7 @@ public class Playlist {
 		System.out.println("How would you like to edit your playlist?");
 		System.out.println("1 - Add a new song");
 		System.out.println("2 - Delete a song");
+		System.out.println("3 - Done editing");
 		
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
@@ -47,7 +48,11 @@ public class Playlist {
 					this.removeSong();
 					break;
 				}
+				else if (response == 3) {
+					return;
+				}
 				else { //invalid user input
+					System.out.println("Please insput 1, 2 or 3.");
 					continue;
 				}
 			}
@@ -110,7 +115,6 @@ public class Playlist {
                 songs.remove(song);
             }
         }
-		scanner.close();
 	}
 	
 	public ArrayList<Song> getSongs() {
