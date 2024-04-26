@@ -27,7 +27,7 @@ public class UserAccountManagerSingleton {
 		this.usernames = new ArrayList<String>();
 		this.passwords = new ArrayList<String>();
 		this.accounts = new ArrayList<UserAccount>();
-		readFromFile();
+		readFromFile(userAccountsFile);
 	}
 	
 	public static UserAccountManagerSingleton getInstance() {
@@ -71,9 +71,11 @@ public class UserAccountManagerSingleton {
 		
 		switch (userSelection) {
 		case 1:
-			return this.login();
+			String[] loginInfo = getLoginInfo();
+			return login(loginInfo[0], loginInfo[1]);
 		case 2:
-			return this.register();
+			String[] registrationInfo = getLoginInfo();
+			return this.register(registrationInfo[0], registrationInfo[1]);
 		case 3:
 			System.exit(0);
 			return StatusCode.SUCCESS;
@@ -81,161 +83,76 @@ public class UserAccountManagerSingleton {
 		return StatusCode.FAILURE;
 	}
 	
+	private String[] getLoginInfo()
+	{
+		Scanner scanner = new Scanner(System.in);
+		String[] loginInfo = new String[2];
+		
+		System.out.print("Please enter your username: ");
+		loginInfo[0] = scanner.nextLine();
+		System.out.print("\nPlease enter your password: ");
+		loginInfo[1] = hashPassword(scanner.nextLine());
+		
+		return loginInfo;
+	}
+	
 	/**
 	 * Login to a user account
 	 * @author hargu
-	 * @return 
+	 * @return StatusCode.SUCCESS or StatusCode.NOT_FOUND
 	 */
-	private StatusCode login() {
-		Scanner scanner = new Scanner(System.in);
-		String username = "", password = "";
-		
-		// this infinite while loop will run until the user enters the correct information,
-		//    or if they choose to register a new account, or exit the program
-		while(true)
+	private StatusCode login(String username, String password) {
+		//check if there exists a matching username/password pair
+		boolean isFound = false;
+		for(int i = 0; i < usernames.size(); i++) 
 		{
-			// get user's username and password from input
-			try
+			if(usernames.get(i).equals(username) && passwords.get(i).equals(password)) 
 			{
-				System.out.print("Please enter your username: ");
-				username = scanner.nextLine();
-				System.out.print("\nPlease enter your password: ");
-				password = hashPassword(scanner.nextLine());
+				//the username and password matches
+				isFound = true;
 			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				continue;
-			}
-			
-			//check if there exists a matching username/password pair
-			boolean isFound = false;
-			for(int i = 0; i < usernames.size(); i++) 
-			{
-				if(usernames.get(i).equals(username) && passwords.get(i).equals(password)) 
-				{
-					//the username and password matches
-					isFound = true;
-				}
-			}
-			
-			//take the correct action
-			if(isFound) 
-			{
-				System.out.print("Welcome " + username + ". ");
-				//take whatever action is necessary
-				Main.username = username;
-				return StatusCode.SUCCESS;
-			}
-			//the username and password did not match
-			else if(!isFound)
-			{
-				//display the user's options
-				System.out.println("Sorry, the username and password you entered do not match.");
-				System.out.println("1 - Try Again");
-				System.out.println("2 - Register New Account");
-				System.out.println("3 - Exit");
-				System.out.print("Please make your selection: ");
-				
-				// get the users selection
-				int userSelection = 0;
-				// this infinite loop will run until the user inputs a valid selection (1, 2, or 3)
-				while(true)
-				{
-					try 
-					{
-						userSelection = scanner.nextInt();
-						if (userSelection < 1 || userSelection > 3) {
-							throw new Exception();
-						}
-						break;
-					} 
-					catch (Exception e) 
-					{
-						//System.out.println("Please enter 1, 2, or 3: ");
-						continue;
-					}
-				}
-				
-				// take the correct action, based on the users selection
-				switch(userSelection) {
-				case 1:
-					scanner.nextLine(); //flush
-					continue;
-				case 2:
-					return this.register();
-				case 3:
-					System.exit(0);
-					return StatusCode.SUCCESS;
-				}
-			}
+		}
+		
+		//take the correct action
+		if(isFound) 
+		{
+			System.out.print("Welcome " + username + ". ");
+			Main.username = username;
+			return StatusCode.SUCCESS;
+		}
+		//the username and password did not match
+		else
+		{
+			return StatusCode.NOT_FOUND;
 		}
 	}
 	
 	/**
 	 * Register a new user account
 	 * @author hargu
-	 * @return
+	 * @return StatusCode.INVALID_INPUT or StatusCode.SUCCESS
 	 */
-	private StatusCode register() {
-		Scanner scanner = new Scanner(System.in);
-		String username = "", password = "";
-		
-		//ask the user what username they would like
-		System.out.print("Please enter a username: ");
-		
-		//this infinite while loop will continue until the user inputs a valid username, or chooses to login instead
-		while(true) 	
+	private StatusCode register(String username, String password) {	
+		//check that the username has not already been taken
+		if(usernames.contains(username))
 		{
-			username = scanner.nextLine();
-			
-			//the user has decided to try to login instead (prompted after 1 failed attempt)
-			if(username == "-1") 
-			{
-				return this.login();
-			}
-			
-			//check that the username has not already been taken
-			if(usernames.contains(username))
-			{
-				//ask the user for another username
-				System.out.println("This username is already taken. Please enter a different username, or type '-1' to login.");
-				continue;
-			}
-			//the username has not been taken
-			else break;
+			return StatusCode.INVALID_INPUT;
 		}
 		
-		//ask the user for a password
-		System.out.println("Please enter a password. Passwords must be 8 characters or greater:");
-		
-		//this infinite while loop will continue until the user inputs a valid password
-		while(true)
+		//the password does not meet the 8 character minimum
+		if(password.length() < 8)
 		{
-			password = scanner.nextLine();
-			
-			//the password does not meet the 8 character minimum
-			if(password.length() < 8)
-			{
-				System.out.println("Please enter a password that is at least 8 characters:");
-				continue;
-			}
-			else 
-			{	
-				System.out.println("You have succesfully created a new account.");
-				break;
-			}
+			return StatusCode.INVALID_INPUT;
 		}
 		
-		//encrypt the password
-		password = hashPassword(password);
+		System.out.println("You have succesfully created a new account.");
 		
 		//store the username and password
 		usernames.add(username);
 		passwords.add(password);
 		
 		//update the file
-		this.writeToFile();
+		this.writeToFile(userAccountsFile);
 		
 		Main.username = username;
 		return StatusCode.SUCCESS;
@@ -255,9 +172,9 @@ public class UserAccountManagerSingleton {
 	 * @author jxie26
 	 * @return boolean indicating success or failure
 	 */
-	private StatusCode writeToFile() {
+	private StatusCode writeToFile(String filePath) {
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(userAccountsFile));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
 			
 			//write header line
 			bw.write("Usernames,Passwords\n");
@@ -281,10 +198,10 @@ public class UserAccountManagerSingleton {
 	 * @author jxie26
 	 * @return boolean
 	 */
-	private StatusCode readFromFile() {
+	private StatusCode readFromFile(String filePath) {
 		try {
 			//open the file
-			FileReader fr = new FileReader(userAccountsFile);
+			FileReader fr = new FileReader(filePath);
 			BufferedReader br = new BufferedReader(fr);
 			
 			br.readLine(); 	//skip the first line (headers) in the file

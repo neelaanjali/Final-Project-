@@ -15,17 +15,32 @@ public class Main {
 		
 		//welcome the user
 		//this method will ask the user to login/register
-		if(accountManager.welcome() == StatusCode.SUCCESS)
+		//this will loop until the user successfully logs in or registers
+		while(true)
 		{
-			// user is successfully logged in
-			System.out.println("You have succesfully logged in!");
+			StatusCode result = accountManager.welcome();
+			if(result == StatusCode.SUCCESS)
+			{
+				// user is successfully logged in
+				System.out.println("You have succesfully logged in!");
+				break;
+			}
+			else if(result == StatusCode.NOT_FOUND)
+			{
+				System.out.println("The information you entered did not match our records.");
+			}
+			else if(result == StatusCode.INVALID_INPUT)
+			{
+				System.out.println("The information you entered is invalid.");
+			}
+			else
+			{
+				// user did not get logged in
+				System.out.println("Sorry, something went wrong.");
+				System.exit(0);
+			}
 		}
-		else
-		{
-			// user did not get logged in
-			System.out.println("Sorry, something went wrong.");
-			System.exit(0);
-		}
+		
 		
 		//ask the user what they would like to do now
 		PlaylistManagerSingleton playlistManager = PlaylistManagerSingleton.getInstance();
