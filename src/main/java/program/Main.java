@@ -29,7 +29,11 @@ public class Main {
 		
 		//ask the user what they would like to do now
 		PlaylistManagerSingleton playlistManager = PlaylistManagerSingleton.getInstance();
-		playlistManager.choiceMenu(username);
+		//this infinite loop will continue until the user chooses to exit
+		while(true)
+		{
+			playlistManager.choiceMenu();
+		}
 	}
 
 }

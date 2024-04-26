@@ -3,6 +3,8 @@ package playlists;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
+import program.Main;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.BufferedReader;
@@ -46,26 +48,6 @@ public class PlaylistManagerSingleton {
           e.printStackTrace();
           }
  
-//        String filename = authorName + ".csv";
-//        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                String[] parts = line.split(",");
-//                String playlistName = parts[0];
-//                String author = parts[1];
-//                Playlist playlist = new Playlist(playlistName, author);
-//                for (int i = 2; i < parts.length; i += 3) {
-//                    String songName = parts[i];
-//                    String artistName = parts[i + 1];
-//                    String length = parts[i + 2];
-//                    Song song = new Song(songName, artistName, length);
-//                    playlist.addSong(song);
-//                }
-//                playlists.add(playlist);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
     
     private void writeToFile(String authorName) {
@@ -125,27 +107,58 @@ public class PlaylistManagerSingleton {
     	 Scanner scanner = new Scanner(System.in);
          System.out.println("Please enter the name of the your new playlist:");
          String playlistName = scanner.nextLine();
-         if (playlistList.contains(playlistName)) {
-             System.out.println("Sorry that playlist already exists");
-         } else {
-             Playlist.add(playlistName);
-             System.out.println("Playlist created successfully!!");
+         
+         ArrayList<Song> songs = new ArrayList<Song>();
+         
+         Playlist newPlaylist = new Playlist(Main.username, playlistName, songs);
+         
+         for(Playlist playlist : playlistList)
+         {
+        	 if(playlist.getPlaylistName() == newPlaylist.getPlaylistName())
+        	 {
+                 System.out.println("Sorry that playlist already exists");
+                 return;
+        	 }
          }
-         scanner.close();
-        }
-    
-    	
-    
+  
+         playlistList.add(newPlaylist);
+         this.writeToFile(Main.username);
+         System.out.println("Playlist created successfully!!");
+    }
     
     private void deletePlaylist() {
     	   Scanner scanner = new Scanner(System.in);
            System.out.println("Please enter the name of the playlist you want to delete:");
+           
+           // TEST CODE: DELETE AFTER IMPLEMENTATION
+           System.out.println("Playlist deleted");
+           // END TEST CODE
    	
     }
     
     private void editPlaylist() {
     	// Ask the user the name of the playlist they want to edit
     	// Then do playlist.editPlaylist() to edit the specfic playlist object
+    	Scanner scanner = new Scanner(System.in);
+    	System.out.println("What playlist would you like to edit?");
+    	
+    	// TEMP CODE - DELETE AFTER IMPLEMENTED
+    	System.out.println("Edit playlist");
+    	// END TEMP CODE
+    }
+    
+    private void viewPlaylists()
+    {
+    	System.out.println("Here are your playlists:");
+    	if(playlistList.size() < 1)
+    	{
+    		System.out.println("You have no playlists");
+    		return;
+    	}
+    	for(Playlist playlist : this.playlistList)
+    	{
+    		System.out.println(playlist.getPlaylistName());
+    	}
     }
     
     public void choiceMenu() {
@@ -153,7 +166,8 @@ public class PlaylistManagerSingleton {
     	System.out.println("2 - Delete a playlist");
     	System.out.println("3 - Edit a playlist");
     	System.out.println("4 - View a playlist");
-    	System.out.println("5 - Exit");
+    	System.out.println("5 - View all my playlists");
+    	System.out.println("6 - Exit");
     	System.out.print("What would you like to do?");
     	
     	int userSelection = 0;
@@ -163,14 +177,14 @@ public class PlaylistManagerSingleton {
 			try 
 			{
 				userSelection = scanner.nextInt();
-				if (userSelection < 1 || userSelection > 5)
+				if (userSelection < 1 || userSelection > 6)
 					throw new Exception();
 				break;
 			} 
 			catch (Exception e)
 			{
 				e.printStackTrace();
-				System.out.println("Please enter a number 1-5.");
+				System.out.println("Please enter a number 1-6.");
 				continue;
 			}
 		}
@@ -178,14 +192,23 @@ public class PlaylistManagerSingleton {
 		switch (userSelection) {
 		case 1:
 			addNewPlaylist();
+			break;
 		case 2:
 			deletePlaylist();
+			break;
 		case 3:
 			editPlaylist();
+			break;
 		case 4:
 			displayStats();
+			break;
 		case 5:
+			viewPlaylists();
+			break;
+		case 6:
+			writeToFile(Main.username);
 			System.exit(0);
+			break;
 		}
     }
     

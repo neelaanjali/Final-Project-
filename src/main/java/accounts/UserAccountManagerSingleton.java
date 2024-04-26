@@ -162,7 +162,6 @@ public class UserAccountManagerSingleton {
 				case 2:
 					return this.register();
 				case 3:
-					scanner.close();
 					System.exit(0);
 					return true;
 				}
@@ -235,7 +234,6 @@ public class UserAccountManagerSingleton {
 		//update the file
 		this.writeToFile();
 		
-		scanner.close();
 		Main.username = username;
 		return true;
 	}

@@ -61,7 +61,7 @@ public class Playlist {
         // Add the song to the playlist
         songs.add(newSong);
 
-        scanner.close();
+        //scanner.close();
 	}	
 	
 	/**
