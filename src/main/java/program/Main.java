@@ -56,7 +56,9 @@ public class Main {
 		//this infinite loop will continue until the user chooses to exit
 		while(true)
 		{
-			result = playlistManager.choiceMenu();
+			playlistManager.printMainMenu();
+			int selection = playlistManager.getMainMenuSelection();
+			result = playlistManager.executeMainMenu(selection);
 			
 			switch(result) {
 			case SUCCESS:
@@ -68,6 +70,9 @@ public class Main {
 				break;
 			case NOT_FOUND:
 				System.out.println("Sorry, your input was not found.");
+				continue;
+			case INVALID_INPUT:
+				System.out.println("Sorry, your input was invalid.");
 				continue;
 			}
 		}

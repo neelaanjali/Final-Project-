@@ -191,33 +191,7 @@ public class PlaylistManagerSingleton {
      * The main operating logic of the program. Will continually ask the user what they would like to do.
      * @return SUCCESS or FAILURE or EXCEPTION or NOT_FOUND
      */
-    public StatusCode choiceMenu() {
-    	System.out.println("1 - Add a new playlist");
-    	System.out.println("2 - Delete a playlist");
-    	System.out.println("3 - Edit a playlist");
-    	System.out.println("4 - View a playlist");
-    	System.out.println("5 - View all my playlists");
-    	System.out.println("6 - Exit");
-    	System.out.print("What would you like to do?");
-    	
-    	int userSelection = 0;
-		Scanner scanner = new Scanner(System.in);
-		while(true) 
-		{
-			try 
-			{
-				userSelection = scanner.nextInt();
-				if (userSelection < 1 || userSelection > 6)
-					throw new Exception();
-				break;
-			} 
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				System.out.println("Please enter a number 1-6.");
-				continue;
-			}
-		}
+    public StatusCode executeMainMenu(int userSelection) {	
 		
 		StatusCode opStatus;
 		StatusCode saveStatus;
@@ -264,9 +238,42 @@ public class PlaylistManagerSingleton {
 			writeToFile(Main.username + ".json");
 			System.exit(0);
 			return StatusCode.SUCCESS;
+		default:
+			return StatusCode.INVALID_INPUT;
 		}
-		return StatusCode.FAILURE;
     }
     
+    public StatusCode printMainMenu() {
+    	System.out.println("1 - Add a new playlist");
+    	System.out.println("2 - Delete a playlist");
+    	System.out.println("3 - Edit a playlist");
+    	System.out.println("4 - View a playlist");
+    	System.out.println("5 - View all my playlists");
+    	System.out.println("6 - Exit");
+    	System.out.print("What would you like to do?");
+    	return StatusCode.SUCCESS;
+    }
     
+    /**
+     * 
+     * @return an integer between 1-6 indicating the users selection. Or -1 upon failure.
+     */
+    public int getMainMenuSelection() {
+    	int userSelection = -1;
+		Scanner scanner = new Scanner(System.in);
+		try 
+		{
+			userSelection = scanner.nextInt();
+			if (userSelection < 1 || userSelection > 6)
+			{
+				System.out.println("Enter a number between 1 and 6: ");
+				return getMainMenuSelection();
+			}
+		} 
+		catch (Exception e)
+		{
+			return -1;
+		}
+		return userSelection;
+    }
 }
