@@ -23,11 +23,39 @@ public class Playlist {
 		this.playlistName = playlistName;
 	}
 	
+	/*
+	 * @author jxie26
+	 * 
+	 */
 	public void editPlaylist()
 	{
-		//ask the user if they want to add or remove a song, then call the respective method
-		//	e.g.   this.addSong()
-		//		   this.removeSong()
+		//ask the user if they want to add or remove a song
+		System.out.println("How would you like to edit your playlist?");
+		System.out.println("1 - Add a new song");
+		System.out.println("2 - Delete a song");
+		
+		Scanner scanner = new Scanner(System.in);
+		while (true) {
+			try {
+				int response = scanner.nextInt();
+				
+				if (response == 1) {
+					this.addSong();
+					break;
+				}
+				else if (response == 2) {
+					this.removeSong();
+					break;
+				}
+				else { //invalid user input
+					continue;
+				}
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				continue;
+			}
+		}
 	}
 	
 	/**
