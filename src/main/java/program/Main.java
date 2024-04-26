@@ -37,13 +37,22 @@ public class Main {
 			{
 				// user did not get logged in
 				System.out.println("Sorry, something went wrong.");
-				System.exit(0);
+				System.exit(1);
 			}
 		}
 		
 		
 		//ask the user what they would like to do now
 		PlaylistManagerSingleton playlistManager = PlaylistManagerSingleton.getInstance();
+		
+		//load in the users playlists
+		StatusCode result = playlistManager.readFromFile(username + ".json");
+		if (result != StatusCode.SUCCESS)
+		{
+			System.out.println("Sorry, and error occurred while loading your playlists.");
+			System.exit(1);
+		}
+		
 		//this infinite loop will continue until the user chooses to exit
 		while(true)
 		{

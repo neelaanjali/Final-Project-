@@ -34,10 +34,14 @@ public class PlaylistManagerSingleton {
         return instance;
 	}
 	
-    private StatusCode readFromFile(String authorName) {
+	/**
+	 * 
+	 * @param filePath
+	 * @return SUCCESS or NOT_FOUND or EXCEPTION
+	 */
+    public StatusCode readFromFile(String filePath) {
     	Gson gson = new Gson();
     	
-    	String filePath = authorName + ".json";
     	try {
     		BufferedReader br = new BufferedReader(new FileReader(filePath));
     		
@@ -56,10 +60,9 @@ public class PlaylistManagerSingleton {
     	}
     }
     
-    private StatusCode writeToFile(String authorName) {
+    private StatusCode writeToFile(String filePath) {
     	Gson gson = new Gson();
     	String json = gson.toJson(playlistList);
-    	String filePath = authorName + ".json";
     	
     	try {
     		BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
@@ -73,20 +76,27 @@ public class PlaylistManagerSingleton {
         }
     }
     
-    private StatusCode displayStats() {
-    	//ask the user which playlist they would like to view
-    	System.out.println("Which playlist would you like to view stats for?");
+    private String askPlaylistName() {
+    	System.out.println("What is the name of the playlist?");
     	Scanner scanner = new Scanner(System.in);
-    	
     	String playlistName;
-    	try {
-    	playlistName = scanner.nextLine().trim();
-    	} catch (Exception e) {
-    		return StatusCode.EXCEPTION;
+    	try
+    	{
+    		playlistName = scanner.nextLine().trim();
     	}
-    	    	
+    	catch (Exception e)
+    	{
+    		return null;
+    	}
+    	return playlistName;
+    }
+    
+    private StatusCode displayStats(String playlistName) {  	
+    	if (playlistName == null)
+    		return StatusCode.NOT_FOUND;
+    	
     	for (Playlist playlist : playlistList) {
-    		if (playlist.getPlaylistName() == playlistName) {
+    		if (playlist.getPlaylistName().equals(playlistName)) {
     			
     			System.out.println("Playlist name: " + playlist.getPlaylistName());
     			System.out.println("Author: " + playlist.getAuthor());
@@ -109,15 +119,14 @@ public class PlaylistManagerSingleton {
     			return StatusCode.SUCCESS;
     		}
     	}
-    	System.out.println("Sorry, the playlist you entered could not be found.");
+    	//System.out.println("Sorry, the playlist you entered could not be found.");
    		return StatusCode.NOT_FOUND;
     }
     
-    private StatusCode addNewPlaylist() {
-    	 Scanner scanner = new Scanner(System.in);
-         System.out.println("Please enter the name of the your new playlist:");
-         String playlistName = scanner.nextLine();
-         
+    private StatusCode addNewPlaylist(String playlistName) {
+    	if(playlistName == null)
+    		return StatusCode.NOT_FOUND;
+    	
          ArrayList<Song> songs = new ArrayList<Song>();
          
          Playlist newPlaylist = new Playlist(Main.username, playlistName, songs);
@@ -136,23 +145,21 @@ public class PlaylistManagerSingleton {
          return StatusCode.SUCCESS;
     }
     
-    private StatusCode deletePlaylist() {
-    	   Scanner scanner = new Scanner(System.in);
-           System.out.println("Please enter the name of the playlist you want to delete:");
+    private StatusCode deletePlaylist(String playlistName) {
+        if(playlistName == null)
+        	return StatusCode.NOT_FOUND;
+    	
+    	
+        // TEST CODE: DELETE AFTER IMPLEMENTATION
+        System.out.println("Playlist deleted");
+        // END TEST CODE
            
-           // TEST CODE: DELETE AFTER IMPLEMENTATION
-           System.out.println("Playlist deleted");
-           // END TEST CODE
-           
-           return StatusCode.FAILURE;
+        return StatusCode.FAILURE;
     }
     
-    private StatusCode editPlaylist() {
-    	Scanner scanner = new Scanner(System.in);
-    	
-    	// Ask the user the name of the playlist they want to edit
-    	System.out.println("What playlist would you like to edit?");
-    	String playlistName = scanner.nextLine();
+    private StatusCode editPlaylist(String playlistName) {
+    	if(playlistName == null)
+    		return StatusCode.NOT_FOUND;
     	
     	for(Playlist playlist : playlistList) {
     		if(playlist.getPlaylistName() == playlistName) {
@@ -213,47 +220,48 @@ public class PlaylistManagerSingleton {
 		
 		switch (userSelection) {
 		case 1:
-			opStatus = addNewPlaylist();
+			opStatus = addNewPlaylist(askPlaylistName());
 			if (opStatus != StatusCode.SUCCESS)
 				return opStatus;
 			
-			saveStatus = writeToFile(Main.username);
+			saveStatus = writeToFile(Main.username + ".json");
 			if (saveStatus != StatusCode.SUCCESS)
 				return saveStatus;
 			
 			return StatusCode.SUCCESS;
 			
 		case 2:
-			opStatus = deletePlaylist();
+			opStatus = deletePlaylist(askPlaylistName());
 			if (opStatus != StatusCode.SUCCESS)
 				return opStatus;
 			
-			saveStatus = writeToFile(Main.username);
+			saveStatus = writeToFile(Main.username + ".json");
 			if (saveStatus != StatusCode.SUCCESS)
 				return saveStatus;
 			
 			return StatusCode.SUCCESS;
 			
 		case 3:
-			opStatus = editPlaylist();
+			opStatus = editPlaylist(askPlaylistName());
 			if (opStatus != StatusCode.SUCCESS)
 				return opStatus;
 			
-			saveStatus = writeToFile(Main.username);
+			saveStatus = writeToFile(Main.username + ".json");
 			if (saveStatus != StatusCode.SUCCESS)
 				return saveStatus;
 			
 			return StatusCode.SUCCESS;
 			
 		case 4:
-			return displayStats();
+			return displayStats(askPlaylistName());
 		case 5:
 			return viewPlaylists();
 		case 6:
-			writeToFile(Main.username);
+			writeToFile(Main.username + ".json");
 			System.exit(0);
-			break;
+			return StatusCode.SUCCESS;
 		}
+		return StatusCode.FAILURE;
     }
     
     
