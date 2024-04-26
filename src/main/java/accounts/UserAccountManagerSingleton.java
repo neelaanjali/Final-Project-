@@ -1,8 +1,10 @@
 package accounts;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -252,7 +254,24 @@ public class UserAccountManagerSingleton {
 	 * @return boolean indicating success or failure
 	 */
 	private boolean writeToFile() {
-		return false;
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(userAccountsFile));
+			
+			//write header line
+			bw.write("Usernames,Passwords\n");
+			
+			//loop through ArrayLists and write each username & password pair to file
+			for (int i = 0; i < usernames.size(); i++) {
+                String line = usernames.get(i) + "," + passwords.get(i) + "\n";
+                bw.write(line);
+			}
+			bw.close();
+			return true;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**
