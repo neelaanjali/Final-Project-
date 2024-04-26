@@ -15,7 +15,7 @@ public class Main {
 		
 		//welcome the user
 		//this method will ask the user to login/register
-		if(accountManager.welcome())
+		if(accountManager.welcome() == StatusCode.SUCCESS)
 		{
 			// user is successfully logged in
 			System.out.println("You have succesfully logged in!");

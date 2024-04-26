@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import program.Main;
+import program.StatusCode;
 
 /**
  * 
@@ -40,7 +41,7 @@ public class UserAccountManagerSingleton {
 	/**
 	 * Welcome a user to the Playlist manager. Ask the user what they would like to do
 	 */
-	public boolean welcome() {
+	public StatusCode welcome() {
 		//ask the user what they would like to do
 		System.out.println("Welcome to the Playlist manager!");
 		System.out.println("1 - Login");
@@ -75,9 +76,9 @@ public class UserAccountManagerSingleton {
 			return this.register();
 		case 3:
 			System.exit(0);
-			return true;
+			return StatusCode.SUCCESS;
 		}
-		return false;
+		return StatusCode.FAILURE;
 	}
 	
 	/**
@@ -85,7 +86,7 @@ public class UserAccountManagerSingleton {
 	 * @author hargu
 	 * @return 
 	 */
-	private boolean login() {
+	private StatusCode login() {
 		Scanner scanner = new Scanner(System.in);
 		String username = "", password = "";
 		
@@ -124,7 +125,7 @@ public class UserAccountManagerSingleton {
 				System.out.print("Welcome " + username + ". ");
 				//take whatever action is necessary
 				Main.username = username;
-				return true;
+				return StatusCode.SUCCESS;
 			}
 			//the username and password did not match
 			else if(!isFound)
@@ -165,7 +166,7 @@ public class UserAccountManagerSingleton {
 					return this.register();
 				case 3:
 					System.exit(0);
-					return true;
+					return StatusCode.SUCCESS;
 				}
 			}
 		}
@@ -176,7 +177,7 @@ public class UserAccountManagerSingleton {
 	 * @author hargu
 	 * @return
 	 */
-	private boolean register() {
+	private StatusCode register() {
 		Scanner scanner = new Scanner(System.in);
 		String username = "", password = "";
 		
@@ -237,7 +238,7 @@ public class UserAccountManagerSingleton {
 		this.writeToFile();
 		
 		Main.username = username;
-		return true;
+		return StatusCode.SUCCESS;
 	}
 	
 	/**
@@ -254,7 +255,7 @@ public class UserAccountManagerSingleton {
 	 * @author jxie26
 	 * @return boolean indicating success or failure
 	 */
-	private boolean writeToFile() {
+	private StatusCode writeToFile() {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(userAccountsFile));
 			
@@ -267,11 +268,11 @@ public class UserAccountManagerSingleton {
                 bw.write(line);
 			}
 			bw.close();
-			return true;
+			return StatusCode.SUCCESS;
 		}
 		catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			return StatusCode.EXCEPTION;
 		}
 	}
 	
@@ -280,7 +281,7 @@ public class UserAccountManagerSingleton {
 	 * @author jxie26
 	 * @return boolean
 	 */
-	private boolean readFromFile() {
+	private StatusCode readFromFile() {
 		try {
 			//open the file
 			FileReader fr = new FileReader(userAccountsFile);
@@ -314,18 +315,18 @@ public class UserAccountManagerSingleton {
 			//close file and buffered readers
 			br.close();
 			fr.close();
-			return true;
+			return StatusCode.SUCCESS;
 		}
 		
 		catch (FileNotFoundException e) {
 			System.out.println("The file could not be opened.");
 			e.printStackTrace();
-			return false;
+			return StatusCode.NOT_FOUND;
 		}
 		
 		catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return StatusCode.EXCEPTION;
 		}
 	}
 	  
