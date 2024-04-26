@@ -251,6 +251,7 @@ public class UserAccountManagerSingleton {
 	
 	/**
 	 * Store the changes made to user accounts
+	 * @author jxie26
 	 * @return boolean indicating success or failure
 	 */
 	private boolean writeToFile() {
