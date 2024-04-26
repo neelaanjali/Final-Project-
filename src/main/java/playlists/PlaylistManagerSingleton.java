@@ -137,14 +137,26 @@ public class PlaylistManagerSingleton {
     }
     
     private void editPlaylist() {
-    	// Ask the user the name of the playlist they want to edit
-    	// Then do playlist.editPlaylist() to edit the specfic playlist object
     	Scanner scanner = new Scanner(System.in);
-    	System.out.println("What playlist would you like to edit?");
     	
-    	// TEMP CODE - DELETE AFTER IMPLEMENTED
-    	System.out.println("Edit playlist");
-    	// END TEMP CODE
+    	// Ask the user the name of the playlist they want to edit
+    	System.out.println("What playlist would you like to edit?");
+    	String playlistName = scanner.nextLine();
+    	
+    	//use boolean to keep track of whether the playlist exists
+    	boolean found = false;
+    	for(Playlist playlist : playlistList) {
+    		if(playlist.getPlaylistName() == playlistName) {
+    			found = true;
+    			playlist.editPlaylist();
+    			break;
+    		}
+    	}
+    		
+    	if (found == false) { //playlist does not exist
+            System.out.println("Sorry, that playlist does not exist.");
+            return;
+        }
     }
     
     private void viewPlaylists()
