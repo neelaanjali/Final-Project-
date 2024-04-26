@@ -43,10 +43,10 @@ public class Playlist {
 				int response = scanner.nextInt();
 				
 				if (response == 1) {
-					return this.addSong();
+					return addSong(askSongName());
 				}
 				else if (response == 2) {
-					return this.removeSong();
+					return removeSong(askSongName());
 				}
 				else if (response == 3) {
 					return StatusCode.SUCCESS;
@@ -62,17 +62,24 @@ public class Playlist {
 		}
 	}
 	
+	private String askSongName() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Enter the song name: ");
+		String songName = scanner.nextLine();
+		
+		return songName;
+	}
+	
 	/**
 	 * @author riannaellis
 	 * 
 	 */
-	private StatusCode addSong() {
+	private StatusCode addSong(String songName) {
+		if(songName == null)
+			return StatusCode.NOT_FOUND;
+		
 		Scanner scanner = new Scanner(System.in);
-
-        // Prompt the user to enter the name of the song
-        System.out.print("Enter the song name: ");
-        // Read the song name
-        String songName = scanner.nextLine();
 
         // Prompt the user to enter the artist
         System.out.print("Enter the artist: ");
@@ -100,13 +107,9 @@ public class Playlist {
 	 * @author riannaellis
 	 * 
 	 */
-	private StatusCode removeSong() {
-		Scanner scanner = new Scanner(System.in);
-
-        // Prompt the user to enter the name of the song they want to delete
-        System.out.print("Enter the song name you'd like to delete: ");
-        // Read the song name
-        String songName = scanner.nextLine();	
+	private StatusCode removeSong(String songName) {
+		if(songName == null)
+			return StatusCode.NOT_FOUND;
 		
 		for (Song song : songs) {
 			// If the song equals the target song, it removes it
