@@ -40,6 +40,7 @@ public class Main {
 				System.exit(1);
 			}
 		}
+		System.out.println();
 		
 		
 		//ask the user what they would like to do now

@@ -114,8 +114,9 @@ public class PlaylistManagerSingleton {
     			System.out.println("Number of Songs: " + playlist.getSongs().size());
     			
     			for (Song song : playlist.getSongs()) {
-    				System.out.println(song.getSongName());
+    				System.out.println(" * " + song.getSongName());
     			}
+    			System.out.println();
     			return StatusCode.SUCCESS;
     		}
     	}
@@ -162,12 +163,11 @@ public class PlaylistManagerSingleton {
     		return StatusCode.INVALID_INPUT;
     	
     	for(Playlist playlist : playlistList) {
-    		if(playlist.getPlaylistName() == playlistName) {
+    		if(playlist.getPlaylistName().equals(playlistName)) {
     			return playlist.editPlaylist();
     		}
     	}
     		
-        System.out.println("Sorry, that playlist does not exist.");
         return StatusCode.NOT_FOUND;
        
     }
