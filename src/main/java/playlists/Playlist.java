@@ -3,6 +3,8 @@ package playlists;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import program.StatusCode;
+
 /**
  * @author hargu
  * 
@@ -27,7 +29,7 @@ public class Playlist {
 	 * @author jxie26
 	 * 
 	 */
-	public void editPlaylist()
+	public StatusCode editPlaylist()
 	{
 		//ask the user if they want to add or remove a song
 		System.out.println("How would you like to edit your playlist?");
@@ -41,24 +43,21 @@ public class Playlist {
 				int response = scanner.nextInt();
 				
 				if (response == 1) {
-					this.addSong();
-					break;
+					return this.addSong();
 				}
 				else if (response == 2) {
-					this.removeSong();
-					break;
+					return this.removeSong();
 				}
 				else if (response == 3) {
-					return;
+					return StatusCode.SUCCESS;
 				}
 				else { //invalid user input
-					System.out.println("Please insput 1, 2 or 3.");
+					System.out.println("Please input 1, 2 or 3.");
 					continue;
 				}
 			}
 			catch (Exception e){
-				e.printStackTrace();
-				continue;
+				return StatusCode.EXCEPTION;
 			}
 		}
 	}
@@ -67,7 +66,7 @@ public class Playlist {
 	 * @author riannaellis
 	 * 
 	 */
-	private void addSong() {
+	private StatusCode addSong() {
 		Scanner scanner = new Scanner(System.in);
 
         // Prompt the user to enter the name of the song
@@ -93,15 +92,15 @@ public class Playlist {
         
         // Add the song to the playlist
         songs.add(newSong);
-
-        //scanner.close();
+        
+        return StatusCode.SUCCESS;
 	}	
 	
 	/**
 	 * @author riannaellis
 	 * 
 	 */
-	private void removeSong() {
+	private StatusCode removeSong() {
 		Scanner scanner = new Scanner(System.in);
 
         // Prompt the user to enter the name of the song they want to delete
@@ -113,8 +112,10 @@ public class Playlist {
 			// If the song equals the target song, it removes it
             if (song.getSongName() == songName) {
                 songs.remove(song);
+                return StatusCode.SUCCESS;
             }
         }
+		return StatusCode.NOT_FOUND;
 	}
 	
 	public ArrayList<Song> getSongs() {
@@ -134,10 +135,5 @@ public class Playlist {
 	}
 	public void setPlaylistName(String playlistName) {
 		this.playlistName = playlistName;
-	}
-
-	public static void add(String playlistName2) {
-		// TODO Auto-generated method stub
-		
 	}
 }
