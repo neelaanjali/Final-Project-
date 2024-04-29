@@ -91,12 +91,14 @@ public class PlaylistManagerSingleton {
     	return playlistName;
     }
     
-    private StatusCode displayStats(String playlistName) {  	
+    /*package*/ StatusCode displayStats(String playlistName) {  	
     	if (playlistName == null)
     		return StatusCode.INVALID_INPUT;
     	
     	for (Playlist playlist : playlistList) {
     		if (playlist.getPlaylistName().equals(playlistName)) {
+    			
+    			System.out.println("---------------------------");
     			
     			System.out.println("Playlist name: " + playlist.getPlaylistName());
     			System.out.println("Author: " + playlist.getAuthor());
@@ -116,7 +118,9 @@ public class PlaylistManagerSingleton {
     			for (Song song : playlist.getSongs()) {
     				System.out.println(" * " + song.getSongName());
     			}
+    			System.out.println("---------------------------");
     			System.out.println();
+
     			return StatusCode.SUCCESS;
     		}
     	}

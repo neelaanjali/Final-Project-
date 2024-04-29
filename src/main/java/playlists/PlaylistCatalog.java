@@ -1,6 +1,15 @@
 package playlists;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import program.StatusCode;
 
@@ -52,10 +61,6 @@ public class PlaylistCatalog {
 		return userSelection;
 	}
 	
-	private StatusCode viewAllPlaylists() {
-		return StatusCode.NOT_IMPLEMENTED;
-	}
-	
 	private StatusCode ratePlaylist() {
 		return StatusCode.NOT_IMPLEMENTED;
 	}
@@ -67,4 +72,52 @@ public class PlaylistCatalog {
 	private StatusCode viewTopUsers() {
 		return StatusCode.NOT_IMPLEMENTED;
 	}
+	
+	private ArrayList<File> loadPlaylistFiles() {
+		//load .json files into an arraylist called files
+		ArrayList<File> files = new ArrayList<File>();
+		try {
+			File[] filesArray = new File(System.getProperty("user.dir")).listFiles();
+			for (File file : filesArray) {
+				if(file.getName().contains(".json"))
+					files.add(file);
+			}
+		} catch (Exception e) { return null; }
+		return files;
+	}
+	
+	private StatusCode viewAllPlaylists() {
+		ArrayList<File> files = loadPlaylistFiles();
+		
+		//set aside what is currently stored in PlaylistManagerSingleton
+		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
+		ArrayList<Playlist> tempStor = manager.playlistList;
+		
+		//deserialize the playlists
+    	Gson gson = new Gson();
+    	
+    	try {
+    		TypeToken<ArrayList<Playlist>> playlistListType = new TypeToken<ArrayList<Playlist>>() {};
+
+    		for(File file : files)
+    		{    			
+	    		BufferedReader br = new BufferedReader(new FileReader(file));	
+	    		manager.playlistList = gson.fromJson(br, playlistListType);
+	    		
+	    		for(Playlist playlist : manager.playlistList)
+	    		{
+	    			manager.displayStats(playlist.getPlaylistName());
+	    		}
+	    		
+	    		br.close();
+    		}
+          }
+    	catch (Exception e){
+    		manager.playlistList = tempStor;
+    		return StatusCode.EXCEPTION;
+    	}
+		manager.playlistList = tempStor;
+		return StatusCode.SUCCESS;
+	}
+	
 }
