@@ -76,8 +76,8 @@ public class PlaylistManagerSingleton {
         }
     }
     
-    private String askPlaylistName() {
-    	System.out.println("What is the name of the playlist?");
+    public String askPlaylistName() {
+    	System.out.println("Enter the playlist name:");
     	Scanner scanner = new Scanner(System.in);
     	String playlistName;
     	try

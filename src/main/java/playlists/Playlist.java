@@ -35,7 +35,8 @@ public class Playlist {
 		System.out.println("How would you like to edit your playlist?");
 		System.out.println("1 - Add a new song");
 		System.out.println("2 - Delete a song");
-		System.out.println("3 - Done editing");
+		System.out.println("3 - Rename playlist");
+		System.out.println("4 - Done editing");
 		
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
@@ -49,10 +50,13 @@ public class Playlist {
 					return removeSong(askSongName());
 				}
 				else if (response == 3) {
+					return renamePlaylist(PlaylistManagerSingleton.getInstance().askPlaylistName());
+				}
+				else if (response == 4) {
 					return StatusCode.SUCCESS;
 				}
 				else { //invalid user input
-					System.out.println("Please input 1, 2 or 3.");
+					System.out.println("Please input a number 1-4.");
 					continue;
 				}
 			}
@@ -60,6 +64,14 @@ public class Playlist {
 				return StatusCode.EXCEPTION;
 			}
 		}
+	}
+	
+	private StatusCode renamePlaylist(String newName) {
+		if(newName == null) 
+			return StatusCode.INVALID_INPUT;
+		
+		this.playlistName = newName;
+		return StatusCode.SUCCESS;
 	}
 	
 	private String askSongName() {

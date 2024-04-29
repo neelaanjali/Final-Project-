@@ -50,7 +50,7 @@ public class Main {
 		StatusCode result = playlistManager.readFromFile(username + ".json");
 		if (result != StatusCode.SUCCESS)
 		{
-			System.out.println("Sorry, and error occurred while loading your playlists.");
+			System.out.println("Sorry, an error occurred while loading your playlists.");
 			System.exit(1);
 		}
 		
