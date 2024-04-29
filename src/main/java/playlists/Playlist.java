@@ -36,7 +36,9 @@ public class Playlist {
 		System.out.println("1 - Add a new song");
 		System.out.println("2 - Delete a song");
 		System.out.println("3 - Rename playlist");
-		System.out.println("4 - Done editing");
+		System.out.println("4 - Sort playlist by song title");
+		System.out.println("5 - Sort playlist by song length");
+		System.out.println("6 - Done editing");
 		
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
@@ -53,10 +55,16 @@ public class Playlist {
 					return renamePlaylist(PlaylistManagerSingleton.getInstance().askPlaylistName());
 				}
 				else if (response == 4) {
+					return sortPlaylistByName();
+				}
+				else if (response == 5) {
+					return sortPlaylistByLength();
+				}
+				else if (response == 6) {
 					return StatusCode.SUCCESS;
 				}
 				else { //invalid user input
-					System.out.println("Please input a number 1-4.");
+					System.out.println("Please input a number 1-6.");
 					continue;
 				}
 			}
@@ -64,6 +72,14 @@ public class Playlist {
 				return StatusCode.EXCEPTION;
 			}
 		}
+	}
+	
+	private StatusCode sortPlaylistByName() {
+		return StatusCode.NOT_IMPLEMENTED;
+	}
+	
+	private StatusCode sortPlaylistByLength() {
+		return StatusCode.NOT_IMPLEMENTED;
 	}
 	
 	private StatusCode renamePlaylist(String newName) {

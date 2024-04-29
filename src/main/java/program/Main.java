@@ -75,6 +75,9 @@ public class Main {
 			case INVALID_INPUT:
 				System.out.println("Sorry, your input was invalid.");
 				continue;
+			case NOT_IMPLEMENTED:
+				System.out.println("Sorry, this feature has not yet been implemented.");
+				continue;
 			}
 		}
 	}

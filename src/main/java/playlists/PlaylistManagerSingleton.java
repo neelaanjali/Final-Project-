@@ -187,6 +187,52 @@ public class PlaylistManagerSingleton {
     	return StatusCode.SUCCESS;
     }
     
+    private StatusCode searchSongs() {
+    	System.out.println("Search by...");
+    	System.out.println("1 - Song Name");
+    	System.out.println("2 - Author Name");
+    	System.out.println("3 - Song Length");
+    	
+    	int userSelection = -1;
+		Scanner scanner = new Scanner(System.in);
+		try 
+		{
+			userSelection = scanner.nextInt();
+			if (userSelection < 1 || userSelection > 3)
+			{
+				System.out.println("Enter a number between 1 and 3: ");
+				return searchSongs();
+			}
+		} 
+		catch (Exception e)
+		{
+			return StatusCode.EXCEPTION;
+		}
+		
+		switch(userSelection) {
+		case 1:
+			return searchByName();
+		case 2:
+			return searchByAuthor();
+		case 3:
+			return searchByLength();
+		default:
+			return StatusCode.INVALID_INPUT;
+		}
+    }
+    
+    private StatusCode searchByName() {
+    	return StatusCode.NOT_IMPLEMENTED;
+    }
+    
+    private StatusCode searchByAuthor() {
+    	return StatusCode.NOT_IMPLEMENTED;
+    }
+    
+    private StatusCode searchByLength() {
+    	return StatusCode.NOT_IMPLEMENTED;
+    }
+    
     /**
      * The main operating logic of the program. Will continually ask the user what they would like to do.
      * @return SUCCESS or FAILURE or EXCEPTION or NOT_FOUND
@@ -235,6 +281,10 @@ public class PlaylistManagerSingleton {
 		case 5:
 			return viewPlaylists();
 		case 6:
+			return searchSongs();
+		case 7:
+			return PlaylistCatalog.printMenu();
+		case 8:
 			writeToFile(Main.username + ".json");
 			System.exit(0);
 			return StatusCode.SUCCESS;
@@ -249,7 +299,9 @@ public class PlaylistManagerSingleton {
     	System.out.println("3 - Edit a playlist");
     	System.out.println("4 - View a playlist");
     	System.out.println("5 - View all my playlists");
-    	System.out.println("6 - Exit");
+    	System.out.println("6 - Search my songs");
+    	System.out.println("7 - View social menu");
+    	System.out.println("8 - Exit");
     	System.out.print("What would you like to do?");
     	return StatusCode.SUCCESS;
     }
@@ -264,9 +316,9 @@ public class PlaylistManagerSingleton {
 		try 
 		{
 			userSelection = scanner.nextInt();
-			if (userSelection < 1 || userSelection > 6)
+			if (userSelection < 1 || userSelection > 8)
 			{
-				System.out.println("Enter a number between 1 and 6: ");
+				System.out.println("Enter a number between 1 and 8: ");
 				return getMainMenuSelection();
 			}
 		} 

@@ -11,4 +11,5 @@ public enum StatusCode {
     EXCEPTION,			//method failed with exception
     INVALID_INPUT,		//method failed due to invalid input
     NOT_FOUND,			//the object could not be found
+    NOT_IMPLEMENTED,	//the method is not yet implemented
 }
