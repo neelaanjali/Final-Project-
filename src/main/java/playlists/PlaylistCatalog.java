@@ -14,7 +14,7 @@ public class PlaylistCatalog {
 		System.out.println("4 - View top 5 users");
 		
 		PlaylistCatalog playlistCatalog = new PlaylistCatalog();
-		playlistCatalog.executeMenu(playlistCatalog.getMenuSelection());
+		return playlistCatalog.executeMenu(playlistCatalog.getMenuSelection());
 
 	}
 	
