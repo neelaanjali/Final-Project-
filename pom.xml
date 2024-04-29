@@ -3,12 +3,37 @@
 	  <groupId>Final-Project</groupId>
 	  <artifactId>Final-Project</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
+	  <build>
+		  <plugins>
+			  <plugin>
+				  <artifactId>maven-surefire-plugin</artifactId>
+				  <version>3.2.2</version>
+				  <configuration>
+					  <includes>
+						  <include>**/*Test.java</include>
+						  <include>**/*Tests.java</include>
+					  </includes>
+				  </configuration>
+			  </plugin>
+		  </plugins>
+	  </build>
 	  <dependencies>
   		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>
 		    <version>2.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>3.2.2</version>
 		</dependency>
   </dependencies>
 </project>
