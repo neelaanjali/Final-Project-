@@ -32,7 +32,7 @@ public class PlaylistCatalog {
 		case 1:
 			return viewAllPlaylists();
 		case 2:
-			return ratePlaylist();
+			return ratePlaylist(PlaylistManagerSingleton.getInstance().askPlaylistName());
 		case 3:
 			return viewTopPlaylists();
 		case 4:
@@ -61,8 +61,56 @@ public class PlaylistCatalog {
 		return userSelection;
 	}
 	
-	private StatusCode ratePlaylist() {
-		return StatusCode.NOT_IMPLEMENTED;
+	private StatusCode ratePlaylist(String playlistName) {
+		if(playlistName == null) { return StatusCode.INVALID_INPUT; }
+		
+		ArrayList<Playlist> playlists = deserializePlaylists(loadPlaylistFiles());
+		
+		for(Playlist playlist : playlists)
+		{
+			if(playlist.getPlaylistName().equals(playlistName))
+			{
+				int userRating;
+				
+				try {
+					Scanner scanner = new Scanner(System.in);
+					System.out.println("Rate playlist '" + playlistName + "' 1 out of 5: ");
+					userRating = scanner.nextInt();
+				} catch (Exception e) { return StatusCode.EXCEPTION; }
+				
+				if (userRating < 1 || userRating > 5)
+				{
+					System.out.println("Please enter an integer between 1 and 5");
+					return ratePlaylist(playlistName);
+				}
+				
+				playlist.setNumOfRatings(playlist.getNumOfRatings() + 1);
+				playlist.setSumOfRatings(playlist.getSumOfRatings() + userRating);
+				
+				// save changes
+				return saveChanges(playlist.getAuthor(), playlists);
+			}
+		}
+		return StatusCode.NOT_FOUND;
+	}
+	
+	private StatusCode saveChanges(String authorName, ArrayList<Playlist> allPlaylists) {
+		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
+		//set aside the contents in PlaylistManager
+		ArrayList<Playlist> tempStor = manager.playlistList;
+		manager.playlistList.clear();
+		
+		//add the playlists created by this author
+		for(Playlist playlist : allPlaylists) {
+			if(playlist.getAuthor().equals(authorName))
+				manager.playlistList.add(playlist);
+		}
+		
+		StatusCode opResult = manager.writeToFile(authorName + ".json");
+		manager.playlistList = tempStor;
+		
+		if(opResult != StatusCode.SUCCESS) return opResult;
+		return StatusCode.SUCCESS;
 	}
 	
 	private StatusCode viewTopPlaylists() {

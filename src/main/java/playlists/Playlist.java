@@ -13,6 +13,8 @@ public class Playlist {
 	private ArrayList<Song> songs;
 	private String author;
 	private String playlistName;
+	private int sumOfRatings;
+	private int numOfRatings;
 	
 	/**
 	 * @author riannaellis
@@ -23,6 +25,8 @@ public class Playlist {
 		this.songs = songs;
 		this.author = author;
 		this.playlistName = playlistName;
+		this.sumOfRatings = 0;
+		this.numOfRatings = 0;
 	}
 	
 	/*
@@ -166,5 +170,21 @@ public class Playlist {
 	}
 	public void setPlaylistName(String playlistName) {
 		this.playlistName = playlistName;
+	}
+
+	public int getSumOfRatings() {
+		return sumOfRatings;
+	}
+
+	public void setSumOfRatings(int sumOfRatings) {
+		this.sumOfRatings = sumOfRatings;
+	}
+
+	public int getNumOfRatings() {
+		return numOfRatings;
+	}
+
+	public void setNumOfRatings(int numOfRatings) {
+		this.numOfRatings = numOfRatings;
 	}
 }

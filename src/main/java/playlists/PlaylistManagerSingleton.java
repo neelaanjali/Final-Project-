@@ -60,7 +60,7 @@ public class PlaylistManagerSingleton {
     	}
     }
     
-    private StatusCode writeToFile(String filePath) {
+    /*package*/ StatusCode writeToFile(String filePath) {
     	Gson gson = new Gson();
     	String json = gson.toJson(playlistList);
     	
@@ -68,7 +68,6 @@ public class PlaylistManagerSingleton {
     		BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
     		bw.write(json);
     		bw.close();
-            System.out.println("Playlist saved successfully!");
             return StatusCode.SUCCESS;
             
     	} catch (IOException e) {
@@ -113,10 +112,11 @@ public class PlaylistManagerSingleton {
     			String totalTime = totalMinutes.toString() + ":" + seconds.toString();
     			
     			System.out.println("Total Length: " + totalTime);
+    			System.out.println("Rating: " + String.format("%.2f", ((double)playlist.getSumOfRatings())/playlist.getNumOfRatings()) + "/5");
     			System.out.println("Number of Songs: " + playlist.getSongs().size());
     			
     			for (Song song : playlist.getSongs()) {
-    				System.out.println(" * " + song.getSongName());
+    				System.out.println(" * " + song.getSongName() + " - " + song.getArtistName());
     			}
     			System.out.println("---------------------------");
     			System.out.println();
