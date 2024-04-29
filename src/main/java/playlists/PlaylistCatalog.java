@@ -86,36 +86,38 @@ public class PlaylistCatalog {
 		return files;
 	}
 	
+	private ArrayList<Playlist> deserializePlaylists(ArrayList<File> files) {
+		Gson gson = new Gson();
+		ArrayList<Playlist> allPlaylists = new ArrayList<Playlist>();
+		
+		try {
+			TypeToken<ArrayList<Playlist>> playlistListType = new TypeToken<ArrayList<Playlist>>() {};
+			
+			for(File file : files) {
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				allPlaylists.addAll(gson.fromJson(br, playlistListType));
+				br.close();
+			}
+		}
+		catch (Exception e) { return null; }
+		return allPlaylists;
+	}
+	
 	private StatusCode viewAllPlaylists() {
 		ArrayList<File> files = loadPlaylistFiles();
+		ArrayList<Playlist> allPlaylists = deserializePlaylists(files);
 		
 		//set aside what is currently stored in PlaylistManagerSingleton
 		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
 		ArrayList<Playlist> tempStor = manager.playlistList;
 		
-		//deserialize the playlists
-    	Gson gson = new Gson();
-    	
-    	try {
-    		TypeToken<ArrayList<Playlist>> playlistListType = new TypeToken<ArrayList<Playlist>>() {};
+		manager.playlistList = allPlaylists;
+		
+		for(Playlist playlist : manager.playlistList)
+		{
+			manager.displayStats(playlist.getPlaylistName());
+		}
 
-    		for(File file : files)
-    		{    			
-	    		BufferedReader br = new BufferedReader(new FileReader(file));	
-	    		manager.playlistList = gson.fromJson(br, playlistListType);
-	    		
-	    		for(Playlist playlist : manager.playlistList)
-	    		{
-	    			manager.displayStats(playlist.getPlaylistName());
-	    		}
-	    		
-	    		br.close();
-    		}
-          }
-    	catch (Exception e){
-    		manager.playlistList = tempStor;
-    		return StatusCode.EXCEPTION;
-    	}
 		manager.playlistList = tempStor;
 		return StatusCode.SUCCESS;
 	}
