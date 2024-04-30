@@ -185,6 +185,11 @@ public class PlaylistManagerSingleton {
                 }
             }
         }
+        if (!locatedSong.isEmpty()) {
+            System.out.println("Search for song '" + songName + "' was successful.");
+        } else {
+            System.out.println("No songs found matching the name '" + songName + "'.");
+        }
       
         return locatedSong;
     }
