@@ -176,6 +176,19 @@ public class PlaylistManagerSingleton {
        
     }
     
+    public ArrayList<Song> searchSongsBySongName(String songName) {
+        ArrayList<Song> locatedSong = new ArrayList<>();
+        for (Playlist playlist : playlistList) {
+            for (Song song : playlist.getSongs()) {
+                if (song.getSongName().equalsIgnoreCase(songName)) {
+                    locatedSong.add(song);
+                }
+            }
+        }
+      
+        return locatedSong;
+    }
+    
     public StatusCode viewPlaylists()
     {
     	System.out.println("Here are your playlists:");
