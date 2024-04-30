@@ -194,6 +194,22 @@ public class PlaylistManagerSingleton {
         return locatedSong;
     }
     
+    public void sortPlaylistAlphabetically() {
+        for (int i = 1; i < playlistList.size(); i++) {
+            Playlist currentPlaylist = playlistList.get(i);
+            String currentSongName = currentPlaylist.getSongs().isEmpty() ? "" : currentPlaylist.getSongs().get(0).getSongName();
+            int j = i - 1;
+            while (j >= 0 && comparePlaylist(playlistList.get(j), currentSongName) > 0) {
+                playlistList.set(j + 1, playlistList.get(j));
+                j--;
+            }
+            playlistList.set(j + 1, currentPlaylist);
+        }
+    }
+
+ 
+    
+    
     public StatusCode viewPlaylists()
     {
     	System.out.println("Here are your playlists:");
