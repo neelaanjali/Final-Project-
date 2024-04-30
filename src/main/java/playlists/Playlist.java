@@ -86,7 +86,7 @@ public class Playlist {
 		return StatusCode.NOT_IMPLEMENTED;
 	}
 	
-	private StatusCode renamePlaylist(String newName) {
+	public StatusCode renamePlaylist(String newName) {
 		if(newName == null) 
 			return StatusCode.INVALID_INPUT;
 		

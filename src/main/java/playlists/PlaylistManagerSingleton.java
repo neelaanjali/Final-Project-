@@ -176,7 +176,7 @@ public class PlaylistManagerSingleton {
        
     }
     
-    private StatusCode viewPlaylists()
+    public StatusCode viewPlaylists()
     {
     	System.out.println("Here are your playlists:");
     	if(playlistList.size() < 1)

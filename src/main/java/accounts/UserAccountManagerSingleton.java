@@ -6,8 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import com.google.common.io.Files;
 
 import program.Main;
 import program.StatusCode;
@@ -101,7 +104,7 @@ public class UserAccountManagerSingleton {
 	 * @author hargu
 	 * @return StatusCode.SUCCESS or StatusCode.NOT_FOUND or StatusCode.INVALID_INPUT
 	 */
-	private StatusCode login(String username, String password) {
+	public StatusCode login(String username, String password) {
 		if(username == null || password == null)
 		{
 			return StatusCode.INVALID_INPUT;
@@ -137,7 +140,7 @@ public class UserAccountManagerSingleton {
 	 * @author hargu
 	 * @return StatusCode.INVALID_INPUT or StatusCode.SUCCESS
 	 */
-	private StatusCode register(String username, String password) {	
+	public StatusCode register(String username, String password) {	
 		if (username == null || password == null)
 			return StatusCode.INVALID_INPUT;
 		
@@ -180,9 +183,9 @@ public class UserAccountManagerSingleton {
 	 * @author jxie26
 	 * @return boolean indicating success or failure
 	 */
-	private StatusCode writeToFile(String filePath) {
+	public StatusCode writeToFile(String filePath) {
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, false));
 			
 			//write header line
 			bw.write("Usernames,Passwords\n");
@@ -206,7 +209,7 @@ public class UserAccountManagerSingleton {
 	 * @author jxie26
 	 * @return boolean
 	 */
-	private StatusCode readFromFile(String filePath) {
+	public StatusCode readFromFile(String filePath) {
 		try {
 			//open the file
 			FileReader fr = new FileReader(filePath);

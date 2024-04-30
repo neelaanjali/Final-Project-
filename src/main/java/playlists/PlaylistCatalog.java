@@ -27,7 +27,7 @@ public class PlaylistCatalog {
 
 	}
 	
-	private StatusCode executeMenu(int selection) {
+	public StatusCode executeMenu(int selection) {
 		switch(selection) {
 		case 1:
 			return viewAllPlaylists();
@@ -94,7 +94,7 @@ public class PlaylistCatalog {
 		return StatusCode.NOT_FOUND;
 	}
 	
-	private StatusCode saveChanges(String authorName, ArrayList<Playlist> allPlaylists) {
+	public StatusCode saveChanges(String authorName, ArrayList<Playlist> allPlaylists) {
 		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
 		//set aside the contents in PlaylistManager
 		ArrayList<Playlist> tempStor = manager.playlistList;
@@ -121,7 +121,7 @@ public class PlaylistCatalog {
 		return StatusCode.NOT_IMPLEMENTED;
 	}
 	
-	private ArrayList<File> loadPlaylistFiles() {
+	public ArrayList<File> loadPlaylistFiles() {
 		//load .json files into an arraylist called files
 		ArrayList<File> files = new ArrayList<File>();
 		try {
@@ -134,7 +134,7 @@ public class PlaylistCatalog {
 		return files;
 	}
 	
-	private ArrayList<Playlist> deserializePlaylists(ArrayList<File> files) {
+	public ArrayList<Playlist> deserializePlaylists(ArrayList<File> files) {
 		Gson gson = new Gson();
 		ArrayList<Playlist> allPlaylists = new ArrayList<Playlist>();
 		
@@ -151,7 +151,7 @@ public class PlaylistCatalog {
 		return allPlaylists;
 	}
 	
-	private StatusCode viewAllPlaylists() {
+	public StatusCode viewAllPlaylists() {
 		ArrayList<File> files = loadPlaylistFiles();
 		ArrayList<Playlist> allPlaylists = deserializePlaylists(files);
 		
