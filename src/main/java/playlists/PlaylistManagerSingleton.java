@@ -199,12 +199,16 @@ public class PlaylistManagerSingleton {
             Playlist currentPlaylist = playlistList.get(i);
             String currentSongName = currentPlaylist.getSongs().isEmpty() ? "" : currentPlaylist.getSongs().get(0).getSongName();
             int j = i - 1;
-            while (j >= 0 && comparePlaylist(playlistList.get(j), currentSongName) > 0) {
+            while (j >= 0 && compare(playlistList.get(j), currentSongName) > 0) {
                 playlistList.set(j + 1, playlistList.get(j));
                 j--;
             }
             playlistList.set(j + 1, currentPlaylist);
         }
+    }
+    private int compare(Playlist playlist, String songName) {
+        String playlistSongName = playlist.getSongs().isEmpty() ? "" : playlist.getSongs().get(0).getSongName();
+        return playlistSongName.compareToIgnoreCase(songName);
     }
 
  
