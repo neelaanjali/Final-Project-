@@ -198,7 +198,7 @@ public class UserAccountManagerSingleton {
 			bw.close();
 			return StatusCode.SUCCESS;
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			e.printStackTrace();
 			return StatusCode.EXCEPTION;
 		}
@@ -257,7 +257,10 @@ public class UserAccountManagerSingleton {
 			return StatusCode.EXCEPTION;
 		}
 	}
-	  
+	
+	public static String getUseraccountsfile() {
+		return userAccountsFile;
+	}
 	
 	
 }
