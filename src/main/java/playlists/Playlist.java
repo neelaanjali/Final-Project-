@@ -156,35 +156,62 @@ public class Playlist {
 	public ArrayList<Song> getSongs() {
 		return songs;
 	}
-	public void setSongs(ArrayList<Song> songs) {
-		this.songs = songs;
+	
+	public StatusCode setSongs(ArrayList<Song> songs) {
+	    if (songs != null) {
+	        this.songs = songs;
+	        return StatusCode.SUCCESS;
+	    } else {
+	    	return StatusCode.INVALID_INPUT;
+	    }
 	}
+	
 	public String getAuthor() {
 		return author;
 	}
-	public void setAuthor(String author) {
-		this.author = author;
+	public StatusCode setAuthor(String author) {
+		if (author != null) {
+	        this.author = author;
+	        return StatusCode.SUCCESS;
+	    } else {
+	    	return StatusCode.INVALID_INPUT;
+	    }
 	}
 	public String getPlaylistName() {
 		return playlistName;
 	}
-	public void setPlaylistName(String playlistName) {
-		this.playlistName = playlistName;
+	public StatusCode setPlaylistName(String playlistName) {
+		if (playlistName != null) {
+	        this.playlistName = playlistName;
+	        return StatusCode.SUCCESS;
+	    } else {
+	    	return StatusCode.INVALID_INPUT;
+	    }
 	}
 
 	public int getSumOfRatings() {
 		return sumOfRatings;
 	}
 
-	public void setSumOfRatings(int sumOfRatings) {
-		this.sumOfRatings = sumOfRatings;
+	public StatusCode setSumOfRatings(int sumOfRatings) {
+		if (sumOfRatings >= 0) {
+	        this.sumOfRatings = sumOfRatings;
+	        return StatusCode.SUCCESS;
+	    } else {
+	    	return StatusCode.INVALID_INPUT;
+	    }
 	}
 
 	public int getNumOfRatings() {
 		return numOfRatings;
 	}
 
-	public void setNumOfRatings(int numOfRatings) {
-		this.numOfRatings = numOfRatings;
+	public StatusCode setNumOfRatings(int numOfRatings) {
+		if (numOfRatings >= 0) {
+	        this.numOfRatings = numOfRatings;
+	        return StatusCode.SUCCESS;
+	    } else {
+	    	return StatusCode.INVALID_INPUT;
+	    }
 	}
 }
