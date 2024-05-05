@@ -193,6 +193,20 @@ public class PlaylistManagerSingleton {
       
         return locatedSong;
     }
+    /*public static void testSearchSongsBySongName(PlaylistManagerSingleton playlistManager, String songName) {
+    System.out.println("Searching for song: " + songName);
+    ArrayList<Song> locatedSongs = playlistManager.searchSongsBySongName(songName);
+    if (!locatedSongs.isEmpty()) {
+        System.out.println("Located songs:");
+        for (Song song : locatedSongs) {
+            System.out.println(song.getSongName() + " by " + song.getArtistName());
+        }
+    } else {
+        System.out.println("No songs found matching the name '" + songName + "'.");
+    }
+    System.out.println();
+}
+*/
     
     public void sortPlaylistAlphabetically() {
         for (int i = 1; i < playlistList.size(); i++) {
