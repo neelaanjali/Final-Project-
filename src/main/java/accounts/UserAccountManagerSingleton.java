@@ -57,9 +57,11 @@ public class UserAccountManagerSingleton {
 		Scanner scanner = new Scanner(System.in);
 		while(true) 
 		{
+			System.out.println("DEBUG");
 			try 
 			{
 				userSelection = scanner.nextInt();
+				System.out.println("DEBUG: selection = " + userSelection);
 				if (userSelection < 1 || userSelection > 3)
 					throw new Exception();
 				break;
@@ -74,21 +76,18 @@ public class UserAccountManagerSingleton {
 		
 		switch (userSelection) {
 		case 1:
-			String[] loginInfo = getLoginInfo();
+			String[] loginInfo = getLoginInfo(scanner);
 			return login(loginInfo[0], loginInfo[1]);
 		case 2:
-			String[] registrationInfo = getLoginInfo();
+			String[] registrationInfo = getLoginInfo(scanner);
 			return this.register(registrationInfo[0], registrationInfo[1]);
-		case 3:
-			System.exit(0);
-			return StatusCode.SUCCESS;
+		default:
+			return StatusCode.EXIT;
 		}
-		return StatusCode.FAILURE;
 	}
 	
-	private String[] getLoginInfo()
+	public String[] getLoginInfo(Scanner scanner)
 	{
-		Scanner scanner = new Scanner(System.in);
 		String[] loginInfo = new String[2];
 		
 		System.out.print("Please enter your username: ");
@@ -185,7 +184,11 @@ public class UserAccountManagerSingleton {
 	 */
 	public StatusCode writeToFile(String filePath) {
 		try {
-			BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, false));
+			FileWriter fw = new FileWriter(filePath);
+			BufferedWriter bw = new BufferedWriter(fw);
+			
+			//clear contents
+			bw.write("");
 			
 			//write header line
 			bw.write("Usernames,Passwords\n");
@@ -224,11 +227,6 @@ public class UserAccountManagerSingleton {
 			unsplitLine = br.readLine();
 			while(unsplitLine != null) {
 				line = unsplitLine.split(",");
-				
-				//check that line was correctly split into 2 parts (username & pw)
-				if(line.length != 2) {
-					break;
-				}
 				
 				//read each line into usernames and passwords ArrayLists
 				String username = line[0].trim();

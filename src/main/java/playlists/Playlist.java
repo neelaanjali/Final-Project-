@@ -119,7 +119,7 @@ public class Playlist {
 		return StatusCode.SUCCESS;
 	}
 	
-	private String askSongName() {
+	public String askSongName() {
 		Scanner scanner = new Scanner(System.in);
 		
 		System.out.println("Enter the song name: ");

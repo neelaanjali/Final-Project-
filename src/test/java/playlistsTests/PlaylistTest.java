@@ -1,7 +1,10 @@
 package playlistsTests;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -109,5 +112,28 @@ public class PlaylistTest {
 			new Object[]{0, StatusCode.SUCCESS},
 			new Object[]{-1, StatusCode.INVALID_INPUT}
 		);
+	}
+	
+	@Test
+	public void testAskSongName() {
+		String input = "Song\n";
+		InputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+		
+		String result = playlist.askSongName();
+		
+		assertTrue("Song".equals(result));
+		System.setIn(System.in);
+	}
+	
+	@Test
+	public void testEditPlaylist_DoneOption() {
+		//passing 0 first, to test invalid input as well
+		String input = "0\n" + "6\n";
+		InputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+		
+		assertEquals(StatusCode.SUCCESS, playlist.editPlaylist());
+		System.setIn(System.in);
 	}
 }
