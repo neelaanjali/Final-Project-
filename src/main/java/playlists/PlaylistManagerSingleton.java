@@ -422,8 +422,7 @@ public class PlaylistManagerSingleton {
 		case 7:
 			return PlaylistCatalog.printMenu();
 		case 8:
-			System.exit(0);
-			return StatusCode.SUCCESS;
+			return StatusCode.EXIT;
 		default:
 			return StatusCode.INVALID_INPUT;
 		}

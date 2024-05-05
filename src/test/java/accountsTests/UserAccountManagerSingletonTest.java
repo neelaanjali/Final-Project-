@@ -1,17 +1,21 @@
 package accountsTests;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +33,7 @@ public class UserAccountManagerSingletonTest {
 	
 	@Test
 	public void testLoginWithValidCreditials() {
-		assertEquals(StatusCode.SUCCESS, manager.login("test", "Test1234"));
+	assertEquals(StatusCode.SUCCESS, manager.login("test", "Test1234"));
 	}
 	
 	@Test
@@ -79,7 +83,7 @@ public class UserAccountManagerSingletonTest {
 		// load the contents back into the file
 		BufferedWriter bw = new BufferedWriter(new FileWriter(UserAccountManagerSingleton.getUseraccountsfile()));
 		for (String fileLine : fileContents) {
-			bw.write(fileLine);
+			bw.write(fileLine + "\n");
 		}
 
 		bw.close();
@@ -111,5 +115,52 @@ public class UserAccountManagerSingletonTest {
 	@Test
 	public void testWriteToFileWithNull() {
 		assertEquals(StatusCode.EXCEPTION, manager.writeToFile(null));
+	}
+
+	@Test
+	public void testWelcome_ExitOption() {
+		String input = "0\n" + "3\n";
+		InputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+		assertEquals(StatusCode.EXIT, manager.welcome());
+		System.setIn(System.in);
+	}
+
+	@Test
+	public void testWelcome_LoginOption() {
+		String input = "1\n" + "thisusernameisfake\n" + "12345678\n";
+		InputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+		
+		StatusCode result = manager.welcome();
+						
+		assertEquals(StatusCode.NOT_FOUND, result);
+		System.setIn(System.in);
+	}
+	
+	@Test
+	public void testWelcome_RegisterOption() {
+		String input = "2\n" + "test\n" + "123\n";
+		InputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+		
+		StatusCode result = manager.welcome();
+		assertEquals(StatusCode.INVALID_INPUT, result);
+		
+		System.setIn(System.in);
+	}
+	
+	@Test
+	public void testGetLoginInfo() {
+		String input = "name\n" + "password\n";
+		InputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+		
+		String[] expected = {"name", "password"};
+		String[] result = manager.getLoginInfo(new Scanner(System.in));
+		
+		System.setIn(System.in);
+		
+		assertArrayEquals(expected, result);
 	}
 }

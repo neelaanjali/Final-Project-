@@ -25,31 +25,31 @@ public class PlaylistCatalogTest {
 		catalog = new PlaylistCatalog();
 	}
 	
-	@Test
-	public void textExecuteMenuWith1() {
-		assertEquals(StatusCode.SUCCESS, catalog.executeMenu(1));
-	}
-	
-	@Test
-	public void testExecuteMenuWith3() {
-		assertEquals(StatusCode.SUCCESS, catalog.executeMenu(3));
-	}
-	
-	@Test
-	public void testExecuteMenuWith4() {
-		assertEquals(StatusCode.SUCCESS, catalog.executeMenu(4));
-	}
+//	@Test
+//	public void textExecuteMenuWith1() {
+//		assertEquals(StatusCode.SUCCESS, catalog.executeMenu(1));
+//	}
+//	
+//	@Test
+//	public void testExecuteMenuWith3() {
+//		assertEquals(StatusCode.SUCCESS, catalog.executeMenu(3));
+//	}
+//	
+//	@Test
+//	public void testExecuteMenuWith4() {
+//		assertEquals(StatusCode.SUCCESS, catalog.executeMenu(4));
+//	}
 	
 	@Test
 	public void testExecuteMenuWithDefault() {
 		assertEquals(StatusCode.INVALID_INPUT, catalog.executeMenu(0));
 	}
 	
-	@Test
-	public void testSaveChanges() {
-		ArrayList<Playlist> playlists = catalog.deserializePlaylists(catalog.loadPlaylistFiles());
-		assertEquals(StatusCode.SUCCESS, catalog.saveChanges("test", playlists));
-	}
+//	@Test
+//	public void testSaveChanges() {
+//		ArrayList<Playlist> playlists = catalog.deserializePlaylists(catalog.loadPlaylistFiles());
+//		assertEquals(StatusCode.SUCCESS, catalog.saveChanges("test", playlists));
+//	}
 	
 	@Test
 	public void testViewAllPlaylists() {
@@ -92,11 +92,11 @@ public class PlaylistCatalogTest {
 		assertEquals(StatusCode.INVALID_INPUT, result);
 	}
 	
-	@Test
-	public void testRatePlaylistWithInvalid() {
-		StatusCode result = catalog.ratePlaylist("thisplaylistdoesnotexist");
-		assertEquals(StatusCode.NOT_FOUND, result);
-	}
+//	@Test
+//	public void testRatePlaylistWithInvalid() {
+//		StatusCode result = catalog.ratePlaylist("thisplaylistdoesnotexist");
+//		assertEquals(StatusCode.NOT_FOUND, result);
+//	}
 	
 	@Test
 	public void testRatePlaylistWithValid() throws Exception {

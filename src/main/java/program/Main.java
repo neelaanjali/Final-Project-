@@ -84,6 +84,9 @@ public class Main {
 			case NOT_IMPLEMENTED:
 				System.out.println("Sorry, this feature has not yet been implemented.");
 				continue;
+			case EXIT:
+				System.exit(0);
+				break;
 			}
 		}
 	}
