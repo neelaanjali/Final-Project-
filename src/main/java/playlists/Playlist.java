@@ -79,8 +79,28 @@ public class Playlist {
 	}
 	
 	private StatusCode sortPlaylistByName() {
-		return StatusCode.NOT_IMPLEMENTED;
-	}
+		//use a simple bubble sort to sort the Songs by the artist name
+		ArrayList<Song> songs = new ArrayList<Song>(this.getSongs());
+		int n = songs.size();
+		boolean swapped;
+		
+		do {
+			swapped = false;
+			for (int i = 1; i < n; i++) {
+				if (songs.get(i - 1).getArtistName().compareTo(songs.get(i).getArtistName()) > 0)
+				{
+					//swap songs at [i-1] and [i]
+					Song temp = new Song(songs.get(i-1));
+					songs.set(i-1, songs.get(i));
+					songs.set(i, temp);
+					swapped = true;
+				}
+			}
+			n--;
+		} while(swapped);
+		
+		return StatusCode.SUCCESS;
+	}  
 	
 	private StatusCode sortPlaylistByLength() {
 		return StatusCode.NOT_IMPLEMENTED;

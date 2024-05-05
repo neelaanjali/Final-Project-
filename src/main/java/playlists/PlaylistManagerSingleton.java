@@ -127,7 +127,7 @@ public class PlaylistManagerSingleton {
     			System.out.println("Number of Songs: " + playlist.getSongs().size());
     			
     			for (Song song : playlist.getSongs()) {
-    				System.out.println(" * " + song.getSongName() + " - " + song.getArtistName());
+    				System.out.println(" * " + song.toString());
     			}
     			System.out.println("---------------------------");
     			System.out.println();
@@ -186,44 +186,49 @@ public class PlaylistManagerSingleton {
         return StatusCode.NOT_FOUND;
        
     }
-    
+        
     public ArrayList<Song> searchSongsBySongName(String songName) {
-        ArrayList<Song> locatedSong = new ArrayList<>();
+        ArrayList<Song> locatedSongs = new ArrayList<>();
         for (Playlist playlist : playlistList) {
             for (Song song : playlist.getSongs()) {
                 if (song.getSongName().equalsIgnoreCase(songName)) {
-                    locatedSong.add(song);
+                    locatedSongs.add(song);
                 }
             }
         }
-        if (!locatedSong.isEmpty()) {
+        if (!locatedSongs.isEmpty()) {
             System.out.println("Search for song '" + songName + "' was successful.");
         } else {
             System.out.println("No songs found matching the name '" + songName + "'.");
         }
       
-        return locatedSong;
+        return locatedSongs;
     }
     
-    public void sortPlaylistAlphabetically() {
-        for (int i = 1; i < playlistList.size(); i++) {
-            Playlist currentPlaylist = playlistList.get(i);
-            String currentSongName = currentPlaylist.getSongs().isEmpty() ? "" : currentPlaylist.getSongs().get(0).getSongName();
-            int j = i - 1;
-            while (j >= 0 && compare(playlistList.get(j), currentSongName) > 0) {
-                playlistList.set(j + 1, playlistList.get(j));
-                j--;
-            }
-            playlistList.set(j + 1, currentPlaylist);
-        }
-    }
-    private int compare(Playlist playlist, String songName) {
-        String playlistSongName = playlist.getSongs().isEmpty() ? "" : playlist.getSongs().get(0).getSongName();
-        return playlistSongName.compareToIgnoreCase(songName);
-    }
+    //moved to the correct class. here for reference.
+    //also had to change the logic bc it was not working
+    ///////////////////////////////////////////////////////////////////////////////
+//    
+//    public void sortPlaylistAlphabetically() {
+//        for (int i = 1; i < playlistList.size(); i++) {
+//            Playlist currentPlaylist = playlistList.get(i);
+//            String currentSongName = currentPlaylist.getSongs().isEmpty() ? "" : currentPlaylist.getSongs().get(0).getSongName();
+//            int j = i - 1;
+//            while (j >= 0 && compare(playlistList.get(j), currentSongName) > 0) {
+//                playlistList.set(j + 1, playlistList.get(j));
+//                j--;
+//            }
+//            playlistList.set(j + 1, currentPlaylist);
+//        }
+//    }
+//    
+//    private int compare(Playlist playlist, String songName) {
+//        String playlistSongName = playlist.getSongs().isEmpty() ? "" : playlist.getSongs().get(0).getSongName();
+//        return playlistSongName.compareToIgnoreCase(songName);
+//    }
+//    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
- 
-    
     
     public StatusCode viewPlaylists()
     {
@@ -264,7 +269,16 @@ public class PlaylistManagerSingleton {
 		
 		switch(userSelection) {
 		case 1:
-			return searchByName();
+			String songName = searchByName();
+			ArrayList<Song> songNames = searchSongsBySongName(songName);
+			
+			for(Song song : songNames) {
+				System.out.println(song.toString());
+			}
+			
+			if (songNames.isEmpty()) return StatusCode.NOT_FOUND;
+			else return StatusCode.SUCCESS;
+			
 		case 2:
 			return searchByAuthor();
 		case 3:
@@ -274,8 +288,20 @@ public class PlaylistManagerSingleton {
 		}
     }
     
-    private StatusCode searchByName() {
-    	return StatusCode.NOT_IMPLEMENTED;
+    private String searchByName() {
+    	System.out.println("Enter the name of the song you would like to search:");
+    	Scanner scanner = new Scanner(System.in);
+    	String songName;
+    	
+    	try {
+    		songName = scanner.nextLine();
+    	}
+    	catch (Exception e){
+    		e.printStackTrace();
+    		return null;
+    	}
+    	
+    	return songName;
     }
     
     private StatusCode searchByAuthor() {
