@@ -19,10 +19,10 @@ import java.util.ArrayList;
 public class PlaylistManagerSingleton {
 	
 	private static PlaylistManagerSingleton instance;
-	public ArrayList<Playlist> playlistList;
+	public static ArrayList<Playlist> playlistList;
 	
 	public PlaylistManagerSingleton() {
-		this.playlistList = new ArrayList<Playlist>();
+		playlistList = new ArrayList<Playlist>();
 	}
 	  
 	
@@ -60,8 +60,9 @@ public class PlaylistManagerSingleton {
     	}
     }
     
-    /*package*/ StatusCode writeToFile(String filePath) {
+    public StatusCode writeToFile(String filePath) {
     	Gson gson = new Gson();
+    	System.out.println("DEBUG: playlistList = " + playlistList);
     	String json = gson.toJson(playlistList);
     	
     	try {
@@ -109,7 +110,17 @@ public class PlaylistManagerSingleton {
     			
     			Integer totalMinutes = totalSeconds / 60;
     			Integer seconds = totalSeconds % 60;
-    			String totalTime = totalMinutes.toString() + ":" + seconds.toString();
+    			
+    			//if seconds is less than 10 seconds, append a 0 to the front
+    			String sec = "";
+    			if(seconds < 10) {
+    				sec = "0" + seconds.toString();
+    			}
+    			else {
+    				sec = seconds.toString();
+    			}
+    			
+    			String totalTime = totalMinutes.toString() + ":" + sec;
     			
     			System.out.println("Total Length: " + totalTime);
     			System.out.println("Rating: " + String.format("%.2f", ((double)playlist.getSumOfRatings())/playlist.getNumOfRatings()) + "/5");
@@ -327,7 +338,6 @@ public class PlaylistManagerSingleton {
 		case 7:
 			return PlaylistCatalog.printMenu();
 		case 8:
-			writeToFile(Main.username + ".json");
 			System.exit(0);
 			return StatusCode.SUCCESS;
 		default:

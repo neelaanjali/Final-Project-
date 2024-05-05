@@ -48,7 +48,13 @@ public class Main {
 		
 		//load in the users playlists
 		StatusCode result = playlistManager.readFromFile(username + ".json");
-		if (result != StatusCode.SUCCESS)
+		if(result == StatusCode.NOT_FOUND)
+		{
+			//create a new file for the user
+			playlistManager.writeToFile(username + ".json");
+			playlistManager.readFromFile(username + ".json");
+		}
+		else if (result == StatusCode.EXCEPTION)
 		{
 			System.out.println("Sorry, an error occurred while loading your playlists.");
 			System.exit(1);

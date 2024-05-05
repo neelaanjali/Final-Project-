@@ -13,7 +13,7 @@ import com.google.gson.reflect.TypeToken;
 
 import program.StatusCode;
 
-// this class will hold the logic for viewing other users' playlists
+// this class will hold the logic for interacting with other users' playlists
 // sort of like a social menu
 public class PlaylistCatalog {
 	public static StatusCode printMenu() {
@@ -42,7 +42,7 @@ public class PlaylistCatalog {
 		}
 	}
 	
-	private int getMenuSelection() {
+	public int getMenuSelection() {
 		int userSelection = -1;
 		Scanner scanner = new Scanner(System.in);
 		try 
@@ -61,7 +61,7 @@ public class PlaylistCatalog {
 		return userSelection;
 	}
 	
-	private StatusCode ratePlaylist(String playlistName) {
+	public StatusCode ratePlaylist(String playlistName) {
 		if(playlistName == null) { return StatusCode.INVALID_INPUT; }
 		
 		ArrayList<Playlist> playlists = deserializePlaylists(loadPlaylistFiles());
@@ -88,7 +88,10 @@ public class PlaylistCatalog {
 				playlist.setSumOfRatings(playlist.getSumOfRatings() + userRating);
 				
 				// save changes
-				return saveChanges(playlist.getAuthor(), playlists);
+				ArrayList<Playlist> tempStore = new ArrayList<Playlist>(PlaylistManagerSingleton.playlistList);
+				StatusCode result = saveChanges(playlist.getAuthor(), playlists);
+				PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>(tempStore);
+				return result;
 			}
 		}
 		return StatusCode.NOT_FOUND;
@@ -96,8 +99,6 @@ public class PlaylistCatalog {
 	
 	public StatusCode saveChanges(String authorName, ArrayList<Playlist> allPlaylists) {
 		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
-		//set aside the contents in PlaylistManager
-		ArrayList<Playlist> tempStor = manager.playlistList;
 		manager.playlistList.clear();
 		
 		//add the playlists created by this author
@@ -107,7 +108,6 @@ public class PlaylistCatalog {
 		}
 		
 		StatusCode opResult = manager.writeToFile(authorName + ".json");
-		manager.playlistList = tempStor;
 		
 		if(opResult != StatusCode.SUCCESS) return opResult;
 		return StatusCode.SUCCESS;
@@ -130,7 +130,7 @@ public class PlaylistCatalog {
 				if(file.getName().contains(".json"))
 					files.add(file);
 			}
-		} catch (Exception e) { return null; }
+		} catch (Exception e) { e.printStackTrace(); return null; }
 		return files;
 	}
 	
@@ -157,16 +157,16 @@ public class PlaylistCatalog {
 		
 		//set aside what is currently stored in PlaylistManagerSingleton
 		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
-		ArrayList<Playlist> tempStor = manager.playlistList;
+		ArrayList<Playlist> tempStor = new ArrayList<Playlist>(PlaylistManagerSingleton.playlistList);
 		
-		manager.playlistList = allPlaylists;
-		
-		for(Playlist playlist : manager.playlistList)
+		PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>(allPlaylists);
+				
+		for(Playlist playlist : PlaylistManagerSingleton.playlistList)
 		{
 			manager.displayStats(playlist.getPlaylistName());
 		}
 
-		manager.playlistList = tempStor;
+		PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>(tempStor);
 		return StatusCode.SUCCESS;
 	}
 	
