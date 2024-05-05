@@ -13,6 +13,12 @@ public class Song {
 			this.length = length;
 		}
 	
+		public Song(Song song) {
+			this.songName = song.songName;
+			this.artistName = song.songName;
+			this.length = song.length;
+		}
+
 		public String getSongName() {
 			return songName;
 		}
@@ -30,6 +36,24 @@ public class Song {
 		}
 		public void setLength(int length) {
 			this.length = length;
+		}
+		
+		@Override
+		public String toString() {
+			Integer totalMinutes = length / 60;
+			Integer seconds = length % 60;
+			
+			//if seconds is less than 10 seconds, append a 0 to the front
+			String sec = "";
+			if(seconds < 10) {
+				sec = "0" + seconds.toString();
+			}
+			else {
+				sec = seconds.toString();
+			}
+			
+			String totalTime = totalMinutes.toString() + ":" + sec;
+			return songName + " - " + artistName + " " + totalTime;
 		}
 
 }
