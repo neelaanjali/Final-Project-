@@ -279,7 +279,12 @@ public class PlaylistManagerSingleton {
 			else return StatusCode.SUCCESS;
 			
 		case 2:
-			return searchByArtist();
+			ArrayList<Song> songs = searchByArtist();
+			for (Song song : songs) {
+				System.out.println(song.toString());
+			}
+			if (songs.isEmpty()) return StatusCode.NOT_FOUND;
+			else return StatusCode.SUCCESS;
 		case 3:
 			return searchByLength();
 		default:
@@ -303,13 +308,13 @@ public class PlaylistManagerSingleton {
     	return songName;
     }
     
-    private StatusCode searchByArtist() {
+    private ArrayList<Song> searchByArtist() {
     	System.out.println("Enter the full name of the artist to see their songs: ");
     	Scanner scanner = new Scanner(System.in);
     	String artist;
+		ArrayList<Song> foundSongs = new ArrayList<>();
     	try {
     		artist = scanner.nextLine();
-    		ArrayList<Song> foundSongs = new ArrayList<>();
             for (Playlist playlist : playlistList) {
                 for (Song song : playlist.getSongs()) {
                     if (song.getArtistName().equalsIgnoreCase(artist)) {
@@ -318,24 +323,51 @@ public class PlaylistManagerSingleton {
                 }
             }
             if (!foundSongs.isEmpty()) {
-                System.out.println("Songs found in your playlist by " + artist + "':");
+                System.out.println(foundSongs.size() + " song(s) found in your playlists by '" + artist + "':");   
+            } 
+            else {
+                System.out.println("No songs were found by the artist '" + artist + "'.");
+            }
+    	}
+    	catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return foundSongs;
+    }
+    
+    private StatusCode searchByLength() {
+    	System.out.println("Enter the length (MM:SS) of the song you'd like to search for: ");
+    	Scanner scanner = new Scanner(System.in);
+    	String length = scanner.nextLine();
+    	
+    	try {
+    		String[] time = length.split(":");
+            int seconds = (Integer.parseInt(time[0]) * 60) + Integer.parseInt(time[1]);
+            
+    		ArrayList<Song> foundSongs = new ArrayList<>();
+            for (Playlist playlist : playlistList) {
+                for (Song song : playlist.getSongs()) {
+                    if (song.getLength() == seconds) {
+                        foundSongs.add(song);
+                    }
+                }
+            }
+            if (!foundSongs.isEmpty()) {
+                System.out.println(foundSongs.size() + " song(s) found in your playlist of length " + length + ".");
                 for (Song song : foundSongs) {
                 	System.out.println(song.toString());
                 }
             } else {
-                System.out.println("No songs were found by the artist '" + artist + "'.");
+                System.out.println("No songs of length " + length + " were found.");
+                return StatusCode.NOT_FOUND;
             }
-            scanner.close();
             return StatusCode.SUCCESS;
     	}
     	catch (Exception e) {
     		e.printStackTrace();
     		return StatusCode.EXCEPTION;
     	}
-    }
-    
-    private StatusCode searchByLength() {
-    	return StatusCode.NOT_IMPLEMENTED;
     }
     
     /**
