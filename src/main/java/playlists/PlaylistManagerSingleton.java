@@ -247,7 +247,7 @@ public class PlaylistManagerSingleton {
     private StatusCode searchSongs() {
     	System.out.println("Search by...");
     	System.out.println("1 - Song Name");
-    	System.out.println("2 - Author Name");
+    	System.out.println("2 - Artist Name");
     	System.out.println("3 - Song Length");
     	
     	int userSelection = -1;
@@ -279,7 +279,7 @@ public class PlaylistManagerSingleton {
 			else return StatusCode.SUCCESS;
 			
 		case 2:
-			return searchByAuthor();
+			return searchByArtist();
 		case 3:
 			return searchByLength();
 		default:
@@ -303,8 +303,35 @@ public class PlaylistManagerSingleton {
     	return songName;
     }
     
-    private StatusCode searchByAuthor() {
-    	return StatusCode.NOT_IMPLEMENTED;
+    private StatusCode searchByArtist() {
+    	System.out.println("Enter the full name of the artist to see their songs: ");
+    	Scanner scanner = new Scanner(System.in);
+    	String artist;
+    	try {
+    		artist = scanner.nextLine();
+    		ArrayList<Song> foundSongs = new ArrayList<>();
+            for (Playlist playlist : playlistList) {
+                for (Song song : playlist.getSongs()) {
+                    if (song.getArtistName().equalsIgnoreCase(artist)) {
+                        foundSongs.add(song);
+                    }
+                }
+            }
+            if (!foundSongs.isEmpty()) {
+                System.out.println("Songs found in your playlist by " + artist + "':");
+                for (Song song : foundSongs) {
+                	System.out.println(song.toString());
+                }
+            } else {
+                System.out.println("No songs were found by the artist '" + artist + "'.");
+            }
+            scanner.close();
+            return StatusCode.SUCCESS;
+    	}
+    	catch (Exception e) {
+    		e.printStackTrace();
+    		return StatusCode.EXCEPTION;
+    	}
     }
     
     private StatusCode searchByLength() {
