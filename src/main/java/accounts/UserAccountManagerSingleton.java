@@ -6,7 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -174,8 +177,30 @@ public class UserAccountManagerSingleton {
 	 * @return the hashed password
 	 */
 	private String hashPassword(String unhashed) {
-		return unhashed;
-	}
+		
+	      try {
+	            // Create MessageDigest instance for SHA-256
+	            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+	            // Apply SHA-256 hashing
+	            byte[] hashBytes = digest.digest(unhashed.getBytes(StandardCharsets.UTF_8));
+
+	            // Convert byte array to hexadecimal string
+	            StringBuilder hexString = new StringBuilder();
+	            for (byte hashByte : hashBytes) {
+	                String hex = Integer.toHexString(0xff & hashByte);
+	                if (hex.length() == 1) hexString.append('0');
+	                hexString.append(hex);
+	            }
+	            return hexString.toString();
+	        } catch (NoSuchAlgorithmException e) {
+	            // Handle NoSuchAlgorithmException
+	            e.printStackTrace();
+	            return null; // or throw an exception
+	        }
+	    }
+	
+
 	
 	/**
 	 * Store the changes made to user accounts
@@ -259,6 +284,7 @@ public class UserAccountManagerSingleton {
 	public static String getUseraccountsfile() {
 		return userAccountsFile;
 	}
+
 	
 	
 }
