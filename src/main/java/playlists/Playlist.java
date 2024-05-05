@@ -80,14 +80,14 @@ public class Playlist {
 	
 	private StatusCode sortPlaylistByName() {
 		//use a simple bubble sort to sort the Songs by the artist name
-		ArrayList<Song> songs = new ArrayList<Song>(this.getSongs());
+		ArrayList<Song> songs = new ArrayList<Song>(this.songs);
 		int n = songs.size();
 		boolean swapped;
 		
 		do {
 			swapped = false;
 			for (int i = 1; i < n; i++) {
-				if (songs.get(i - 1).getArtistName().compareTo(songs.get(i).getArtistName()) > 0)
+				if (songs.get(i - 1).getSongName().compareTo(songs.get(i).getSongName()) > 0)
 				{
 					//swap songs at [i-1] and [i]
 					Song temp = new Song(songs.get(i-1));
@@ -98,6 +98,11 @@ public class Playlist {
 			}
 			n--;
 		} while(swapped);
+		
+		//store the sorted ArrayList
+		this.songs = new ArrayList<Song>(songs);
+		
+		System.out.println("Your playlist has been sorted!");
 		
 		return StatusCode.SUCCESS;
 	}  

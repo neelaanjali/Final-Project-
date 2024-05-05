@@ -62,7 +62,6 @@ public class PlaylistManagerSingleton {
     
     public StatusCode writeToFile(String filePath) {
     	Gson gson = new Gson();
-    	System.out.println("DEBUG: playlistList = " + playlistList);
     	String json = gson.toJson(playlistList);
     	
     	try {
@@ -179,12 +178,12 @@ public class PlaylistManagerSingleton {
     	
     	for(Playlist playlist : playlistList) {
     		if(playlist.getPlaylistName().equals(playlistName)) {
-    			return playlist.editPlaylist();
+    			StatusCode result = playlist.editPlaylist();
+    			writeToFile(Main.username + ".json");
+    			return result;
     		}
-    	}
-    		
+    	}	
         return StatusCode.NOT_FOUND;
-       
     }
         
     public ArrayList<Song> searchSongsBySongName(String songName) {
