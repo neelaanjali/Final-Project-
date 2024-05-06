@@ -151,7 +151,7 @@ public class Playlist {
 	 * @author riannaellis
 	 * @return INVALID_INPUT or SUCCESS
 	 */
-	private StatusCode addSong(String songName) {
+	public StatusCode addSong(String songName) {
 		if(songName == null)
 			return StatusCode.INVALID_INPUT;
 		
@@ -183,7 +183,7 @@ public class Playlist {
 	 * @author riannaellis
 	 * @return INVALID_INPUT or SUCCESS
 	 */
-	private StatusCode removeSong(String songName) {
+	public StatusCode removeSong(String songName) {
 		if(songName == null)
 			return StatusCode.INVALID_INPUT;
 		

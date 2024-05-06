@@ -90,7 +90,7 @@ public class PlaylistManagerSingleton {
     	return playlistName;
     }
     
-    /*package*/ StatusCode displayStats(String playlistName) {  	
+    /*package*/ public StatusCode displayStats(String playlistName) {  	
     	if (playlistName == null)
     		return StatusCode.INVALID_INPUT;
     	

@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 
 import playlists.Playlist;
 import playlists.PlaylistManagerSingleton;
+import playlists.Song;
 import program.StatusCode;
 
 public class PlaylistManagerSingletonTest {
@@ -30,6 +31,17 @@ public class PlaylistManagerSingletonTest {
 	@BeforeEach
 	private void setUp() {
 		manager = PlaylistManagerSingleton.getInstance();
+		
+		Song song1 = new Song("ABC", "Michael Jackson", 60);
+		Song song2 = new Song("Twinkle, Twinkle", "Mozart", 120);
+		Song song3 = new Song("Hot Cross Buns", "Ariana Grande", 30);
+		
+		ArrayList<Song> testerSongs = new ArrayList<Song>();
+		testerSongs.add(song1);
+		testerSongs.add(song2);
+		testerSongs.add(song3);
+		
+		Playlist playlist = new Playlist("testAuthor", "testPlaylist", testerSongs);	
 	}
 	
 	@Test
@@ -63,6 +75,20 @@ public class PlaylistManagerSingletonTest {
 		return Stream.of(
 			new Object[]{"test.json", StatusCode.SUCCESS},
 			new Object[]{"/path/to/nonexistent/test.json", StatusCode.EXCEPTION}
+		);
+	}
+	
+	@ParameterizedTest
+	@MethodSource("providePlaylistForDisplayStats")
+	public void testDisplayStats(String playlistName, StatusCode expected) {
+		assertEquals(expected, manager.displayStats(playlistName));
+	}
+	
+	public static Stream<Object[]> providePlaylistForDisplayStats() {
+		
+		return Stream.of(
+			new Object[]{"testPlaylist", StatusCode.SUCCESS},
+			new Object[]{"fakePlaylist", StatusCode.NOT_FOUND}
 		);
 	}
 }
