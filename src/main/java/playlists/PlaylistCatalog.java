@@ -120,10 +120,6 @@ public class PlaylistCatalog {
 		ArrayList<Playlist> allPlaylists = deserializePlaylists(files);
 		
 		System.out.println("Current Top 5 Playlists based on Average Ratings: ");
-		if (allPlaylists == null) {
-			System.out.println("There are currently no playlists to view.");
-			return StatusCode.NOT_FOUND;
-		}
 		
 		ArrayList<Playlist> sorted = sortPlaylistsByRating(allPlaylists);
 		for (int i=0; i<Math.min(5,  sorted.size()); i++) {

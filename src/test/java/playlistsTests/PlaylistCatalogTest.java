@@ -119,22 +119,8 @@ public class PlaylistCatalogTest {
 	}
 	
 	@Test
-	void testViewTopPlaylistsWithFive() {
-		ArrayList<Playlist> allPlaylists = new ArrayList<>();
-		allPlaylists.add(new Playlist("author1", "Playlist1", new ArrayList<>()));
-		allPlaylists.add(new Playlist("author2", "Playlist2", new ArrayList<>()));
-		allPlaylists.add(new Playlist("author3", "Playlist3", new ArrayList<>()));
-		allPlaylists.add(new Playlist("author4", "Playlist4", new ArrayList<>()));
-		allPlaylists.add(new Playlist("author5", "Playlist5", new ArrayList<>()));
-
+	void testViewTopPlaylists() {
 		StatusCode result = catalog.viewTopPlaylists();
 		assertEquals(StatusCode.SUCCESS, result);
-	}
-	
-	@Test
-	void testViewTopPlaylistsWithNull() {
-		ArrayList<Playlist> playlists = null;
-		StatusCode result = catalog.viewTopPlaylists();
-		assertEquals(StatusCode.NOT_FOUND, result);
 	}
 }
