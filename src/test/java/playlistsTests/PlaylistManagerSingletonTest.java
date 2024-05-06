@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import playlists.Playlist;
 import playlists.PlaylistManagerSingleton;
 import playlists.Song;
+import program.Main;
 import program.StatusCode;
 
 public class PlaylistManagerSingletonTest {
@@ -83,14 +84,46 @@ public class PlaylistManagerSingletonTest {
 	@ParameterizedTest
 	@MethodSource("providePlaylistForDisplayStats")
 	public void testDisplayStats(String playlistName, StatusCode expected) {
-		manager.readFromFile("test.json");
+		manager.readFromFile("myusername.json");
 		assertEquals(expected, manager.displayStats(playlistName));
 	}
 	
 	public static Stream<Object[]> providePlaylistForDisplayStats() {
 		
 		return Stream.of(
-			new Object[]{"The Best Playlist", StatusCode.SUCCESS},
+			new Object[]{"myplaylist", StatusCode.SUCCESS},
+			new Object[]{"fakePlaylist", StatusCode.NOT_FOUND},
+			new Object[]{null, StatusCode.INVALID_INPUT}
+		);
+	}
+	
+	@ParameterizedTest
+	@MethodSource("provideStringForAddNewPlaylist")
+	public void testAddNewPlaylist(String playlistName, StatusCode expected) {
+		
+		manager.readFromFile("myusername.json");
+		assertEquals(expected, manager.addNewPlaylist(playlistName));
+	}
+	
+	public static Stream<Object[]> provideStringForAddNewPlaylist() {
+		
+		return Stream.of(
+			new Object[]{"newPlaylist", StatusCode.SUCCESS},
+			new Object[]{null, StatusCode.INVALID_INPUT}
+		);
+	}
+	
+	@ParameterizedTest
+	@MethodSource("provideStringForEditPlaylist")
+	public void testEditPlaylist(String playlistName, StatusCode expected) {
+		manager.readFromFile("myusername.json");
+		assertEquals(expected, manager.editPlaylist(playlistName));
+	}
+	
+	public static Stream<Object[]> provideStringForEditPlaylist() {
+		
+		return Stream.of(
+			new Object[]{"myplaylist", StatusCode.SUCCESS},
 			new Object[]{"fakePlaylist", StatusCode.NOT_FOUND},
 			new Object[]{null, StatusCode.INVALID_INPUT}
 		);
