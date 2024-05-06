@@ -33,6 +33,11 @@ public class Main {
 			{
 				System.out.println("The information you entered is invalid.");
 			}
+			else if(result == StatusCode.EXIT)
+			{
+				System.out.println("Thank you for using the playlist manager!");
+				System.exit(0);
+			}
 			else
 			{
 				// user did not get logged in

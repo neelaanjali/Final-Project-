@@ -58,15 +58,18 @@ public class UserAccountManagerSingleton {
 		System.out.println("Please select an option: ");
 		
 		//process the user's selection
+		System.setIn(System.in);
 		int userSelection = 0;
 		Scanner scanner = new Scanner(System.in);
 		while(true) 
 		{
-			System.out.println("DEBUG");
 			try 
 			{
 				userSelection = scanner.nextInt();
-				System.out.println("DEBUG: selection = " + userSelection);
+				
+				//consume newline character
+				scanner.nextLine();
+				
 				if (userSelection < 1 || userSelection > 3)
 					throw new Exception();
 				break;
@@ -92,7 +95,7 @@ public class UserAccountManagerSingleton {
 	}
 	
 	public String[] getLoginInfo(Scanner scanner)
-	{
+	{		
 		String[] loginInfo = new String[2];
 		
 		System.out.print("Please enter your username: ");

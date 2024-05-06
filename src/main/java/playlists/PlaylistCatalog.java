@@ -168,7 +168,11 @@ public class PlaylistCatalog {
 		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
 		ArrayList<Playlist> tempStor = new ArrayList<Playlist>(PlaylistManagerSingleton.playlistList);
 		
-		PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>(allPlaylists);
+		try {
+			PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>(allPlaylists);
+		} catch (NullPointerException ex) {
+			PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>();
+		}
 				
 		for(Playlist playlist : PlaylistManagerSingleton.playlistList)
 		{
