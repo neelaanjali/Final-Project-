@@ -27,21 +27,13 @@ import program.StatusCode;
 public class PlaylistManagerSingletonTest {
 	
 	private PlaylistManagerSingleton manager;
+	private Playlist playlist;
 	
 	@BeforeEach
 	private void setUp() {
 		manager = PlaylistManagerSingleton.getInstance();
 		
-		Song song1 = new Song("ABC", "Michael Jackson", 60);
-		Song song2 = new Song("Twinkle, Twinkle", "Mozart", 120);
-		Song song3 = new Song("Hot Cross Buns", "Ariana Grande", 30);
-		
-		ArrayList<Song> testerSongs = new ArrayList<Song>();
-		testerSongs.add(song1);
-		testerSongs.add(song2);
-		testerSongs.add(song3);
-		
-		Playlist playlist = new Playlist("testAuthor", "testPlaylist", testerSongs);	
+		playlist = new Playlist("testAuthor", "testPlaylist", new ArrayList<Song>());	
 	}
 	
 	@Test
@@ -67,6 +59,16 @@ public class PlaylistManagerSingletonTest {
 	@ParameterizedTest
 	@MethodSource("provideFilePathForWriteToFile")
 	public void testWriteToFile(String filePath, StatusCode expected) {
+		Playlist playlist1 = new Playlist("Author1", "Name1", new ArrayList<Song>());
+		
+		Song song1 = new Song("ABC", "Mozart", 60);
+		ArrayList<Song> testerSongs = new ArrayList<Song>();
+		testerSongs.add(song1);
+		
+		playlist1.setSongs(testerSongs);
+		
+		manager.addNewPlaylist("Name1");
+		
 		assertEquals(expected, manager.writeToFile(filePath));
 	}
 	
@@ -81,14 +83,18 @@ public class PlaylistManagerSingletonTest {
 	@ParameterizedTest
 	@MethodSource("providePlaylistForDisplayStats")
 	public void testDisplayStats(String playlistName, StatusCode expected) {
+		
+
+		
 		assertEquals(expected, manager.displayStats(playlistName));
 	}
 	
 	public static Stream<Object[]> providePlaylistForDisplayStats() {
 		
 		return Stream.of(
-			new Object[]{"testPlaylist", StatusCode.SUCCESS},
-			new Object[]{"fakePlaylist", StatusCode.NOT_FOUND}
+			new Object[]{"Test Playlist", StatusCode.SUCCESS},
+			new Object[]{"fakePlaylist", StatusCode.NOT_FOUND},
+			new Object[]{null, StatusCode.INVALID_INPUT}
 		);
 	}
 }
