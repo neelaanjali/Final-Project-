@@ -75,24 +75,22 @@ public class PlaylistManagerSingletonTest {
 	public static Stream<Object[]> provideFilePathForWriteToFile() {
 		
 		return Stream.of(
-			new Object[]{"test.json", StatusCode.SUCCESS},
-			new Object[]{"/path/to/nonexistent/test.json", StatusCode.EXCEPTION}
+			new Object[]{"writeTestCase.json", StatusCode.SUCCESS},
+			new Object[]{"/path/to/nonexistent/tester.json", StatusCode.EXCEPTION}
 		);
 	}
 	
 	@ParameterizedTest
 	@MethodSource("providePlaylistForDisplayStats")
 	public void testDisplayStats(String playlistName, StatusCode expected) {
-		
-
-		
+		manager.readFromFile("test.json");
 		assertEquals(expected, manager.displayStats(playlistName));
 	}
 	
 	public static Stream<Object[]> providePlaylistForDisplayStats() {
 		
 		return Stream.of(
-			new Object[]{"Test Playlist", StatusCode.SUCCESS},
+			new Object[]{"The Best Playlist", StatusCode.SUCCESS},
 			new Object[]{"fakePlaylist", StatusCode.NOT_FOUND},
 			new Object[]{null, StatusCode.INVALID_INPUT}
 		);
