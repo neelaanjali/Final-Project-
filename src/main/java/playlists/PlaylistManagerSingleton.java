@@ -164,7 +164,7 @@ public class PlaylistManagerSingleton {
          return StatusCode.SUCCESS;
     }
     
-    private StatusCode deletePlaylist(String playlistName) {
+    public StatusCode deletePlaylist(String playlistName) {
         if(playlistName == null)
         	return StatusCode.INVALID_INPUT;
     	
@@ -176,7 +176,7 @@ public class PlaylistManagerSingleton {
         return StatusCode.FAILURE;
     }
     
-    private StatusCode editPlaylist(String playlistName) {
+    public StatusCode editPlaylist(String playlistName) {
     	if(playlistName == null)
     		return StatusCode.INVALID_INPUT;
     	
