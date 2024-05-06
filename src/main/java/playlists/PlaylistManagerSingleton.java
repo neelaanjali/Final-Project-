@@ -49,6 +49,10 @@ public class PlaylistManagerSingleton {
 
     		playlistList = gson.fromJson(br, playlistListType);
     		
+    		if (playlistList == null) {
+    			throw new Exception();
+    		}
+    		
     		return StatusCode.SUCCESS;
 
           }

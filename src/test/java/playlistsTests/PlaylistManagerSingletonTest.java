@@ -52,7 +52,7 @@ public class PlaylistManagerSingletonTest {
 		return Stream.of(
 			new Object[]{"test.json", StatusCode.SUCCESS},
 			new Object[]{"tess.json", StatusCode.NOT_FOUND},
-			new Object[]{"emptyTest.json", StatusCode.EXCEPTION}
+			new Object[]{"emptyTestCase.json", StatusCode.EXCEPTION}
 		);
 	}
 	
