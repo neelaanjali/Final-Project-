@@ -138,7 +138,7 @@ public class PlaylistManagerSingleton {
    		return StatusCode.NOT_FOUND;
     }
     
-    private StatusCode addNewPlaylist(String playlistName) {
+    public StatusCode addNewPlaylist(String playlistName) {
     	if(playlistName == null)
     		return StatusCode.INVALID_INPUT;
     	

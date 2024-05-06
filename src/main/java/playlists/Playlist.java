@@ -28,7 +28,7 @@ public class Playlist {
 		this.sumOfRatings = 0;
 		this.numOfRatings = 0;
 	}
-	
+	 
 	/*
 	 * @author jxie26
 	 * 

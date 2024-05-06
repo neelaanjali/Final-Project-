@@ -12,7 +12,7 @@ public class Song {
 			this.artistName = artistName;
 			this.length = length;
 		}
-	
+
 		public Song(Song song) {
 			this.songName = song.songName;
 			this.artistName = song.songName;
