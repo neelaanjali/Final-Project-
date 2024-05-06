@@ -51,12 +51,15 @@ public class PlaylistManagerSingleton {
     	Gson gson = new Gson();
     	
     	try {
+    		//Create a new reader
     		BufferedReader br = new BufferedReader(new FileReader(filePath));
     		
     		TypeToken<ArrayList<Playlist>> playlistListType = new TypeToken<ArrayList<Playlist>>() {};
 
+    		//Read from the file and add the playlists to playlistList
     		playlistList = gson.fromJson(br, playlistListType);
     		
+    		//Ensure the file wasn't empty
     		if (playlistList == null) {
     			throw new Exception();
     		}
@@ -79,10 +82,12 @@ public class PlaylistManagerSingleton {
 	 */
     public StatusCode writeToFile(String filePath) {
     	Gson gson = new Gson();
+    	//Converts the list of playlists to json
     	String json = gson.toJson(playlistList);
     	
     	try {
     		BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
+    		//Writes the playlistList to a json file
     		bw.write(json);
     		bw.close();
             return StatusCode.SUCCESS;

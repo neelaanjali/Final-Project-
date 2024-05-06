@@ -185,10 +185,10 @@ public class Playlist {
 		if(songName == null)
 			return StatusCode.INVALID_INPUT;
 		
-		for (Song song : songs) {
+		for (Song song : this.songs) {
 			// If the song equals the target song, it removes it
-            if (song.getSongName() == songName) {
-                songs.remove(song);
+            if (song.getSongName().equals(songName)) {
+                (this.songs).remove(song);
                 return StatusCode.SUCCESS;
             }
         }
