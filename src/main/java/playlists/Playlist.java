@@ -108,7 +108,26 @@ public class Playlist {
 	}  
 	
 	private StatusCode sortPlaylistByLength() {
-		return StatusCode.NOT_IMPLEMENTED;
+		//bubble sort
+		int n = songs.size();
+		boolean swapped;
+		
+		do {
+			swapped = false;
+			for (int i = 1; i < n; i++) {
+				if (songs.get(i - 1).getLength() > songs.get(i).getLength()) {
+					Song temp = new Song(songs.get(i-1));
+					songs.set(i-1, songs.get(i));
+					songs.set(i, temp);
+					swapped = true;
+				}
+			}
+			n--;
+		} while(swapped);
+				
+		System.out.println("Your playlist has been sorted!");
+		
+		return StatusCode.SUCCESS;
 	}
 	
 	public StatusCode renamePlaylist(String newName) {
