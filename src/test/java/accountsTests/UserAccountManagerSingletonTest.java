@@ -71,7 +71,7 @@ public class UserAccountManagerSingletonTest {
 		ArrayList<String> fileContents = new ArrayList<String>();
 
 		String line = br.readLine();
-		while (line != null && !line.isEmpty() && !line.isBlank()) {
+		while (line != null && !line.isEmpty() && !line.trim().isEmpty()) {
 			fileContents.add(line);
 			line = br.readLine();
 		}
