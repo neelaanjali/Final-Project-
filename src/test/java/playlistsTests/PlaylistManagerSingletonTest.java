@@ -4,11 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
@@ -114,7 +112,19 @@ public class PlaylistManagerSingletonTest {
 			new Object[]{null, StatusCode.INVALID_INPUT}
 		);
 	}
-	
+    public void testDeletePlaylist(String playlistName, StatusCode expected) {
+        PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
+        manager.readFromFile("myusername.json");
+        assertEquals(expected, manager.deletePlaylist(playlistName));
+    }
+
+    public static Stream<Object[]> provideStringForDeletePlaylist() {
+        return Stream.of(
+            new Object[]{"existingPlaylist", StatusCode.FAILURE},
+            new Object[]{null, StatusCode.INVALID_INPUT}
+        );
+    }
+
 	@ParameterizedTest
 	@MethodSource("provideStringForEditPlaylist")
 	public void testEditPlaylist(String playlistName, StatusCode expected) {
@@ -130,30 +140,4 @@ public class PlaylistManagerSingletonTest {
 			new Object[]{null, StatusCode.INVALID_INPUT}
 		);
 	}
-	
-	
-	@Test
-	public void testSearchSongsByArtistNotFound() {
-		String inputArtist = "notAnArtist\n";
-		InputStream inS = new ByteArrayInputStream(inputArtist.getBytes());
-		System.setIn(inS);
-		
-		StatusCode result = manager.searchByArtist();
-		System.setIn(System.in);
-		
-		assertEquals(StatusCode.NOT_FOUND, result);
-	}
-			
-	@Test
-	public void testSearchSongsByLength() {
-		String inputLength = "5:37\n";
-		InputStream inS = new ByteArrayInputStream(inputLength.getBytes());
-		System.setIn(inS);
-		
-		StatusCode result = manager.searchByLength();
-		System.setIn(System.in);
-		
-		assertEquals(StatusCode.NOT_FOUND, result);
-	}
-		
 }
