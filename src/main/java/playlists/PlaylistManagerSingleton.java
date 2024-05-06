@@ -21,7 +21,7 @@ public class PlaylistManagerSingleton {
 	private static PlaylistManagerSingleton instance;
 	public static ArrayList<Playlist> playlistList;
 	
-	private PlaylistManagerSingleton() {
+	public PlaylistManagerSingleton() {
 		playlistList = new ArrayList<Playlist>();
 	}
 	  
@@ -164,6 +164,8 @@ public class PlaylistManagerSingleton {
          return StatusCode.SUCCESS;
     }
     
+    
+    
     public StatusCode deletePlaylist(String playlistName) {
         if(playlistName == null)
         	return StatusCode.INVALID_INPUT;
@@ -297,7 +299,12 @@ public class PlaylistManagerSingleton {
 			else return StatusCode.SUCCESS;
 			
 		case 2:
-			return searchByArtist();
+			ArrayList<Song> songs = searchByArtist();
+			for (Song song : songs) {
+				System.out.println(song.toString());
+			}
+			if (songs.isEmpty()) return StatusCode.NOT_FOUND;
+			else return StatusCode.SUCCESS;
 		case 3:
 			return searchByLength();
 		default:
@@ -321,7 +328,7 @@ public class PlaylistManagerSingleton {
     	return songName;
     }
     
-    public StatusCode searchByArtist() {
+    private ArrayList<Song> searchByArtist() {
     	System.out.println("Enter the full name of the artist to see their songs: ");
     	Scanner scanner = new Scanner(System.in);
     	String artist;
@@ -336,24 +343,20 @@ public class PlaylistManagerSingleton {
                 }
             }
             if (!foundSongs.isEmpty()) {
-                System.out.println(foundSongs.size() + " song(s) found in your playlists by '" + artist + "':");  
-                for (Song song : foundSongs) {
-                	System.out.println(song.toString());
-                }
+                System.out.println(foundSongs.size() + " song(s) found in your playlists by '" + artist + "':");   
             } 
             else {
                 System.out.println("No songs were found by the artist '" + artist + "'.");
-                return StatusCode.NOT_FOUND;
             }
-            return StatusCode.SUCCESS;
     	}
     	catch (Exception e) {
     		e.printStackTrace();
-    		return StatusCode.EXCEPTION;
     	}
+    	
+    	return foundSongs;
     }
     
-    public StatusCode searchByLength() {
+    private StatusCode searchByLength() {
     	System.out.println("Enter the length (MM:SS) of the song you'd like to search for: ");
     	Scanner scanner = new Scanner(System.in);
     	String length = scanner.nextLine();

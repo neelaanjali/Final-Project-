@@ -204,14 +204,7 @@ public class UserAccountManagerSingleton {
 	            return null; // or throw an exception
 	        }
 	    }
-	  // Test null input
-	//public void testHashPassword() {
-    //    UserAccountManagerSingleton userManager = UserAccountManagerSingleton.getInstance();
 
-       
-    //    String hashedNull = userManager.hashPassword(null);
-    //    assertNotNull(hashedNull);
-	//}
 
 	
 	/**

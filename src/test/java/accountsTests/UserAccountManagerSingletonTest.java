@@ -1,6 +1,7 @@
 package accountsTests;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedReader;
@@ -166,4 +167,6 @@ public class UserAccountManagerSingletonTest {
 		
 		assertArrayEquals(expected, result);
 	}
+	 
+	
 }

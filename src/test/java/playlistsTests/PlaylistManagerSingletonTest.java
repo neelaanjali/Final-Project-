@@ -112,18 +112,18 @@ public class PlaylistManagerSingletonTest {
 			new Object[]{null, StatusCode.INVALID_INPUT}
 		);
 	}
-    public void testDeletePlaylist(String playlistName, StatusCode expected) {
-        PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
-        manager.readFromFile("myusername.json");
-        assertEquals(expected, manager.deletePlaylist(playlistName));
-    }
+	  public void testDeletePlaylist(String playlistName, StatusCode expected) {
+	        PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
+	        manager.readFromFile("myusername.json");
+	        assertEquals(expected, manager.deletePlaylist(playlistName));
+	    }
 
-    public static Stream<Object[]> provideStringForDeletePlaylist() {
-        return Stream.of(
-            new Object[]{"existingPlaylist", StatusCode.FAILURE},
-            new Object[]{null, StatusCode.INVALID_INPUT}
-        );
-    }
+	    public static Stream<Object[]> provideStringForDeletePlaylist() {
+	        return Stream.of(
+	            new Object[]{"existingPlaylist", StatusCode.FAILURE},
+	            new Object[]{null, StatusCode.INVALID_INPUT}
+	        );
+	    }
 
 	@ParameterizedTest
 	@MethodSource("provideStringForEditPlaylist")
