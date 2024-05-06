@@ -258,4 +258,15 @@ public class Playlist {
 	    	return StatusCode.INVALID_INPUT;
 	    }
 	}
+	
+	@Override
+	public String toString() {
+		
+		int no_songs = songs.size();
+		double average = this.sumOfRatings/this.numOfRatings;
+		
+		return "\n" + playlistName + " - " + author + 
+				"\nNumber of songs: " + no_songs + "Average rating: " + average;
+	}
+	
 }

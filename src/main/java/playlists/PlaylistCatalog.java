@@ -113,8 +113,17 @@ public class PlaylistCatalog {
 		return StatusCode.SUCCESS;
 	}
 	
-	private StatusCode viewTopPlaylists() {
-		return StatusCode.NOT_IMPLEMENTED;
+	public StatusCode viewTopPlaylists() {
+		ArrayList<File> files = loadPlaylistFiles();
+		ArrayList<Playlist> allPlaylists = deserializePlaylists(files);
+		
+		System.out.println("Current Top 5 Playlists based on Average Ratings: ");
+		
+		ArrayList<Playlist> sorted = sortPlaylistsByRating(allPlaylists);
+		for (int i=0; i<Math.min(5,  sorted.size()); i++) {
+			System.out.println(sorted.get(i).toString());
+		}
+		return StatusCode.SUCCESS;
 	}
 	
 	private StatusCode viewTopUsers() {
@@ -170,4 +179,28 @@ public class PlaylistCatalog {
 		return StatusCode.SUCCESS;
 	}
 	
+	private ArrayList<Playlist> sortPlaylistsByRating(ArrayList<Playlist> allPlaylists) {
+		int n = allPlaylists.size();
+		boolean swapped;
+		
+		do {
+			swapped = false;
+			for (int i = 1; i < n; i++) {
+				if (allPlaylists.get(i - 1).getSumOfRatings()/allPlaylists.get(i-1).getNumOfRatings() 
+						> allPlaylists.get(i).getSumOfRatings()/allPlaylists.get(i).getNumOfRatings()) {
+					Playlist temp = allPlaylists.get(i-1);
+					allPlaylists.set(i-1, allPlaylists.get(i));
+					allPlaylists.set(i, temp);
+					swapped = true;
+				}
+			}
+			n--;
+		} while(swapped);
+				
+		System.out.println("Your playlist has been sorted!");
+		
+		
+		return allPlaylists;
+	
+	}
 }
