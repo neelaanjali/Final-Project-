@@ -18,14 +18,22 @@ import java.util.ArrayList;
 
 public class PlaylistManagerSingleton {
 	
+	/**
+	 * @author riannaellis
+	 */
 	private static PlaylistManagerSingleton instance;
 	public static ArrayList<Playlist> playlistList;
 	
+	/**
+	 * @author riannaellis
+	 */
 	public PlaylistManagerSingleton() {
 		playlistList = new ArrayList<Playlist>();
 	}
 	  
-	
+	/**
+	 * @author riannaellis
+	 */
 	public static PlaylistManagerSingleton getInstance() {
 		//create the instance if it doesn't exist yet
         if (instance == null) {
@@ -35,9 +43,9 @@ public class PlaylistManagerSingleton {
 	}
 	
 	/**
-	 * 
-	 * @param filePath
-	 * @return SUCCESS or NOT_FOUND or EXCEPTION
+	 * Reads the user's playlists from a file
+	 * @author riannaellis
+	 * @return EXCEPTION or SUCCESS or NOT_FOUND
 	 */
     public StatusCode readFromFile(String filePath) {
     	Gson gson = new Gson();
@@ -64,6 +72,11 @@ public class PlaylistManagerSingleton {
     	}
     }
     
+	/**
+	 * Writes all  of the user's playlists to a file
+	 * @author riannaellis
+	 * @return EXCEPTION or SUCCESS
+	 */
     public StatusCode writeToFile(String filePath) {
     	Gson gson = new Gson();
     	String json = gson.toJson(playlistList);
@@ -94,7 +107,12 @@ public class PlaylistManagerSingleton {
     	return playlistName;
     }
     
-    /*package*/ public StatusCode displayStats(String playlistName) {  	
+	/**
+	 * Uses the name of a playlist to display stats about that playlist
+	 * @author riannaellis
+	 * @return SUCCESS or NOT_FOUND or INVALID_INPUT
+	 */
+    public StatusCode displayStats(String playlistName) {  	
     	if (playlistName == null)
     		return StatusCode.INVALID_INPUT;
     	
@@ -448,6 +466,11 @@ public class PlaylistManagerSingleton {
 		}
     }
     
+	/**
+	 * Displays the main menu
+	 * @author riannaellis
+	 * @return SUCCESS
+	 */
     public StatusCode printMainMenu() {
     	System.out.println("1 - Add a new playlist");
     	System.out.println("2 - Delete a playlist");

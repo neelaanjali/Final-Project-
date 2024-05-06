@@ -3,7 +3,10 @@ package accounts;
 import java.util.ArrayList;
 
 import playlists.Playlist;
-
+/**
+ * UserAccount class
+ * @author riannaellis
+ */
 public class UserAccount {
 	private String username;
 	private String password;

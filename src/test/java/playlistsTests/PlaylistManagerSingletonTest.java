@@ -42,6 +42,9 @@ public class PlaylistManagerSingletonTest {
 		assertEquals(StatusCode.SUCCESS, manager.viewPlaylists());
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("provideFilePathForReadFromFile")
 	public void readFromFile(String filePath, StatusCode expected) {
@@ -57,6 +60,9 @@ public class PlaylistManagerSingletonTest {
 		);
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("provideFilePathForWriteToFile")
 	public void testWriteToFile(String filePath, StatusCode expected) {
@@ -81,6 +87,9 @@ public class PlaylistManagerSingletonTest {
 		);
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("providePlaylistForDisplayStats")
 	public void testDisplayStats(String playlistName, StatusCode expected) {
@@ -97,6 +106,9 @@ public class PlaylistManagerSingletonTest {
 		);
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("provideStringForAddNewPlaylist")
 	public void testAddNewPlaylist(String playlistName, StatusCode expected) {
@@ -112,6 +124,10 @@ public class PlaylistManagerSingletonTest {
 			new Object[]{null, StatusCode.INVALID_INPUT}
 		);
 	}
+	
+	
+	@ParameterizedTest
+	@MethodSource("provideStringForDeletePlaylist")
 	  public void testDeletePlaylist(String playlistName, StatusCode expected) {
 	        PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
 	        manager.readFromFile("myusername.json");
@@ -125,6 +141,9 @@ public class PlaylistManagerSingletonTest {
 	        );
 	    }
 
+	/**
+	* @author riannaellis
+	*/
 	@ParameterizedTest
 	@MethodSource("provideStringForEditPlaylist")
 	public void testEditPlaylist(String playlistName, StatusCode expected) {

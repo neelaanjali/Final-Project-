@@ -37,11 +37,17 @@ public class PlaylistTest {
 		assertEquals(StatusCode.SUCCESS, playlist.renamePlaylist("testPlaylist"));
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@Test
 	void testGetAuthor() {
 		assertEquals("testAuthor", playlist.getAuthor());
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("provideStringForSetAuthor")
 	public void testSetAuthor(String author, StatusCode expected) {
@@ -56,11 +62,17 @@ public class PlaylistTest {
 		);
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@Test
 	void testGetPlaylistName() {
 		assertEquals("testPlaylist", playlist.getPlaylistName());
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("provideStringForSetPlaylistName")
 	public void testSetPlaylistName(String playlistName, StatusCode expected) {
@@ -75,11 +87,17 @@ public class PlaylistTest {
 		);
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@Test
 	void testGetSumOfRatings() {
 		assertEquals(0, playlist.getSumOfRatings());
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("provideIntForSetSumOfRatings")
 	public void testSetSumOfRatings(int sum, StatusCode expected) {
@@ -95,11 +113,17 @@ public class PlaylistTest {
 		);
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@Test
 	void testGetNumOfRatings() {
 		assertEquals(0, playlist.getNumOfRatings());
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("provideIntForSetNumOfRatings")
 	public void testSetNumOfRatings(int num, StatusCode expected) {
@@ -138,6 +162,9 @@ public class PlaylistTest {
 		System.setIn(System.in);
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
 	@MethodSource("provideStringForAddSong")
 	public void testAddSong(String songName, StatusCode expected) {
@@ -152,6 +179,9 @@ public class PlaylistTest {
 		);
 	}
 	
+	/**
+	 * @author riannaellis
+	 */
 	@ParameterizedTest
     @MethodSource("provideStringForRemoveSong")
     public void testRemoveSong(String songName, StatusCode expected) {
@@ -171,6 +201,32 @@ public class PlaylistTest {
             new Object[]{null, StatusCode.INVALID_INPUT}
         );
     }
+    
+	/**
+	 * @author riannaellis
+	 */
+	@Test
+	void testToStringNoRatings() {
+		assertEquals("\n" + playlist.getPlaylistName() + " - " + playlist.getAuthor() +
+	            "\nNumber of songs: " + playlist.getSongs().size() + " Average rating: " + "0", playlist.toString());
+	}
+
+	/**
+	 * @author riannaellis
+	 */
+	@Test
+	void testToStringRatings() {
+
+		playlist.setNumOfRatings(4);
+		playlist.setSumOfRatings(16);
+
+		double average = playlist.getSumOfRatings() / playlist.getNumOfRatings();
+
+
+		assertEquals(("\n" + playlist.getPlaylistName() + " - " + playlist.getAuthor() +
+	            "\nNumber of songs: " + playlist.getSongs().size() + " Average rating: " + average), playlist.toString());
+	}
    
+    
    
 }

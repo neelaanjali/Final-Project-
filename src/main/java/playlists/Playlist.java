@@ -16,10 +16,6 @@ public class Playlist {
 	private int sumOfRatings;
 	private int numOfRatings;
 	
-	/**
-	 * @author riannaellis
-	 * 
-	 */	
 	public Playlist(String author, String playlistName, ArrayList<Song> songs) {
 		super();
 		this.songs = songs;
@@ -148,6 +144,7 @@ public class Playlist {
 	}
 	
 	/**
+	 * Adds a new song to a user's playlist
 	 * @author riannaellis
 	 * @return INVALID_INPUT or SUCCESS
 	 */
@@ -180,6 +177,7 @@ public class Playlist {
 	}	
 	
 	/**
+	 * Removes a specified song from the user's playlist
 	 * @author riannaellis
 	 * @return INVALID_INPUT or SUCCESS
 	 */
