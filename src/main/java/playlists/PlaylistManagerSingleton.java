@@ -21,7 +21,7 @@ public class PlaylistManagerSingleton {
 	private static PlaylistManagerSingleton instance;
 	public static ArrayList<Playlist> playlistList;
 	
-	public PlaylistManagerSingleton() {
+	private PlaylistManagerSingleton() {
 		playlistList = new ArrayList<Playlist>();
 	}
 	  
