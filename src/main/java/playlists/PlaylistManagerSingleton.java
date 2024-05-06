@@ -21,7 +21,7 @@ public class PlaylistManagerSingleton {
 	private static PlaylistManagerSingleton instance;
 	public static ArrayList<Playlist> playlistList;
 	
-	public PlaylistManagerSingleton() {
+	private PlaylistManagerSingleton() {
 		playlistList = new ArrayList<Playlist>();
 	}
 	  
@@ -48,6 +48,10 @@ public class PlaylistManagerSingleton {
     		TypeToken<ArrayList<Playlist>> playlistListType = new TypeToken<ArrayList<Playlist>>() {};
 
     		playlistList = gson.fromJson(br, playlistListType);
+    		
+    		if (playlistList == null) {
+    			throw new Exception();
+    		}
     		
     		return StatusCode.SUCCESS;
 
