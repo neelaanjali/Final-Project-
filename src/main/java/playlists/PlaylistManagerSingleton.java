@@ -172,13 +172,13 @@ public class PlaylistManagerSingleton {
          {
         	 if(playlist.getPlaylistName() == newPlaylist.getPlaylistName())
         	 {
-                 System.out.println("Sorry that playlist already exists");
+                 System.out.println("Sorry that playlist already exists!\n");
                  return StatusCode.INVALID_INPUT;
         	 }
          }
   
          playlistList.add(newPlaylist);
-         System.out.println("Playlist created successfully!!");
+         System.out.println("Playlist created successfully!\n");
          return StatusCode.SUCCESS;
     }
     
@@ -269,16 +269,17 @@ public class PlaylistManagerSingleton {
     
     public StatusCode viewPlaylists()
     {
-    	System.out.println("Here are your playlists:");
+    	System.out.println("\nHere are your playlists:");
     	if(playlistList.size() < 1)
     	{
-    		System.out.println("You have no playlists");
+    		System.out.println("\nYou have no playlists");
     		return StatusCode.SUCCESS;
     	}
     	for(Playlist playlist : this.playlistList)
     	{
     		System.out.println(" * " + playlist.getPlaylistName());
     	}
+    	System.out.println("\n");
     	return StatusCode.SUCCESS;
     }
     
@@ -480,7 +481,7 @@ public class PlaylistManagerSingleton {
     	System.out.println("6 - Search my songs");
     	System.out.println("7 - View social menu");
     	System.out.println("8 - Exit");
-    	System.out.print("What would you like to do?");
+    	System.out.print("What would you like to do? ");
     	return StatusCode.SUCCESS;
     }
     
