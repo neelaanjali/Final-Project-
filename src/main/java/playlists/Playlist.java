@@ -107,7 +107,7 @@ public class Playlist {
 		return StatusCode.SUCCESS;
 	}  
 	
-	private StatusCode sortPlaylistByLength() {
+	public StatusCode sortPlaylistByLength() {
 		//bubble sort
 		int n = songs.size();
 		boolean swapped;
@@ -125,7 +125,7 @@ public class Playlist {
 			n--;
 		} while(swapped);
 				
-		System.out.println("Your playlist has been sorted!");
+		System.out.println("Your playlist has been sorted by length!");
 		
 		return StatusCode.SUCCESS;
 	}

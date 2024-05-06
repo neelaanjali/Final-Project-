@@ -171,4 +171,21 @@ public class PlaylistTest {
             new Object[]{null, StatusCode.INVALID_INPUT}
         );
     }
+    
+    @Test
+    public void testSortPlaylistByLength() {
+    	ArrayList<Song> songList = new ArrayList<>();
+    	songList.add(new Song("Song1", "Artist1", 180));
+    	songList.add(new Song("Song2", "Artist2", 240));
+    	songList.add(new Song("Song3", "Artist3", 200));
+    	songList.add(new Song("Song4", "Artist4", 150));
+    	
+    	Playlist playlist = new Playlist("author1", "Playlist1", songList);
+    	
+    	StatusCode result = playlist.sortPlaylistByLength();
+    	for (Song song : playlist.getSongs()) {
+    		System.out.println(song.toString());
+    	}
+    	assertEquals(StatusCode.SUCCESS, result);
+    }
 }

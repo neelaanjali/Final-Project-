@@ -123,4 +123,4 @@ public class PlaylistManagerSingletonTest {
 		assertEquals(StatusCode.NOT_FOUND, result);
 	}
 		
-	}
+}
