@@ -1,5 +1,7 @@
 package accounts;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -199,7 +201,14 @@ public class UserAccountManagerSingleton {
 	            return null; // or throw an exception
 	        }
 	    }
-	
+	  // Test null input
+	//public void testHashPassword() {
+    //    UserAccountManagerSingleton userManager = UserAccountManagerSingleton.getInstance();
+
+       
+    //    String hashedNull = userManager.hashPassword(null);
+    //    assertNotNull(hashedNull);
+	//}
 
 	
 	/**
