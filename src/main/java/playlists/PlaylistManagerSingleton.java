@@ -203,6 +203,20 @@ public class PlaylistManagerSingleton {
       
         return locatedSongs;
     }
+    /*public static void testSearchSongsBySongName(PlaylistManagerSingleton playlistManager, String songName) {
+    System.out.println("Searching for song: " + songName);
+    ArrayList<Song> locatedSongs = playlistManager.searchSongsBySongName(songName);
+    if (!locatedSongs.isEmpty()) {
+        System.out.println("Located songs:");
+        for (Song song : locatedSongs) {
+            System.out.println(song.getSongName() + " by " + song.getArtistName());
+        }
+    } else {
+        System.out.println("No songs found matching the name '" + songName + "'.");
+    }
+    System.out.println();
+}
+*/
     
     //moved to the correct class. here for reference.
     //also had to change the logic bc it was not working
