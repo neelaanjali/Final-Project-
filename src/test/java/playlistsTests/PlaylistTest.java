@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -136,4 +137,38 @@ public class PlaylistTest {
 		assertEquals(StatusCode.SUCCESS, playlist.editPlaylist());
 		System.setIn(System.in);
 	}
+	
+	@ParameterizedTest
+	@MethodSource("provideStringForAddSong")
+	public void testAddSong(String songName, StatusCode expected) {
+		assertEquals(expected, playlist.addSong(songName));
+	}
+	
+	public static Stream<Object[]> provideStringForAddSong() {
+		
+		return Stream.of(
+			new Object[]{"Itsy Bitsy Spider", StatusCode.SUCCESS},
+			new Object[]{null, StatusCode.INVALID_INPUT}
+		);
+	}
+	
+	@ParameterizedTest
+    @MethodSource("provideStringForRemoveSong")
+    public void testRemoveSong(String songName, StatusCode expected) {
+		Song song1 = new Song("ABC", "Mozart", 60);
+		ArrayList<Song> testerSongs = new ArrayList<Song>();
+		testerSongs.add(song1);
+		
+		playlist.setSongs(testerSongs);
+		
+        assertEquals(expected, playlist.removeSong(songName));
+    }
+
+    public static Stream<Object[]> provideStringForRemoveSong() {
+        return Stream.of(
+            new Object[]{"ABC", StatusCode.SUCCESS},
+            new Object[]{"Itsy Bitsy Spider", StatusCode.NOT_FOUND},
+            new Object[]{null, StatusCode.INVALID_INPUT}
+        );
+    }
 }

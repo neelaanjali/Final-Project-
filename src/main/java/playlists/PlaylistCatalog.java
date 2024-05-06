@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
@@ -127,7 +130,54 @@ public class PlaylistCatalog {
 	}
 	
 	private StatusCode viewTopUsers() {
-		return StatusCode.NOT_IMPLEMENTED;
+		//get all playlists
+		ArrayList<File> files = loadPlaylistFiles();
+
+		HashMap<String, Integer> userPlaylistCounts = new HashMap<>();
+		
+		//create new ArrayList of distinct authors
+		for (File file : files) {
+			String username = getUsernameFromFile(file);
+			int count = countPlaylistsInFile(file);
+			userPlaylistCounts.put(username, count);			
+		}
+		
+		//sort users by number of playlists (descending):
+		List<Map.Entry<String, Integer>> sortedUsers = new ArrayList<>(userPlaylistCounts.entrySet());
+		sortedUsers.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+		
+		//display top five users
+		int index = 0;
+		for (Map.Entry<String, Integer> entry : sortedUsers) {
+			System.out.println(entry.getKey() + " - " + entry.getValue() + " playlists");
+			index++;
+			if (index == 5 || index >= sortedUsers.size()) break;
+		}
+		
+		return StatusCode.SUCCESS;
+	}
+	
+	private String getUsernameFromFile(File file) {
+		String name = file.getName();
+		//remove the '.json' part from the name to return the username
+		return name.substring(0, name.lastIndexOf('.'));
+	}
+	
+	private int countPlaylistsInFile(File file) {
+		int count = 0;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line=br.readLine()) != null) {
+				if (line.contains("playListName")) {
+					count++;
+				}
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 	public ArrayList<File> loadPlaylistFiles() {

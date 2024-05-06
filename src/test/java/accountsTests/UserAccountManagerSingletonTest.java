@@ -21,6 +21,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import accounts.UserAccountManagerSingleton;
+import playlists.Playlist;
+import playlists.Song;
 import program.StatusCode;
 
 public class UserAccountManagerSingletonTest {
@@ -29,6 +31,7 @@ public class UserAccountManagerSingletonTest {
 	@BeforeEach
 	public void setUp() {
 		manager = UserAccountManagerSingleton.getInstance();
+		Playlist playlist = new Playlist("testAuthor", "testPlaylist", new ArrayList<Song>());
 	}
 	
 	@Test
@@ -71,7 +74,7 @@ public class UserAccountManagerSingletonTest {
 		ArrayList<String> fileContents = new ArrayList<String>();
 
 		String line = br.readLine();
-		while (line != null && !line.isEmpty() && !line.isBlank()) {
+		while (line != null && !line.isEmpty() && !line.trim().isEmpty()) {
 			fileContents.add(line);
 			line = br.readLine();
 		}
