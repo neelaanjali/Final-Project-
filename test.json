@@ -1,1 +1,23 @@
-[]
+[]{
+  "author": "Test Author",
+  "playlistName": "Test Playlist",
+  "sumOfRatings": 50,
+  "numOfRatings": 10,
+  "songs": [
+    {
+      "songName": "Test Song 1",
+      "artistName": "Test Artist 1",
+      "length": 180
+    },
+    {
+      "songName": "Test Song 2",
+      "artistName": "Test Artist 2",
+      "length": 240
+    },
+    {
+      "songName": "Test Song 3",
+      "artistName": "Test Artist 3",
+      "length": 150
+    }
+  ]
+}
