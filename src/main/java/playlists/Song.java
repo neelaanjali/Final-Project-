@@ -17,7 +17,7 @@ public class Song {
 
 		public Song(Song song) {
 			this.songName = song.songName;
-			this.artistName = song.songName;
+			this.artistName = song.artistName;
 			this.length = song.length;
 		}
 

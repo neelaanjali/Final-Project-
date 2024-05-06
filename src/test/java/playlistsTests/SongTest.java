@@ -1,5 +1,6 @@
 package playlistsTests;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,6 +21,16 @@ public class SongTest {
 	@BeforeEach
 	void setUp() {
 		song = new Song("ABC", "Michael Jackson", 60);
+	}
+	
+	@Test
+	void testCopyConstructor() {
+		Song newSong = new Song(song);
+		
+		assertTrue(newSong.getSongName().equals("ABC"));
+		assertTrue(newSong.getArtistName().equals("Michael Jackson"));
+		assertEquals(60, newSong.getLength());
+		assertTrue(!newSong.equals(song));
 	}
 	
 	@Test
