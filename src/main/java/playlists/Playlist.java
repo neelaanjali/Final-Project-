@@ -263,10 +263,15 @@ public class Playlist {
 	public String toString() {
 		
 		int no_songs = songs.size();
-		double average = this.sumOfRatings/this.numOfRatings;
+		double average = 0;
+		if(this.numOfRatings == 0) {
+			average = 0;
+		}else {
+			average = this.sumOfRatings/this.numOfRatings;
+		}
 		
-		return "\n" + playlistName + " - " + author + 
-				"\nNumber of songs: " + no_songs + "Average rating: " + average;
+		return "\n" + playlistName + " - " + author +
+	            "\nNumber of songs: " + no_songs + " Average rating: " + average;
 	}
 	
 }

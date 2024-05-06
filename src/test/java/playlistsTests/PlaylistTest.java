@@ -171,4 +171,23 @@ public class PlaylistTest {
             new Object[]{null, StatusCode.INVALID_INPUT}
         );
     }
+    
+	@Test
+	void testToStringNoRatings() {
+		assertEquals("\n" + playlist.getPlaylistName() + " - " + playlist.getAuthor() +
+	            "\nNumber of songs: " + playlist.getSongs().size() + " Average rating: " + "0", playlist.toString());
+	}
+	
+	@Test
+	void testToStringRatings() {
+		
+		playlist.setNumOfRatings(4);
+		playlist.setSumOfRatings(16);
+		
+		double average = playlist.getSumOfRatings() / playlist.getNumOfRatings();
+		
+		
+		assertEquals(("\n" + playlist.getPlaylistName() + " - " + playlist.getAuthor() +
+	            "\nNumber of songs: " + playlist.getSongs().size() + " Average rating: " + average), playlist.toString());
+	}
 }

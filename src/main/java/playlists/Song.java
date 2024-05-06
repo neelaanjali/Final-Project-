@@ -1,5 +1,7 @@
 package playlists;
 
+import program.StatusCode;
+
 public class Song {
 	    
 		private String songName;
@@ -22,20 +24,35 @@ public class Song {
 		public String getSongName() {
 			return songName;
 		}
-		public void setSongName(String songName) {
-			this.songName = songName;
+		public StatusCode setSongName(String songName) {
+			if (songName != null) {
+		        this.songName = songName;
+		        return StatusCode.SUCCESS;
+		    } else {
+		    	return StatusCode.INVALID_INPUT;
+		    }
 		}
 		public String getArtistName() {
 			return artistName;
 		}
-		public void setArtistName(String artistName) {
-			this.artistName = artistName;
+		public StatusCode setArtistName(String artistName) {
+			if (artistName != null) {
+		        this.artistName = artistName;
+		        return StatusCode.SUCCESS;
+		    } else {
+		    	return StatusCode.INVALID_INPUT;
+		    }
 		}
 		public int getLength() {
 			return length;
 		}
-		public void setLength(int length) {
-			this.length = length;
+		public StatusCode setLength(int length) {
+			if (length >= 0) {
+		        this.length = length;
+		        return StatusCode.SUCCESS;
+		    } else {
+		    	return StatusCode.INVALID_INPUT;
+		    }
 		}
 		
 		@Override
