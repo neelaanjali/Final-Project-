@@ -87,8 +87,7 @@ public class SongTest {
 		return Stream.of(
 			new Object[]{1, StatusCode.SUCCESS},
 			new Object[]{0, StatusCode.INVALID_INPUT},
-			new Object[]{-1, StatusCode.INVALID_INPUT},
-			new Object[]{null, StatusCode.INVALID_INPUT}
+			new Object[]{-1, StatusCode.INVALID_INPUT}
 		);
 	}
 	

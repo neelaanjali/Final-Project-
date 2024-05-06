@@ -47,7 +47,7 @@ public class Song {
 			return length;
 		}
 		public StatusCode setLength(int length) {
-			if (length >= 0) {
+			if (length > 0) {
 		        this.length = length;
 		        return StatusCode.SUCCESS;
 		    } else {
