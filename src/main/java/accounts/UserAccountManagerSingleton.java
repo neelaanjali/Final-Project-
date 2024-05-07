@@ -30,7 +30,9 @@ public class UserAccountManagerSingleton {
 	private static UserAccountManagerSingleton instance;
 	private final static String userAccountsFile = "userAccounts.csv";
 
-	//constructor:
+	/**
+	 * Default constructor
+	 */
 	private UserAccountManagerSingleton() { 
 		this.usernames = new ArrayList<String>();
 		this.passwords = new ArrayList<String>();
@@ -48,6 +50,7 @@ public class UserAccountManagerSingleton {
 
 	/**
 	 * Welcome a user to the Playlist manager. Ask the user what they would like to do
+	 * @author hargu
 	 */
 	public StatusCode welcome() {
 		//ask the user what they would like to do
@@ -94,6 +97,11 @@ public class UserAccountManagerSingleton {
 		}
 	}
 	
+	/**
+	 * @author hargu
+	 * @param scanner
+	 * @return
+	 */
 	public String[] getLoginInfo(Scanner scanner)
 	{		
 		String[] loginInfo = new String[2];
