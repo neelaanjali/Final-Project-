@@ -1,13 +1,17 @@
 package playlistsTests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -159,4 +163,36 @@ public class PlaylistManagerSingletonTest {
 			new Object[]{null, StatusCode.INVALID_INPUT}
 		);
 	}
+	
+	@Test
+	public void testSearchByArtist() {
+		String input = "Mozart";
+		InputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+		
+		ArrayList<Song> foundSongs = manager.searchByArtist();
+		ArrayList<Song> expected = new ArrayList<Song>();
+		expected.add(new Song("Cherry", "Lana Del Rey", 255));
+		
+		assertEquals(expected.size(), foundSongs.size());
+		
+		for (Song expectedSong : expected) {
+			boolean found=false;
+			for (Song foundSong : foundSongs) { 
+				if(expectedSong.getSongName().equals(foundSong.getSongName()) && 
+				   expectedSong.getArtistName().equals(foundSong.getArtistName())) {
+					found=true;
+					break;
+				}
+			}
+			assertTrue(found, "Expected song not found: " + expectedSong);
+		}
+	}
+	
+	@Test 
+	public void testSearchByLength() {
+		StatusCode result = manager.searchByLength();
+		assertEquals(StatusCode.SUCCESS, result);
+	}
+	
 }
