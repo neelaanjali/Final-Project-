@@ -119,8 +119,13 @@ public class PlaylistCatalogTest {
 	}
 	
 	@Test
-	void testViewTopPlaylists() {
+	public void testViewTopPlaylists() {
 		StatusCode result = catalog.viewTopPlaylists();
 		assertEquals(StatusCode.SUCCESS, result);
+	}
+	
+	@Test
+	public void testViewTopUsers() {
+		
 	}
 }
