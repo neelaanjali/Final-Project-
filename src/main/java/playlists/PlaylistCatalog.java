@@ -167,10 +167,13 @@ public class PlaylistCatalog {
 		}
 		
 		PlaylistManagerSingleton.playlistList = sortPlaylistsByRating(PlaylistManagerSingleton.playlistList);
-		
+		int count=0;
 		for(Playlist playlist : PlaylistManagerSingleton.playlistList)
 		{
+			if(count>=5) break;
+			System.out.println("#" + (count+1) + " Playlist:");
 			manager.displayStats(playlist.getPlaylistName());
+			count++;
 		}
 
 		PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>(tempStor);
@@ -202,7 +205,7 @@ public class PlaylistCatalog {
 		//display top five users
 		int index = 0;
 		for (Map.Entry<String, Integer> entry : sortedUsers) {
-			System.out.println("Top User " + (index+1) + ": " + entry.getKey() + " - " + entry.getValue() + " playlists");
+			System.out.println("Top User #" + (index+1) + ": " + entry.getKey() + " - " + entry.getValue() + " playlists");
 			index++;
 			if (index == 5 || index >= sortedUsers.size()) break;
 		}
