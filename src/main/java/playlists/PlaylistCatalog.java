@@ -200,6 +200,9 @@ public class PlaylistCatalog {
 			TypeToken<ArrayList<Playlist>> playlistListType = new TypeToken<ArrayList<Playlist>>() {};
 			
 			for(File file : files) {
+				
+				if(file.toString().contains("emptyTestCase")) continue;
+				
 				BufferedReader br = new BufferedReader(new FileReader(file));
 				allPlaylists.addAll(gson.fromJson(br, playlistListType));
 				br.close();

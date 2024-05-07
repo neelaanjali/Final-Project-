@@ -8,19 +8,29 @@ public class Song {
 	    private String artistName;
 	    private int length;
 	    
+	    /**
+	     * Default Constructor
+	     * @param songName: name of song
+	     * @param artistName: name of song artist
+	     * @param length: length of song, in seconds
+	     */
 	    public Song(String songName, String artistName, int length) {
 			super();
 			this.songName = songName;
 			this.artistName = artistName;
 			this.length = length;
 		}
-
+	    
+	    /**
+	     * Copy Constructor
+	     * @param song: Song to copy
+	     */
 		public Song(Song song) {
 			this.songName = song.songName;
 			this.artistName = song.artistName;
 			this.length = song.length;
 		}
-
+		
 		public String getSongName() {
 			return songName;
 		}
