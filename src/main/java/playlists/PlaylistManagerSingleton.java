@@ -25,6 +25,7 @@ public class PlaylistManagerSingleton {
 	public static ArrayList<Playlist> playlistList;
 	
 	/**
+	 * Default constructor
 	 * @author riannaellis
 	 */
 	public PlaylistManagerSingleton() {
@@ -32,7 +33,9 @@ public class PlaylistManagerSingleton {
 	}
 	  
 	/**
+	 * Get the static instance of the PlaylistManagerSingleton class
 	 * @author riannaellis
+	 * @return The static instance of the PlaylistManagerSingleton class
 	 */
 	public static PlaylistManagerSingleton getInstance() {
 		//create the instance if it doesn't exist yet
@@ -46,6 +49,7 @@ public class PlaylistManagerSingleton {
 	 * Reads the user's playlists from a file
 	 * @author riannaellis
 	 * @return EXCEPTION or SUCCESS or NOT_FOUND
+	 * @param filePath
 	 */
     public StatusCode readFromFile(String filePath) {
     	Gson gson = new Gson();
@@ -79,6 +83,7 @@ public class PlaylistManagerSingleton {
 	 * Writes all  of the user's playlists to a file
 	 * @author riannaellis
 	 * @return EXCEPTION or SUCCESS
+	 * @param filePath
 	 */
     public StatusCode writeToFile(String filePath) {
     	Gson gson = new Gson();
@@ -97,6 +102,11 @@ public class PlaylistManagerSingleton {
         }
     }
     
+    /**
+     * Will prompt the user to enter the name of a playlist. Return null on exception.
+     * @author hargu
+     * @return String: name the user entered
+     */
     public String askPlaylistName() {
     	System.out.println("Enter the playlist name:");
     	Scanner scanner = new Scanner(System.in);
@@ -129,6 +139,7 @@ public class PlaylistManagerSingleton {
     			System.out.println("Playlist name: " + playlist.getPlaylistName());
     			System.out.println("Author: " + playlist.getAuthor());
     			
+    			// format length
     			int totalSeconds = 0;
     			for (Song song : playlist.getSongs()) {
     				totalSeconds += song.getLength();
@@ -161,10 +172,14 @@ public class PlaylistManagerSingleton {
     			return StatusCode.SUCCESS;
     		}
     	}
-    	//System.out.println("Sorry, the playlist you entered could not be found.");
    		return StatusCode.NOT_FOUND;
     }
     
+    /**
+     * Add a new playlist to the user's account
+     * @param playlistName: name of a new playlist
+     * @return INVALID_INPUT or SUCCESS
+     */
     public StatusCode addNewPlaylist(String playlistName) {
     	if(playlistName == null)
     		return StatusCode.INVALID_INPUT;
@@ -189,25 +204,30 @@ public class PlaylistManagerSingleton {
     
     
     public StatusCode deletePlaylist(String playlistName) {
-	       if(playlistName == null)
-	       return StatusCode.INVALID_INPUT;    	    
+       if(playlistName == null)
+       return StatusCode.INVALID_INPUT;    	    
 
-	       for (Playlist playlist : playlistList) {
-	           if (playlist.getPlaylistName().equals(playlistName)) {
-	               playlistList.remove(playlist);
-	               // Optionally, you can print a message indicating successful deletion
-	               System.out.println("Playlist '" + playlistName + "' deleted successfully.");
-	               // Call writeToFile to save the changes to the file
-	               writeToFile(Main.username + ".json");
-	               return StatusCode.SUCCESS;
-	           }
-	       }
+       for (Playlist playlist : playlistList) {
+           if (playlist.getPlaylistName().equals(playlistName)) {
+               playlistList.remove(playlist);
+               // Optionally, you can print a message indicating successful deletion
+               System.out.println("Playlist '" + playlistName + "' deleted successfully.");
+               // Call writeToFile to save the changes to the file
+               writeToFile(Main.username + ".json");
+               return StatusCode.SUCCESS;
+           }
+       }
 
-	       // Playlist not found
-	       System.out.println("Sorry Playlist '" + playlistName + "' not found.");
-	       return StatusCode.NOT_FOUND;
+       // Playlist not found
+       System.out.println("Sorry Playlist '" + playlistName + "' not found.");
+       return StatusCode.NOT_FOUND;
     }
     
+    /**
+     * Calls Playlist.editPlaylist() on the user-selected Playlist object
+     * @param playlistName
+     * @return StatusCode
+     */
     public StatusCode editPlaylist(String playlistName) {
     	if(playlistName == null)
     		return StatusCode.INVALID_INPUT;
@@ -222,6 +242,11 @@ public class PlaylistManagerSingleton {
         return StatusCode.NOT_FOUND;
     }
         
+    /**
+     * Search all of a user's playlist for a song given its name
+     * @param songName
+     * @return ArrayList<Song>: all songs that match this name
+     */
     public ArrayList<Song> searchSongsBySongName(String songName) {
         ArrayList<Song> locatedSongs = new ArrayList<>();
         for (Playlist playlist : playlistList) {
@@ -239,46 +264,11 @@ public class PlaylistManagerSingleton {
       
         return locatedSongs;
     }
-    /*public static void testSearchSongsBySongName(PlaylistManagerSingleton playlistManager, String songName) {
-    System.out.println("Searching for song: " + songName);
-    ArrayList<Song> locatedSongs = playlistManager.searchSongsBySongName(songName);
-    if (!locatedSongs.isEmpty()) {
-        System.out.println("Located songs:");
-        for (Song song : locatedSongs) {
-            System.out.println(song.getSongName() + " by " + song.getArtistName());
-        }
-    } else {
-        System.out.println("No songs found matching the name '" + songName + "'.");
-    }
-    System.out.println();
-}
-*/
     
-    //moved to the correct class. here for reference.
-    //also had to change the logic bc it was not working
-    ///////////////////////////////////////////////////////////////////////////////
-//    
-//    public void sortPlaylistAlphabetically() {
-//        for (int i = 1; i < playlistList.size(); i++) {
-//            Playlist currentPlaylist = playlistList.get(i);
-//            String currentSongName = currentPlaylist.getSongs().isEmpty() ? "" : currentPlaylist.getSongs().get(0).getSongName();
-//            int j = i - 1;
-//            while (j >= 0 && compare(playlistList.get(j), currentSongName) > 0) {
-//                playlistList.set(j + 1, playlistList.get(j));
-//                j--;
-//            }
-//            playlistList.set(j + 1, currentPlaylist);
-//        }
-//    }
-//    
-//    private int compare(Playlist playlist, String songName) {
-//        String playlistSongName = playlist.getSongs().isEmpty() ? "" : playlist.getSongs().get(0).getSongName();
-//        return playlistSongName.compareToIgnoreCase(songName);
-//    }
-//    
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    
+    /**
+     * View all of a user's playlists
+     * @return StatusCode
+     */
     public StatusCode viewPlaylists()
     {
     	System.out.println("\nHere are your playlists:");
@@ -295,6 +285,10 @@ public class PlaylistManagerSingleton {
     	return StatusCode.SUCCESS;
     }
     
+    /**
+     * Ask the user how they would like to search a song, then call the corresponding method
+     * @return StatusCode
+     */
     private StatusCode searchSongs() {
     	System.out.println("Search by...");
     	System.out.println("1 - Song Name");
@@ -343,6 +337,10 @@ public class PlaylistManagerSingleton {
 		}
     }
     
+    /**
+     * Ask the user the name of the song they would like to search
+     * @return String
+     */
     private String searchByName() {
     	System.out.println("Enter the name of the song you would like to search:");
     	Scanner scanner = new Scanner(System.in);
@@ -359,6 +357,10 @@ public class PlaylistManagerSingleton {
     	return songName;
     }
     
+    /**
+     * Asks the user for an artist name, then searches all their playlists for songs by that artist
+     * @return ArrayList<Song>: all songs that match the artist name
+     */
     private ArrayList<Song> searchByArtist() {
     	System.out.println("Enter the full name of the artist to see their songs: ");
     	Scanner scanner = new Scanner(System.in);
@@ -387,6 +389,10 @@ public class PlaylistManagerSingleton {
     	return foundSongs;
     }
     
+    /**
+     * Search all of a user's playlists for a song given a specified length
+     * @return StatusCode
+     */
     private StatusCode searchByLength() {
     	System.out.println("Enter the length (MM:SS) of the song you'd like to search for: ");
     	Scanner scanner = new Scanner(System.in);
@@ -424,6 +430,7 @@ public class PlaylistManagerSingleton {
     /**
      * The main operating logic of the program. Will continually ask the user what they would like to do.
      * @return SUCCESS or FAILURE or EXCEPTION or NOT_FOUND
+     * @author hargu
      */
     public StatusCode executeMainMenu(int userSelection) {	
 		
@@ -498,8 +505,9 @@ public class PlaylistManagerSingleton {
     }
     
     /**
-     * 
-     * @return an integer between 1-6 indicating the users selection. Or -1 upon failure.
+     * Ask the user to enter a number between 1 and 8, then return it
+     * @return an integer between 1-8 indicating the users selection. Or -1 upon failure.
+     * @author hargu
      */
     public int getMainMenuSelection() {
     	int userSelection = -1;
