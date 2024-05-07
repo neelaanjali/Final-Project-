@@ -168,7 +168,7 @@ public class PlaylistCatalog {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line;
 			while ((line=br.readLine()) != null) {
-				if (line.contains("playListName")) {
+				if (line.contains("playlistName")) {
 					count++;
 				}
 			}

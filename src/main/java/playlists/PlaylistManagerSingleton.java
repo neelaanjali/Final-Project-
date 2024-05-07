@@ -183,17 +183,24 @@ public class PlaylistManagerSingleton {
     }
     
     
-    
     public StatusCode deletePlaylist(String playlistName) {
-        if(playlistName == null)
-        	return StatusCode.INVALID_INPUT;
-    	
-    	
-        // TEST CODE: DELETE AFTER IMPLEMENTATION
-        System.out.println("Playlist deleted");
-        // END TEST CODE
-           
-        return StatusCode.FAILURE;
+	       if(playlistName == null)
+	       return StatusCode.INVALID_INPUT;    	    
+
+	       for (Playlist playlist : playlistList) {
+	           if (playlist.getPlaylistName().equals(playlistName)) {
+	               playlistList.remove(playlist);
+	               // Optionally, you can print a message indicating successful deletion
+	               System.out.println("Playlist '" + playlistName + "' deleted successfully.");
+	               // Call writeToFile to save the changes to the file
+	               writeToFile(Main.username + ".json");
+	               return StatusCode.SUCCESS;
+	           }
+	       }
+
+	       // Playlist not found
+	       System.out.println("Sorry Playlist '" + playlistName + "' not found.");
+	       return StatusCode.NOT_FOUND;
     }
     
     public StatusCode editPlaylist(String playlistName) {
