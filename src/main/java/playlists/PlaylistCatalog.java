@@ -18,6 +18,11 @@ import program.StatusCode;
 // this class will hold the logic for interacting with other users' playlists
 // sort of like a social menu
 public class PlaylistCatalog {
+	/**
+	 * Print a list of options a user can take. Have the user make a selection, then execute it
+	 * @return StatusCode
+	 * @author hargu
+	 */
 	public static StatusCode printMenu() {
 		System.out.println("1 - View all users' playlists");
 		System.out.println("2 - Rate a user's playlist");
@@ -29,6 +34,12 @@ public class PlaylistCatalog {
 
 	}
 	
+	/**
+	 * Execute the user-selection action
+	 * @param selection: int
+	 * @return StatusCode
+	 * @author hargu
+	 */
 	public StatusCode executeMenu(int selection) {
 		switch(selection) {
 		case 1:
@@ -44,6 +55,11 @@ public class PlaylistCatalog {
 		}
 	}
 	
+	/**
+	 * Prompt the user to enter a number between 1 and 4, then return it
+	 * @return int
+	 * @author hargu
+	 */
 	public int getMenuSelection() {
 		int userSelection = -1;
 		Scanner scanner = new Scanner(System.in);
@@ -63,6 +79,12 @@ public class PlaylistCatalog {
 		return userSelection;
 	}
 	
+	/**
+	 * The user may rate the given playlist 1 out of 5. Will then save the changes to file.
+	 * @param playlistName
+	 * @return StatusCode
+	 * @author hargu
+	 */
 	public StatusCode ratePlaylist(String playlistName) {
 		if(playlistName == null) { return StatusCode.INVALID_INPUT; }
 		
@@ -99,6 +121,13 @@ public class PlaylistCatalog {
 		return StatusCode.NOT_FOUND;
 	}
 	
+	/**
+	 * Save the changes made to a playlist
+	 * @param authorName
+	 * @param allPlaylists
+	 * @return StatusCode
+	 * @author hargu
+	 */
 	public StatusCode saveChanges(String authorName, ArrayList<Playlist> allPlaylists) {
 		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
 		manager.playlistList.clear();
@@ -115,6 +144,10 @@ public class PlaylistCatalog {
 		return StatusCode.SUCCESS;
 	}
 	
+	/**
+	 * View the top 5 highest-rated playlists from all users.
+	 * @return StatusCode
+	 */
 	public StatusCode viewTopPlaylists() {
 		ArrayList<File> files = loadPlaylistFiles();
 		ArrayList<Playlist> allPlaylists = deserializePlaylists(files);
@@ -128,6 +161,10 @@ public class PlaylistCatalog {
 		return StatusCode.SUCCESS;
 	}
 	
+	/**
+	 * View the top 5 users with the most playlists
+	 * @return StatusCode
+	 */
 	public StatusCode viewTopUsers() {
 		//get all playlists
 		ArrayList<File> files = loadPlaylistFiles();
@@ -156,12 +193,22 @@ public class PlaylistCatalog {
 		return StatusCode.SUCCESS;
 	}
 	
+	/**
+	 * Get a username given a file
+	 * @param file
+	 * @return String
+	 */
 	private String getUsernameFromFile(File file) {
 		String name = file.getName();
 		//remove the '.json' part from the name to return the username
 		return name.substring(0, name.lastIndexOf('.'));
 	}
 	
+	/**
+	 * Count the number of playlists stored in a file
+	 * @param file
+	 * @return int: number of playlists stored in the given file
+	 */
 	private int countPlaylistsInFile(File file) {
 		int count = 0;
 		try {
@@ -179,6 +226,11 @@ public class PlaylistCatalog {
 		return count;
 	}
 	
+	/**
+	 * Load all of the username.json files stored
+	 * @author hargu
+	 * @return ArrayList<File>: all JSON files in the project
+	 */
 	public ArrayList<File> loadPlaylistFiles() {
 		//load .json files into an arraylist called files
 		ArrayList<File> files = new ArrayList<File>();
@@ -192,6 +244,12 @@ public class PlaylistCatalog {
 		return files;
 	}
 	
+	/**
+	 * Deserialize a list of username.json files, and return a list containing all of the deserialized playlists
+	 * @author hargu
+	 * @param files
+	 * @return ArrayList<Playlist>
+	 */
 	public ArrayList<Playlist> deserializePlaylists(ArrayList<File> files) {
 		Gson gson = new Gson();
 		ArrayList<Playlist> allPlaylists = new ArrayList<Playlist>();
@@ -212,6 +270,11 @@ public class PlaylistCatalog {
 		return allPlaylists;
 	}
 	
+	/**
+	 * View all playlists made by all users
+	 * @author hargu
+	 * @return StatusCode
+	 */
 	public StatusCode viewAllPlaylists() {
 		ArrayList<File> files = loadPlaylistFiles();
 		ArrayList<Playlist> allPlaylists = deserializePlaylists(files);
@@ -235,6 +298,11 @@ public class PlaylistCatalog {
 		return StatusCode.SUCCESS;
 	}
 	
+	/**
+	 * Sort all users playlists by rating
+	 * @param allPlaylists
+	 * @return
+	 */
 	private ArrayList<Playlist> sortPlaylistsByRating(ArrayList<Playlist> allPlaylists) {
 		int n = allPlaylists.size();
 		boolean swapped;
