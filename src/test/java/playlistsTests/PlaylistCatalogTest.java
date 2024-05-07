@@ -126,6 +126,7 @@ public class PlaylistCatalogTest {
 	
 	@Test
 	public void testViewTopUsers() {
-		
+		StatusCode result = catalog.viewTopUsers();
+		assertEquals(StatusCode.SUCCESS, result);
 	}
 }
