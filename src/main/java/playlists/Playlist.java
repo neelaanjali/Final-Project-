@@ -291,7 +291,8 @@ public class Playlist {
 		}
 		
 		return "\n" + playlistName + " - " + author +
-	            "\nNumber of songs: " + no_songs + " Average rating: " + average;
+	            "\nNumber of songs: " + no_songs + 
+	            "\nAverage rating: " + average;
 	}
 	
 }

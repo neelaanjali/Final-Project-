@@ -154,12 +154,26 @@ public class PlaylistCatalog {
 		ArrayList<File> files = loadPlaylistFiles();
 		ArrayList<Playlist> allPlaylists = deserializePlaylists(files);
 		
-		System.out.println("Current Top 5 Playlists based on Average Ratings: ");
+		System.out.println("\nCurrent Top 5 Playlists based on Average Ratings: ");
 		
-		ArrayList<Playlist> sorted = sortPlaylistsByRating(allPlaylists);
-		for (int i=0; i<Math.min(5,  sorted.size()); i++) {
-			System.out.println(sorted.get(i).toString());
+		//set aside what is currently stored in PlaylistManagerSingleton
+		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
+		ArrayList<Playlist> tempStor = new ArrayList<Playlist>(PlaylistManagerSingleton.playlistList);
+		
+		try {
+			PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>(allPlaylists);
+		} catch (NullPointerException ex) {
+			PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>();
 		}
+		
+		PlaylistManagerSingleton.playlistList = sortPlaylistsByRating(PlaylistManagerSingleton.playlistList);
+		
+		for(Playlist playlist : PlaylistManagerSingleton.playlistList)
+		{
+			manager.displayStats(playlist.getPlaylistName());
+		}
+
+		PlaylistManagerSingleton.playlistList = new ArrayList<Playlist>(tempStor);
 		return StatusCode.SUCCESS;
 	}
 	
@@ -184,7 +198,7 @@ public class PlaylistCatalog {
 		List<Map.Entry<String, Integer>> sortedUsers = new ArrayList<>(userPlaylistCounts.entrySet());
 		sortedUsers.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 		
-		System.out.println("\n");
+		System.out.println("\nCurrent Top 5 Users: ");
 		//display top five users
 		int index = 0;
 		for (Map.Entry<String, Integer> entry : sortedUsers) {
@@ -307,7 +321,8 @@ public class PlaylistCatalog {
 	/**
 	 * Sort all users playlists by rating
 	 * @param allPlaylists
-	 * @return
+	 * @author jxie26
+	 * @return ArrayList<Playlist>
 	 */
 	private ArrayList<Playlist> sortPlaylistsByRating(ArrayList<Playlist> allPlaylists) {
 		int n = allPlaylists.size();
@@ -316,8 +331,7 @@ public class PlaylistCatalog {
 		do {
 			swapped = false;
 			for (int i = 1; i < n; i++) {
-				if (allPlaylists.get(i - 1).getSumOfRatings()/allPlaylists.get(i-1).getNumOfRatings() 
-						> allPlaylists.get(i).getSumOfRatings()/allPlaylists.get(i).getNumOfRatings()) {
+				if (calculateAvgRating(allPlaylists.get(i-1)) < calculateAvgRating(allPlaylists.get(i))) {
 					Playlist temp = allPlaylists.get(i-1);
 					allPlaylists.set(i-1, allPlaylists.get(i));
 					allPlaylists.set(i, temp);
@@ -325,12 +339,19 @@ public class PlaylistCatalog {
 				}
 			}
 			n--;
-		} while(swapped);
-				
-		System.out.println("Your playlist has been sorted!");
-		
+		} while(swapped);		
 		
 		return allPlaylists;
-	
 	}
+	
+	private double calculateAvgRating(Playlist pl) {
+		if (pl.getNumOfRatings() == 0) {
+			return 0.0;
+		}
+		else {
+			double avg = (double) pl.getSumOfRatings()/pl.getNumOfRatings();
+			return avg;
+		}
+	}
+	
 }
