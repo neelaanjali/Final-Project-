@@ -5,10 +5,6 @@ import java.util.Scanner;
 
 import program.StatusCode;
 
-/**
- * @author hargu
- * 
- */
 public class Playlist {
 	private ArrayList<Song> songs;
 	private String author;
@@ -16,6 +12,12 @@ public class Playlist {
 	private int sumOfRatings;
 	private int numOfRatings;
 	
+	/**
+	 * parameterized constructor
+	 * @param author
+	 * @param playlistName
+	 * @param songs
+	 */
 	public Playlist(String author, String playlistName, ArrayList<Song> songs) {
 		super();
 		this.songs = songs;
@@ -25,9 +27,10 @@ public class Playlist {
 		this.numOfRatings = 0;
 	}
 	 
-	/*
+	/**
+	 * Ask the user how they would like to edit this playlist object
 	 * @author jxie26
-	 * 
+	 * @return StatusCode
 	 */
 	public StatusCode editPlaylist()
 	{
@@ -74,6 +77,10 @@ public class Playlist {
 		}
 	}
 	
+	/**
+	 * Sort this Playlist object by the song name
+	 * @return StatusCode
+	 */
 	private StatusCode sortPlaylistByName() {
 		//use a simple bubble sort to sort the Songs by the artist name
 		ArrayList<Song> songs = new ArrayList<Song>(this.songs);
@@ -103,6 +110,10 @@ public class Playlist {
 		return StatusCode.SUCCESS;
 	}  
 	
+	/**
+	 * Sort this playlist object by song length
+	 * @return StatusCode
+	 */
 	public StatusCode sortPlaylistByLength() {
 		//bubble sort
 		int n = songs.size();
@@ -126,6 +137,12 @@ public class Playlist {
 		return StatusCode.SUCCESS;
 	}
 	
+	/**
+	 * Rename this playlist object
+	 * @param newName
+	 * @return StatusCode
+	 * @author hargu
+	 */
 	public StatusCode renamePlaylist(String newName) {
 		if(newName == null) 
 			return StatusCode.INVALID_INPUT;
@@ -134,6 +151,11 @@ public class Playlist {
 		return StatusCode.SUCCESS;
 	}
 	
+	/**
+	 * Ask the user for the name of a song
+	 * @return String
+	 * @author hargu
+	 */
 	public String askSongName() {
 		Scanner scanner = new Scanner(System.in);
 		
