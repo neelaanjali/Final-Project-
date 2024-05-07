@@ -148,6 +148,7 @@ public class PlaylistCatalog {
 	
 	/**
 	 * View the top 5 highest-rated playlists from all users.
+	 * @author jxie26
 	 * @return StatusCode
 	 */
 	public StatusCode viewTopPlaylists() {
@@ -156,7 +157,7 @@ public class PlaylistCatalog {
 		
 		System.out.println("\nCurrent Top 5 Playlists based on Average Ratings: ");
 		
-		//set aside what is currently stored in PlaylistManagerSingleton
+		//temporarily replace PlaylistManagerSingleton
 		PlaylistManagerSingleton manager = PlaylistManagerSingleton.getInstance();
 		ArrayList<Playlist> tempStor = new ArrayList<Playlist>(PlaylistManagerSingleton.playlistList);
 		
@@ -170,7 +171,7 @@ public class PlaylistCatalog {
 		int count=0;
 		for(Playlist playlist : PlaylistManagerSingleton.playlistList)
 		{
-			if(count>=5) break;
+			if(count>=5) break; //only get the top 5
 			System.out.println("#" + (count+1) + " Playlist:");
 			manager.displayStats(playlist.getPlaylistName());
 			count++;
@@ -182,6 +183,7 @@ public class PlaylistCatalog {
 	
 	/**
 	 * View the top 5 users with the most playlists
+	 * @author jxie26
 	 * @return StatusCode
 	 */
 	public StatusCode viewTopUsers() {
@@ -190,7 +192,7 @@ public class PlaylistCatalog {
 
 		HashMap<String, Integer> userPlaylistCounts = new HashMap<>();
 		
-		//create new ArrayList of distinct authors
+		//fill HashMap with all users (key) and their number of playlists (value)
 		for (File file : files) {
 			String username = getUsernameFromFile(file);
 			int count = countPlaylistsInFile(file);
@@ -216,6 +218,7 @@ public class PlaylistCatalog {
 	
 	/**
 	 * Get a username given a file
+	 * @author jxie26
 	 * @param file
 	 * @return String
 	 */
@@ -227,6 +230,7 @@ public class PlaylistCatalog {
 	
 	/**
 	 * Count the number of playlists stored in a file
+	 * @author jxie26
 	 * @param file
 	 * @return int: number of playlists stored in the given file
 	 */
@@ -235,7 +239,7 @@ public class PlaylistCatalog {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line;
-			Pattern pattern = Pattern.compile("\\bplaylistName\\b");
+			Pattern pattern = Pattern.compile("\\bplaylistName\\b"); //use keyword "playlistName" as a Playlist counter
 			while ((line=br.readLine()) != null) {
 				Matcher matcher = pattern.matcher(line);
 				while (matcher.find()) {
@@ -331,7 +335,7 @@ public class PlaylistCatalog {
 		int n = allPlaylists.size();
 		boolean swapped;
 		
-		do {
+		do { //bubble sort
 			swapped = false;
 			for (int i = 1; i < n; i++) {
 				if (calculateAvgRating(allPlaylists.get(i-1)) < calculateAvgRating(allPlaylists.get(i))) {
@@ -347,6 +351,12 @@ public class PlaylistCatalog {
 		return allPlaylists;
 	}
 	
+	/**
+	 * calulcate the average rating of a given playlist
+	 * @author jxie26
+	 * @param Playlist
+	 * @return double
+	 */
 	private double calculateAvgRating(Playlist pl) {
 		if (pl.getNumOfRatings() == 0) {
 			return 0.0;
