@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -182,14 +184,16 @@ public class PlaylistCatalog {
 		List<Map.Entry<String, Integer>> sortedUsers = new ArrayList<>(userPlaylistCounts.entrySet());
 		sortedUsers.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 		
+		System.out.println("\n");
 		//display top five users
 		int index = 0;
 		for (Map.Entry<String, Integer> entry : sortedUsers) {
-			System.out.println(entry.getKey() + " - " + entry.getValue() + " playlists");
+			System.out.println("Top User " + (index+1) + ": " + entry.getKey() + " - " + entry.getValue() + " playlists");
 			index++;
 			if (index == 5 || index >= sortedUsers.size()) break;
 		}
 		
+		System.out.println("\n");
 		return StatusCode.SUCCESS;
 	}
 	
@@ -214,8 +218,10 @@ public class PlaylistCatalog {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			String line;
+			Pattern pattern = Pattern.compile("\\bplaylistName\\b");
 			while ((line=br.readLine()) != null) {
-				if (line.contains("playlistName")) {
+				Matcher matcher = pattern.matcher(line);
+				while (matcher.find()) {
 					count++;
 				}
 			}
