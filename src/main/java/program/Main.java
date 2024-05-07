@@ -27,14 +27,17 @@ public class Main {
 			}
 			else if(result == StatusCode.NOT_FOUND)
 			{
+				// user provided input within a method that could not be found
 				System.out.println("The information you entered did not match our records.");
 			}
 			else if(result == StatusCode.INVALID_INPUT)
 			{
+				// user provided input in the incorrect format
 				System.out.println("The information you entered is invalid.");
 			}
 			else if(result == StatusCode.EXIT)
 			{
+				// user chose to exit
 				System.out.println("Thank you for using the playlist manager!");
 				System.exit(0);
 			}
@@ -68,6 +71,7 @@ public class Main {
 		//this infinite loop will continue until the user chooses to exit
 		while(true)
 		{
+			//this block contains the logic that prints and executes the main menu
 			playlistManager.printMainMenu();
 			int selection = playlistManager.getMainMenuSelection();
 			result = playlistManager.executeMainMenu(selection);
